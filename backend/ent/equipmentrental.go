@@ -21,7 +21,7 @@ type Equipmentrental struct {
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
 	// RENTALAMOUNT holds the value of the "RENTALAMOUNT" field.
-	RENTALAMOUNT string `json:"RENTALAMOUNT,omitempty"`
+	RENTALAMOUNT int `json:"RENTALAMOUNT,omitempty"`
 	// RENTALDATE holds the value of the "RENTALDATE" field.
 	RENTALDATE time.Time `json:"RENTALDATE,omitempty"`
 	// RETURNDATE holds the value of the "RETURNDATE" field.
@@ -109,10 +109,10 @@ func (e EquipmentrentalEdges) EquipmenttypeOrErr() (*Equipmenttype, error) {
 // scanValues returns the types for scanning values from sql.Rows.
 func (*Equipmentrental) scanValues() []interface{} {
 	return []interface{}{
-		&sql.NullInt64{},  // id
-		&sql.NullString{}, // RENTALAMOUNT
-		&sql.NullTime{},   // RENTALDATE
-		&sql.NullTime{},   // RETURNDATE
+		&sql.NullInt64{}, // id
+		&sql.NullInt64{}, // RENTALAMOUNT
+		&sql.NullTime{},  // RENTALDATE
+		&sql.NullTime{},  // RETURNDATE
 	}
 }
 
@@ -138,10 +138,10 @@ func (e *Equipmentrental) assignValues(values ...interface{}) error {
 	}
 	e.ID = int(value.Int64)
 	values = values[1:]
-	if value, ok := values[0].(*sql.NullString); !ok {
+	if value, ok := values[0].(*sql.NullInt64); !ok {
 		return fmt.Errorf("unexpected type %T for field RENTALAMOUNT", values[0])
 	} else if value.Valid {
-		e.RENTALAMOUNT = value.String
+		e.RENTALAMOUNT = int(value.Int64)
 	}
 	if value, ok := values[1].(*sql.NullTime); !ok {
 		return fmt.Errorf("unexpected type %T for field RENTALDATE", values[1])
@@ -227,7 +227,7 @@ func (e *Equipmentrental) String() string {
 	builder.WriteString("Equipmentrental(")
 	builder.WriteString(fmt.Sprintf("id=%v", e.ID))
 	builder.WriteString(", RENTALAMOUNT=")
-	builder.WriteString(e.RENTALAMOUNT)
+	builder.WriteString(fmt.Sprintf("%v", e.RENTALAMOUNT))
 	builder.WriteString(", RENTALDATE=")
 	builder.WriteString(e.RENTALDATE.Format(time.ANSIC))
 	builder.WriteString(", RETURNDATE=")

@@ -33,8 +33,15 @@ func (eu *EquipmentrentalUpdate) Where(ps ...predicate.Equipmentrental) *Equipme
 }
 
 // SetRENTALAMOUNT sets the RENTALAMOUNT field.
-func (eu *EquipmentrentalUpdate) SetRENTALAMOUNT(s string) *EquipmentrentalUpdate {
-	eu.mutation.SetRENTALAMOUNT(s)
+func (eu *EquipmentrentalUpdate) SetRENTALAMOUNT(i int) *EquipmentrentalUpdate {
+	eu.mutation.ResetRENTALAMOUNT()
+	eu.mutation.SetRENTALAMOUNT(i)
+	return eu
+}
+
+// AddRENTALAMOUNT adds i to RENTALAMOUNT.
+func (eu *EquipmentrentalUpdate) AddRENTALAMOUNT(i int) *EquipmentrentalUpdate {
+	eu.mutation.AddRENTALAMOUNT(i)
 	return eu
 }
 
@@ -227,7 +234,14 @@ func (eu *EquipmentrentalUpdate) sqlSave(ctx context.Context) (n int, err error)
 	}
 	if value, ok := eu.mutation.RENTALAMOUNT(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: equipmentrental.FieldRENTALAMOUNT,
+		})
+	}
+	if value, ok := eu.mutation.AddedRENTALAMOUNT(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: equipmentrental.FieldRENTALAMOUNT,
 		})
@@ -405,8 +419,15 @@ type EquipmentrentalUpdateOne struct {
 }
 
 // SetRENTALAMOUNT sets the RENTALAMOUNT field.
-func (euo *EquipmentrentalUpdateOne) SetRENTALAMOUNT(s string) *EquipmentrentalUpdateOne {
-	euo.mutation.SetRENTALAMOUNT(s)
+func (euo *EquipmentrentalUpdateOne) SetRENTALAMOUNT(i int) *EquipmentrentalUpdateOne {
+	euo.mutation.ResetRENTALAMOUNT()
+	euo.mutation.SetRENTALAMOUNT(i)
+	return euo
+}
+
+// AddRENTALAMOUNT adds i to RENTALAMOUNT.
+func (euo *EquipmentrentalUpdateOne) AddRENTALAMOUNT(i int) *EquipmentrentalUpdateOne {
+	euo.mutation.AddRENTALAMOUNT(i)
 	return euo
 }
 
@@ -597,7 +618,14 @@ func (euo *EquipmentrentalUpdateOne) sqlSave(ctx context.Context) (e *Equipmentr
 	_spec.Node.ID.Value = id
 	if value, ok := euo.mutation.RENTALAMOUNT(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: equipmentrental.FieldRENTALAMOUNT,
+		})
+	}
+	if value, ok := euo.mutation.AddedRENTALAMOUNT(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: equipmentrental.FieldRENTALAMOUNT,
 		})

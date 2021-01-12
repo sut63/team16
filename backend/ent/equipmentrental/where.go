@@ -94,7 +94,7 @@ func IDLTE(id int) predicate.Equipmentrental {
 }
 
 // RENTALAMOUNT applies equality check predicate on the "RENTALAMOUNT" field. It's identical to RENTALAMOUNTEQ.
-func RENTALAMOUNT(v string) predicate.Equipmentrental {
+func RENTALAMOUNT(v int) predicate.Equipmentrental {
 	return predicate.Equipmentrental(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldRENTALAMOUNT), v))
 	})
@@ -115,21 +115,21 @@ func RETURNDATE(v time.Time) predicate.Equipmentrental {
 }
 
 // RENTALAMOUNTEQ applies the EQ predicate on the "RENTALAMOUNT" field.
-func RENTALAMOUNTEQ(v string) predicate.Equipmentrental {
+func RENTALAMOUNTEQ(v int) predicate.Equipmentrental {
 	return predicate.Equipmentrental(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldRENTALAMOUNT), v))
 	})
 }
 
 // RENTALAMOUNTNEQ applies the NEQ predicate on the "RENTALAMOUNT" field.
-func RENTALAMOUNTNEQ(v string) predicate.Equipmentrental {
+func RENTALAMOUNTNEQ(v int) predicate.Equipmentrental {
 	return predicate.Equipmentrental(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldRENTALAMOUNT), v))
 	})
 }
 
 // RENTALAMOUNTIn applies the In predicate on the "RENTALAMOUNT" field.
-func RENTALAMOUNTIn(vs ...string) predicate.Equipmentrental {
+func RENTALAMOUNTIn(vs ...int) predicate.Equipmentrental {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -146,7 +146,7 @@ func RENTALAMOUNTIn(vs ...string) predicate.Equipmentrental {
 }
 
 // RENTALAMOUNTNotIn applies the NotIn predicate on the "RENTALAMOUNT" field.
-func RENTALAMOUNTNotIn(vs ...string) predicate.Equipmentrental {
+func RENTALAMOUNTNotIn(vs ...int) predicate.Equipmentrental {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -163,65 +163,30 @@ func RENTALAMOUNTNotIn(vs ...string) predicate.Equipmentrental {
 }
 
 // RENTALAMOUNTGT applies the GT predicate on the "RENTALAMOUNT" field.
-func RENTALAMOUNTGT(v string) predicate.Equipmentrental {
+func RENTALAMOUNTGT(v int) predicate.Equipmentrental {
 	return predicate.Equipmentrental(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldRENTALAMOUNT), v))
 	})
 }
 
 // RENTALAMOUNTGTE applies the GTE predicate on the "RENTALAMOUNT" field.
-func RENTALAMOUNTGTE(v string) predicate.Equipmentrental {
+func RENTALAMOUNTGTE(v int) predicate.Equipmentrental {
 	return predicate.Equipmentrental(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldRENTALAMOUNT), v))
 	})
 }
 
 // RENTALAMOUNTLT applies the LT predicate on the "RENTALAMOUNT" field.
-func RENTALAMOUNTLT(v string) predicate.Equipmentrental {
+func RENTALAMOUNTLT(v int) predicate.Equipmentrental {
 	return predicate.Equipmentrental(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldRENTALAMOUNT), v))
 	})
 }
 
 // RENTALAMOUNTLTE applies the LTE predicate on the "RENTALAMOUNT" field.
-func RENTALAMOUNTLTE(v string) predicate.Equipmentrental {
+func RENTALAMOUNTLTE(v int) predicate.Equipmentrental {
 	return predicate.Equipmentrental(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldRENTALAMOUNT), v))
-	})
-}
-
-// RENTALAMOUNTContains applies the Contains predicate on the "RENTALAMOUNT" field.
-func RENTALAMOUNTContains(v string) predicate.Equipmentrental {
-	return predicate.Equipmentrental(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldRENTALAMOUNT), v))
-	})
-}
-
-// RENTALAMOUNTHasPrefix applies the HasPrefix predicate on the "RENTALAMOUNT" field.
-func RENTALAMOUNTHasPrefix(v string) predicate.Equipmentrental {
-	return predicate.Equipmentrental(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldRENTALAMOUNT), v))
-	})
-}
-
-// RENTALAMOUNTHasSuffix applies the HasSuffix predicate on the "RENTALAMOUNT" field.
-func RENTALAMOUNTHasSuffix(v string) predicate.Equipmentrental {
-	return predicate.Equipmentrental(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldRENTALAMOUNT), v))
-	})
-}
-
-// RENTALAMOUNTEqualFold applies the EqualFold predicate on the "RENTALAMOUNT" field.
-func RENTALAMOUNTEqualFold(v string) predicate.Equipmentrental {
-	return predicate.Equipmentrental(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldRENTALAMOUNT), v))
-	})
-}
-
-// RENTALAMOUNTContainsFold applies the ContainsFold predicate on the "RENTALAMOUNT" field.
-func RENTALAMOUNTContainsFold(v string) predicate.Equipmentrental {
-	return predicate.Equipmentrental(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldRENTALAMOUNT), v))
 	})
 }
 
