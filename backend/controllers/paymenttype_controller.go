@@ -4,9 +4,9 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
 	"github.com/G16/app/ent"
 	"github.com/G16/app/ent/paymenttype"
+	"github.com/gin-gonic/gin"
 )
 
 // PaymenttypeController defines the struct for the paymenttype controller
