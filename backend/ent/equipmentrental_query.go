@@ -363,7 +363,7 @@ func (eq *EquipmentrentalQuery) WithEquipmenttype(opts ...func(*EquipmenttypeQue
 // Example:
 //
 //	var v []struct {
-//		RENTALAMOUNT string `json:"RENTALAMOUNT,omitempty"`
+//		RENTALAMOUNT int `json:"RENTALAMOUNT,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
@@ -389,7 +389,7 @@ func (eq *EquipmentrentalQuery) GroupBy(field string, fields ...string) *Equipme
 // Example:
 //
 //	var v []struct {
-//		RENTALAMOUNT string `json:"RENTALAMOUNT,omitempty"`
+//		RENTALAMOUNT int `json:"RENTALAMOUNT,omitempty"`
 //	}
 //
 //	client.Equipmentrental.Query().

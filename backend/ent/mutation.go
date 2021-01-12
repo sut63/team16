@@ -3432,7 +3432,8 @@ type EquipmentrentalMutation struct {
 	op                   Op
 	typ                  string
 	id                   *int
-	_RENTALAMOUNT        *string
+	_RENTALAMOUNT        *int
+	add_RENTALAMOUNT     *int
 	_RENTALDATE          *time.Time
 	_RETURNDATE          *time.Time
 	clearedFields        map[string]struct{}
@@ -3528,12 +3529,13 @@ func (m *EquipmentrentalMutation) ID() (id int, exists bool) {
 }
 
 // SetRENTALAMOUNT sets the RENTALAMOUNT field.
-func (m *EquipmentrentalMutation) SetRENTALAMOUNT(s string) {
-	m._RENTALAMOUNT = &s
+func (m *EquipmentrentalMutation) SetRENTALAMOUNT(i int) {
+	m._RENTALAMOUNT = &i
+	m.add_RENTALAMOUNT = nil
 }
 
 // RENTALAMOUNT returns the RENTALAMOUNT value in the mutation.
-func (m *EquipmentrentalMutation) RENTALAMOUNT() (r string, exists bool) {
+func (m *EquipmentrentalMutation) RENTALAMOUNT() (r int, exists bool) {
 	v := m._RENTALAMOUNT
 	if v == nil {
 		return
@@ -3545,7 +3547,7 @@ func (m *EquipmentrentalMutation) RENTALAMOUNT() (r string, exists bool) {
 // If the Equipmentrental object wasn't provided to the builder, the object is fetched
 // from the database.
 // An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *EquipmentrentalMutation) OldRENTALAMOUNT(ctx context.Context) (v string, err error) {
+func (m *EquipmentrentalMutation) OldRENTALAMOUNT(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldRENTALAMOUNT is allowed only on UpdateOne operations")
 	}
@@ -3559,9 +3561,28 @@ func (m *EquipmentrentalMutation) OldRENTALAMOUNT(ctx context.Context) (v string
 	return oldValue.RENTALAMOUNT, nil
 }
 
+// AddRENTALAMOUNT adds i to RENTALAMOUNT.
+func (m *EquipmentrentalMutation) AddRENTALAMOUNT(i int) {
+	if m.add_RENTALAMOUNT != nil {
+		*m.add_RENTALAMOUNT += i
+	} else {
+		m.add_RENTALAMOUNT = &i
+	}
+}
+
+// AddedRENTALAMOUNT returns the value that was added to the RENTALAMOUNT field in this mutation.
+func (m *EquipmentrentalMutation) AddedRENTALAMOUNT() (r int, exists bool) {
+	v := m.add_RENTALAMOUNT
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ResetRENTALAMOUNT reset all changes of the "RENTALAMOUNT" field.
 func (m *EquipmentrentalMutation) ResetRENTALAMOUNT() {
 	m._RENTALAMOUNT = nil
+	m.add_RENTALAMOUNT = nil
 }
 
 // SetRENTALDATE sets the RENTALDATE field.
@@ -3857,7 +3878,7 @@ func (m *EquipmentrentalMutation) OldField(ctx context.Context, name string) (en
 func (m *EquipmentrentalMutation) SetField(name string, value ent.Value) error {
 	switch name {
 	case equipmentrental.FieldRENTALAMOUNT:
-		v, ok := value.(string)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -3884,13 +3905,21 @@ func (m *EquipmentrentalMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented
 // or decremented during this mutation.
 func (m *EquipmentrentalMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.add_RENTALAMOUNT != nil {
+		fields = append(fields, equipmentrental.FieldRENTALAMOUNT)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was in/decremented
 // from a field with the given name. The second value indicates
 // that this field was not set, or was not define in the schema.
 func (m *EquipmentrentalMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case equipmentrental.FieldRENTALAMOUNT:
+		return m.AddedRENTALAMOUNT()
+	}
 	return nil, false
 }
 
@@ -3899,6 +3928,13 @@ func (m *EquipmentrentalMutation) AddedField(name string) (ent.Value, bool) {
 // type mismatch the field type.
 func (m *EquipmentrentalMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case equipmentrental.FieldRENTALAMOUNT:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddRENTALAMOUNT(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Equipmentrental numeric field %s", name)
 }
