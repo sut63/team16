@@ -40,8 +40,15 @@ func (eu *EquipmentUpdate) SetEQUIPMENTNAME(s string) *EquipmentUpdate {
 }
 
 // SetEQUIPMENTAMOUNT sets the EQUIPMENTAMOUNT field.
-func (eu *EquipmentUpdate) SetEQUIPMENTAMOUNT(s string) *EquipmentUpdate {
-	eu.mutation.SetEQUIPMENTAMOUNT(s)
+func (eu *EquipmentUpdate) SetEQUIPMENTAMOUNT(i int) *EquipmentUpdate {
+	eu.mutation.ResetEQUIPMENTAMOUNT()
+	eu.mutation.SetEQUIPMENTAMOUNT(i)
+	return eu
+}
+
+// AddEQUIPMENTAMOUNT adds i to EQUIPMENTAMOUNT.
+func (eu *EquipmentUpdate) AddEQUIPMENTAMOUNT(i int) *EquipmentUpdate {
+	eu.mutation.AddEQUIPMENTAMOUNT(i)
 	return eu
 }
 
@@ -194,6 +201,11 @@ func (eu *EquipmentUpdate) RemoveEquipmentrental(e ...*Equipmentrental) *Equipme
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
 func (eu *EquipmentUpdate) Save(ctx context.Context) (int, error) {
+	if v, ok := eu.mutation.EQUIPMENTAMOUNT(); ok {
+		if err := equipment.EQUIPMENTAMOUNTValidator(v); err != nil {
+			return 0, &ValidationError{Name: "EQUIPMENTAMOUNT", err: fmt.Errorf("ent: validator failed for field \"EQUIPMENTAMOUNT\": %w", err)}
+		}
+	}
 
 	var (
 		err      error
@@ -271,7 +283,14 @@ func (eu *EquipmentUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := eu.mutation.EQUIPMENTAMOUNT(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: equipment.FieldEQUIPMENTAMOUNT,
+		})
+	}
+	if value, ok := eu.mutation.AddedEQUIPMENTAMOUNT(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: equipment.FieldEQUIPMENTAMOUNT,
 		})
@@ -493,8 +512,15 @@ func (euo *EquipmentUpdateOne) SetEQUIPMENTNAME(s string) *EquipmentUpdateOne {
 }
 
 // SetEQUIPMENTAMOUNT sets the EQUIPMENTAMOUNT field.
-func (euo *EquipmentUpdateOne) SetEQUIPMENTAMOUNT(s string) *EquipmentUpdateOne {
-	euo.mutation.SetEQUIPMENTAMOUNT(s)
+func (euo *EquipmentUpdateOne) SetEQUIPMENTAMOUNT(i int) *EquipmentUpdateOne {
+	euo.mutation.ResetEQUIPMENTAMOUNT()
+	euo.mutation.SetEQUIPMENTAMOUNT(i)
+	return euo
+}
+
+// AddEQUIPMENTAMOUNT adds i to EQUIPMENTAMOUNT.
+func (euo *EquipmentUpdateOne) AddEQUIPMENTAMOUNT(i int) *EquipmentUpdateOne {
+	euo.mutation.AddEQUIPMENTAMOUNT(i)
 	return euo
 }
 
@@ -647,6 +673,11 @@ func (euo *EquipmentUpdateOne) RemoveEquipmentrental(e ...*Equipmentrental) *Equ
 
 // Save executes the query and returns the updated entity.
 func (euo *EquipmentUpdateOne) Save(ctx context.Context) (*Equipment, error) {
+	if v, ok := euo.mutation.EQUIPMENTAMOUNT(); ok {
+		if err := equipment.EQUIPMENTAMOUNTValidator(v); err != nil {
+			return nil, &ValidationError{Name: "EQUIPMENTAMOUNT", err: fmt.Errorf("ent: validator failed for field \"EQUIPMENTAMOUNT\": %w", err)}
+		}
+	}
 
 	var (
 		err  error
@@ -722,7 +753,14 @@ func (euo *EquipmentUpdateOne) sqlSave(ctx context.Context) (e *Equipment, err e
 	}
 	if value, ok := euo.mutation.EQUIPMENTAMOUNT(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: equipment.FieldEQUIPMENTAMOUNT,
+		})
+	}
+	if value, ok := euo.mutation.AddedEQUIPMENTAMOUNT(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: equipment.FieldEQUIPMENTAMOUNT,
 		})

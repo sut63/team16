@@ -125,7 +125,7 @@ var (
 	EquipmentColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "equipmentname", Type: field.TypeString},
-		{Name: "equipmentamount", Type: field.TypeString},
+		{Name: "equipmentamount", Type: field.TypeInt},
 		{Name: "equipmentdetail", Type: field.TypeString},
 		{Name: "equipmentdate", Type: field.TypeTime},
 		{Name: "classifier_equipment", Type: field.TypeInt, Nullable: true},
