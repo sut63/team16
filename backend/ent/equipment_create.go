@@ -32,8 +32,8 @@ func (ec *EquipmentCreate) SetEQUIPMENTNAME(s string) *EquipmentCreate {
 }
 
 // SetEQUIPMENTAMOUNT sets the EQUIPMENTAMOUNT field.
-func (ec *EquipmentCreate) SetEQUIPMENTAMOUNT(s string) *EquipmentCreate {
-	ec.mutation.SetEQUIPMENTAMOUNT(s)
+func (ec *EquipmentCreate) SetEQUIPMENTAMOUNT(i int) *EquipmentCreate {
+	ec.mutation.SetEQUIPMENTAMOUNT(i)
 	return ec
 }
 
@@ -153,6 +153,11 @@ func (ec *EquipmentCreate) Save(ctx context.Context) (*Equipment, error) {
 	if _, ok := ec.mutation.EQUIPMENTAMOUNT(); !ok {
 		return nil, &ValidationError{Name: "EQUIPMENTAMOUNT", err: errors.New("ent: missing required field \"EQUIPMENTAMOUNT\"")}
 	}
+	if v, ok := ec.mutation.EQUIPMENTAMOUNT(); ok {
+		if err := equipment.EQUIPMENTAMOUNTValidator(v); err != nil {
+			return nil, &ValidationError{Name: "EQUIPMENTAMOUNT", err: fmt.Errorf("ent: validator failed for field \"EQUIPMENTAMOUNT\": %w", err)}
+		}
+	}
 	if _, ok := ec.mutation.EQUIPMENTDETAIL(); !ok {
 		return nil, &ValidationError{Name: "EQUIPMENTDETAIL", err: errors.New("ent: missing required field \"EQUIPMENTDETAIL\"")}
 	}
@@ -229,7 +234,7 @@ func (ec *EquipmentCreate) createSpec() (*Equipment, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := ec.mutation.EQUIPMENTAMOUNT(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: equipment.FieldEQUIPMENTAMOUNT,
 		})

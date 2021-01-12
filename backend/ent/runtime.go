@@ -4,6 +4,7 @@ package ent
 
 import (
 	"github.com/G16/app/ent/employee"
+	"github.com/G16/app/ent/equipment"
 	"github.com/G16/app/ent/member"
 	"github.com/G16/app/ent/promotion"
 	"github.com/G16/app/ent/promotionamount"
@@ -34,6 +35,12 @@ func init() {
 	employeeDescIDCARDNUMBER := employeeFields[3].Descriptor()
 	// employee.IDCARDNUMBERValidator is a validator for the "IDCARDNUMBER" field. It is called by the builders before save.
 	employee.IDCARDNUMBERValidator = employeeDescIDCARDNUMBER.Validators[0].(func(int) error)
+	equipmentFields := schema.Equipment{}.Fields()
+	_ = equipmentFields
+	// equipmentDescEQUIPMENTAMOUNT is the schema descriptor for EQUIPMENTAMOUNT field.
+	equipmentDescEQUIPMENTAMOUNT := equipmentFields[1].Descriptor()
+	// equipment.EQUIPMENTAMOUNTValidator is a validator for the "EQUIPMENTAMOUNT" field. It is called by the builders before save.
+	equipment.EQUIPMENTAMOUNTValidator = equipmentDescEQUIPMENTAMOUNT.Validators[0].(func(int) error)
 	memberFields := schema.Member{}.Fields()
 	_ = memberFields
 	// memberDescMEMBERID is the schema descriptor for MEMBERID field.

@@ -2628,7 +2628,8 @@ type EquipmentMutation struct {
 	typ                    string
 	id                     *int
 	_EQUIPMENTNAME         *string
-	_EQUIPMENTAMOUNT       *string
+	_EQUIPMENTAMOUNT       *int
+	add_EQUIPMENTAMOUNT    *int
 	_EQUIPMENTDETAIL       *string
 	_EQUIPMENTDATE         *time.Time
 	clearedFields          map[string]struct{}
@@ -2763,12 +2764,13 @@ func (m *EquipmentMutation) ResetEQUIPMENTNAME() {
 }
 
 // SetEQUIPMENTAMOUNT sets the EQUIPMENTAMOUNT field.
-func (m *EquipmentMutation) SetEQUIPMENTAMOUNT(s string) {
-	m._EQUIPMENTAMOUNT = &s
+func (m *EquipmentMutation) SetEQUIPMENTAMOUNT(i int) {
+	m._EQUIPMENTAMOUNT = &i
+	m.add_EQUIPMENTAMOUNT = nil
 }
 
 // EQUIPMENTAMOUNT returns the EQUIPMENTAMOUNT value in the mutation.
-func (m *EquipmentMutation) EQUIPMENTAMOUNT() (r string, exists bool) {
+func (m *EquipmentMutation) EQUIPMENTAMOUNT() (r int, exists bool) {
 	v := m._EQUIPMENTAMOUNT
 	if v == nil {
 		return
@@ -2780,7 +2782,7 @@ func (m *EquipmentMutation) EQUIPMENTAMOUNT() (r string, exists bool) {
 // If the Equipment object wasn't provided to the builder, the object is fetched
 // from the database.
 // An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *EquipmentMutation) OldEQUIPMENTAMOUNT(ctx context.Context) (v string, err error) {
+func (m *EquipmentMutation) OldEQUIPMENTAMOUNT(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldEQUIPMENTAMOUNT is allowed only on UpdateOne operations")
 	}
@@ -2794,9 +2796,28 @@ func (m *EquipmentMutation) OldEQUIPMENTAMOUNT(ctx context.Context) (v string, e
 	return oldValue.EQUIPMENTAMOUNT, nil
 }
 
+// AddEQUIPMENTAMOUNT adds i to EQUIPMENTAMOUNT.
+func (m *EquipmentMutation) AddEQUIPMENTAMOUNT(i int) {
+	if m.add_EQUIPMENTAMOUNT != nil {
+		*m.add_EQUIPMENTAMOUNT += i
+	} else {
+		m.add_EQUIPMENTAMOUNT = &i
+	}
+}
+
+// AddedEQUIPMENTAMOUNT returns the value that was added to the EQUIPMENTAMOUNT field in this mutation.
+func (m *EquipmentMutation) AddedEQUIPMENTAMOUNT() (r int, exists bool) {
+	v := m.add_EQUIPMENTAMOUNT
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ResetEQUIPMENTAMOUNT reset all changes of the "EQUIPMENTAMOUNT" field.
 func (m *EquipmentMutation) ResetEQUIPMENTAMOUNT() {
 	m._EQUIPMENTAMOUNT = nil
+	m.add_EQUIPMENTAMOUNT = nil
 }
 
 // SetEQUIPMENTDETAIL sets the EQUIPMENTDETAIL field.
@@ -3148,7 +3169,7 @@ func (m *EquipmentMutation) SetField(name string, value ent.Value) error {
 		m.SetEQUIPMENTNAME(v)
 		return nil
 	case equipment.FieldEQUIPMENTAMOUNT:
-		v, ok := value.(string)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -3175,13 +3196,21 @@ func (m *EquipmentMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented
 // or decremented during this mutation.
 func (m *EquipmentMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.add_EQUIPMENTAMOUNT != nil {
+		fields = append(fields, equipment.FieldEQUIPMENTAMOUNT)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was in/decremented
 // from a field with the given name. The second value indicates
 // that this field was not set, or was not define in the schema.
 func (m *EquipmentMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case equipment.FieldEQUIPMENTAMOUNT:
+		return m.AddedEQUIPMENTAMOUNT()
+	}
 	return nil, false
 }
 
@@ -3190,6 +3219,13 @@ func (m *EquipmentMutation) AddedField(name string) (ent.Value, bool) {
 // type mismatch the field type.
 func (m *EquipmentMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case equipment.FieldEQUIPMENTAMOUNT:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddEQUIPMENTAMOUNT(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Equipment numeric field %s", name)
 }

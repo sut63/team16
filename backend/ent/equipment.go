@@ -23,7 +23,7 @@ type Equipment struct {
 	// EQUIPMENTNAME holds the value of the "EQUIPMENTNAME" field.
 	EQUIPMENTNAME string `json:"EQUIPMENTNAME,omitempty"`
 	// EQUIPMENTAMOUNT holds the value of the "EQUIPMENTAMOUNT" field.
-	EQUIPMENTAMOUNT string `json:"EQUIPMENTAMOUNT,omitempty"`
+	EQUIPMENTAMOUNT int `json:"EQUIPMENTAMOUNT,omitempty"`
 	// EQUIPMENTDETAIL holds the value of the "EQUIPMENTDETAIL" field.
 	EQUIPMENTDETAIL string `json:"EQUIPMENTDETAIL,omitempty"`
 	// EQUIPMENTDATE holds the value of the "EQUIPMENTDATE" field.
@@ -124,7 +124,7 @@ func (*Equipment) scanValues() []interface{} {
 	return []interface{}{
 		&sql.NullInt64{},  // id
 		&sql.NullString{}, // EQUIPMENTNAME
-		&sql.NullString{}, // EQUIPMENTAMOUNT
+		&sql.NullInt64{},  // EQUIPMENTAMOUNT
 		&sql.NullString{}, // EQUIPMENTDETAIL
 		&sql.NullTime{},   // EQUIPMENTDATE
 	}
@@ -157,10 +157,10 @@ func (e *Equipment) assignValues(values ...interface{}) error {
 	} else if value.Valid {
 		e.EQUIPMENTNAME = value.String
 	}
-	if value, ok := values[1].(*sql.NullString); !ok {
+	if value, ok := values[1].(*sql.NullInt64); !ok {
 		return fmt.Errorf("unexpected type %T for field EQUIPMENTAMOUNT", values[1])
 	} else if value.Valid {
-		e.EQUIPMENTAMOUNT = value.String
+		e.EQUIPMENTAMOUNT = int(value.Int64)
 	}
 	if value, ok := values[2].(*sql.NullString); !ok {
 		return fmt.Errorf("unexpected type %T for field EQUIPMENTDETAIL", values[2])
@@ -253,7 +253,7 @@ func (e *Equipment) String() string {
 	builder.WriteString(", EQUIPMENTNAME=")
 	builder.WriteString(e.EQUIPMENTNAME)
 	builder.WriteString(", EQUIPMENTAMOUNT=")
-	builder.WriteString(e.EQUIPMENTAMOUNT)
+	builder.WriteString(fmt.Sprintf("%v", e.EQUIPMENTAMOUNT))
 	builder.WriteString(", EQUIPMENTDETAIL=")
 	builder.WriteString(e.EQUIPMENTDETAIL)
 	builder.WriteString(", EQUIPMENTDATE=")

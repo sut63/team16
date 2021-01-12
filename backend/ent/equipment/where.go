@@ -101,7 +101,7 @@ func EQUIPMENTNAME(v string) predicate.Equipment {
 }
 
 // EQUIPMENTAMOUNT applies equality check predicate on the "EQUIPMENTAMOUNT" field. It's identical to EQUIPMENTAMOUNTEQ.
-func EQUIPMENTAMOUNT(v string) predicate.Equipment {
+func EQUIPMENTAMOUNT(v int) predicate.Equipment {
 	return predicate.Equipment(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldEQUIPMENTAMOUNT), v))
 	})
@@ -233,21 +233,21 @@ func EQUIPMENTNAMEContainsFold(v string) predicate.Equipment {
 }
 
 // EQUIPMENTAMOUNTEQ applies the EQ predicate on the "EQUIPMENTAMOUNT" field.
-func EQUIPMENTAMOUNTEQ(v string) predicate.Equipment {
+func EQUIPMENTAMOUNTEQ(v int) predicate.Equipment {
 	return predicate.Equipment(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldEQUIPMENTAMOUNT), v))
 	})
 }
 
 // EQUIPMENTAMOUNTNEQ applies the NEQ predicate on the "EQUIPMENTAMOUNT" field.
-func EQUIPMENTAMOUNTNEQ(v string) predicate.Equipment {
+func EQUIPMENTAMOUNTNEQ(v int) predicate.Equipment {
 	return predicate.Equipment(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldEQUIPMENTAMOUNT), v))
 	})
 }
 
 // EQUIPMENTAMOUNTIn applies the In predicate on the "EQUIPMENTAMOUNT" field.
-func EQUIPMENTAMOUNTIn(vs ...string) predicate.Equipment {
+func EQUIPMENTAMOUNTIn(vs ...int) predicate.Equipment {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -264,7 +264,7 @@ func EQUIPMENTAMOUNTIn(vs ...string) predicate.Equipment {
 }
 
 // EQUIPMENTAMOUNTNotIn applies the NotIn predicate on the "EQUIPMENTAMOUNT" field.
-func EQUIPMENTAMOUNTNotIn(vs ...string) predicate.Equipment {
+func EQUIPMENTAMOUNTNotIn(vs ...int) predicate.Equipment {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -281,65 +281,30 @@ func EQUIPMENTAMOUNTNotIn(vs ...string) predicate.Equipment {
 }
 
 // EQUIPMENTAMOUNTGT applies the GT predicate on the "EQUIPMENTAMOUNT" field.
-func EQUIPMENTAMOUNTGT(v string) predicate.Equipment {
+func EQUIPMENTAMOUNTGT(v int) predicate.Equipment {
 	return predicate.Equipment(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldEQUIPMENTAMOUNT), v))
 	})
 }
 
 // EQUIPMENTAMOUNTGTE applies the GTE predicate on the "EQUIPMENTAMOUNT" field.
-func EQUIPMENTAMOUNTGTE(v string) predicate.Equipment {
+func EQUIPMENTAMOUNTGTE(v int) predicate.Equipment {
 	return predicate.Equipment(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldEQUIPMENTAMOUNT), v))
 	})
 }
 
 // EQUIPMENTAMOUNTLT applies the LT predicate on the "EQUIPMENTAMOUNT" field.
-func EQUIPMENTAMOUNTLT(v string) predicate.Equipment {
+func EQUIPMENTAMOUNTLT(v int) predicate.Equipment {
 	return predicate.Equipment(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldEQUIPMENTAMOUNT), v))
 	})
 }
 
 // EQUIPMENTAMOUNTLTE applies the LTE predicate on the "EQUIPMENTAMOUNT" field.
-func EQUIPMENTAMOUNTLTE(v string) predicate.Equipment {
+func EQUIPMENTAMOUNTLTE(v int) predicate.Equipment {
 	return predicate.Equipment(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldEQUIPMENTAMOUNT), v))
-	})
-}
-
-// EQUIPMENTAMOUNTContains applies the Contains predicate on the "EQUIPMENTAMOUNT" field.
-func EQUIPMENTAMOUNTContains(v string) predicate.Equipment {
-	return predicate.Equipment(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldEQUIPMENTAMOUNT), v))
-	})
-}
-
-// EQUIPMENTAMOUNTHasPrefix applies the HasPrefix predicate on the "EQUIPMENTAMOUNT" field.
-func EQUIPMENTAMOUNTHasPrefix(v string) predicate.Equipment {
-	return predicate.Equipment(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldEQUIPMENTAMOUNT), v))
-	})
-}
-
-// EQUIPMENTAMOUNTHasSuffix applies the HasSuffix predicate on the "EQUIPMENTAMOUNT" field.
-func EQUIPMENTAMOUNTHasSuffix(v string) predicate.Equipment {
-	return predicate.Equipment(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldEQUIPMENTAMOUNT), v))
-	})
-}
-
-// EQUIPMENTAMOUNTEqualFold applies the EqualFold predicate on the "EQUIPMENTAMOUNT" field.
-func EQUIPMENTAMOUNTEqualFold(v string) predicate.Equipment {
-	return predicate.Equipment(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldEQUIPMENTAMOUNT), v))
-	})
-}
-
-// EQUIPMENTAMOUNTContainsFold applies the ContainsFold predicate on the "EQUIPMENTAMOUNT" field.
-func EQUIPMENTAMOUNTContainsFold(v string) predicate.Equipment {
-	return predicate.Equipment(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldEQUIPMENTAMOUNT), v))
 	})
 }
 

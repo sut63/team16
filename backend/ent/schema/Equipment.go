@@ -15,7 +15,8 @@ type Equipment struct {
 func (Equipment) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("EQUIPMENTNAME"),
-		field.String("EQUIPMENTAMOUNT"),
+		field.Int("EQUIPMENTAMOUNT").
+			Positive(),
 		field.String("EQUIPMENTDETAIL"),
 		field.Time("EQUIPMENTDATE"),
 	}
@@ -36,6 +37,6 @@ func (Equipment) Edges() []ent.Edge {
 		edge.From("zone", Zone.Type).
 			Ref("equipment").
 			Unique(),
-		edge.To("equipmentrental", Equipmentrental.Type),	
+		edge.To("equipmentrental", Equipmentrental.Type),
 	}
 }

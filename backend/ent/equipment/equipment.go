@@ -82,3 +82,8 @@ var ForeignKeys = []string{
 	"equipmenttype_equipment",
 	"zone_equipment",
 }
+
+var (
+	// EQUIPMENTAMOUNTValidator is a validator for the "EQUIPMENTAMOUNT" field. It is called by the builders before save.
+	EQUIPMENTAMOUNTValidator func(int) error
+)
