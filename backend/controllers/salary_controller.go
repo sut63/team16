@@ -15,11 +15,6 @@ type SalaryController struct {
 	router gin.IRouter
 }
 
-// Salary defines the struct for the salary
-type Salary struct {
-	SALARY int
-}
-
 // CreateSalary handles POST requests for adding salary entities
 // @Summary Create salary
 // @Description Create salary

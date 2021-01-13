@@ -15,10 +15,6 @@ type AgeController struct {
 	router gin.IRouter
 }
 
-// Age defines the struct for the age
-type Age struct {
-	AGE int
-}
 
 // CreateAge handles POST requests for adding age entities
 // @Summary Create age
