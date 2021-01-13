@@ -26,7 +26,7 @@ type Employee struct {
 	EMPLOYEEID      string
 	EMPLOYEENAME    string
 	EMPLOYEEADDRESS string
-	IDCARDNUMBER    int
+	IDCARDNUMBER    string
 }
 
 // CreateEmployee handles POST requests for adding employee entities
@@ -85,6 +85,11 @@ func (ctl *EmployeeController) CreateEmployee(c *gin.Context) {
 		return
 	}
 
+	var i int
+	if temps, err := strconv.ParseInt(obj.IDCARDNUMBER, 10, 64); err == nil {
+		i = int(temps)
+	}
+
 	em, err := ctl.client.Employee.
 		Create().
 		SetAge(ag).
@@ -93,7 +98,7 @@ func (ctl *EmployeeController) CreateEmployee(c *gin.Context) {
 		SetEMPLOYEEID(obj.EMPLOYEEID).
 		SetEMPLOYEENAME(obj.EMPLOYEENAME).
 		SetEMPLOYEEADDRESS(obj.EMPLOYEEADDRESS).
-		SetIDCARDNUMBER(obj.IDCARDNUMBER).
+		SetIDCARDNUMBER(i).
 		Save(context.Background())
 
 	if err != nil {

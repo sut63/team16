@@ -9,9 +9,9 @@ import (
 
 	"github.com/G16/app/ent"
 	"github.com/G16/app/ent/employee"
-	"github.com/G16/app/ent/member"
 	"github.com/G16/app/ent/equipment"
 	"github.com/G16/app/ent/equipmenttype"
+	"github.com/G16/app/ent/member"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,13 +23,13 @@ type EquipmentrentalController struct {
 
 // Equipmentrental defines the struct for the equipmentrental controller
 type Equipmentrental struct {
-	MEMBER          int
-	EQUIPMENT       int
-	EQUIPMENTTYPE   int
-	EMPLOYEE        int
-	RENTALAMOUNT    int
-	RENTALDATE      string
-	RETURNDATE      string
+	MEMBER        int
+	EQUIPMENT     int
+	EQUIPMENTTYPE int
+	EMPLOYEE      int
+	RENTALAMOUNT  int
+	RENTALDATE    string
+	RETURNDATE    string
 }
 
 // CreateEquipmentrental handles POST requests for adding Equipmentrental entities
@@ -123,17 +123,17 @@ func (ctl *EquipmentrentalController) CreateEquipmentrental(c *gin.Context) {
 	c.JSON(200, er)
 }
 
-// Equipmentrental handles GET requests to retrieve a Equipmentrental entity
-// @Summary Get a Equipmentrental entity by ID
-// @Description get Equipmentrental by ID
-// @ID get-Equipmentrental
+// GetEquipmentrental handles GET requests to retrieve a equipmentrental entity
+// @Summary Get a equipmentrental entity by ID
+// @Description get equipmentrental by ID
+// @ID get-equipmentrental
 // @Produce  json
 // @Param id path int true "Equipmentrental ID"
-// @Success 200 {object} Equipmentrental
+// @Success 200 {object} ent.Equipmentrental
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /Equipmentrental/{id} [get]
+// @Router /equipmentrental/{id} [get]
 func (ctl *EquipmentrentalController) GetEquipmentrental(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
@@ -149,7 +149,7 @@ func (ctl *EquipmentrentalController) GetEquipmentrental(c *gin.Context) {
 		WithEquipment().
 		WithEquipmenttype().
 		WithEmployee().
-		Where(Equipmentrental.IDEQ(int(id))).
+		Where(equipmentrental.IDEQ(int(id))).
 		Only(context.Background())
 	if err != nil {
 		c.JSON(404, gin.H{
@@ -211,7 +211,7 @@ func (ctl *EquipmentrentalController) ListEquipmentrental(c *gin.Context) {
 	c.JSON(200, Eqrentals)
 }
 
-// NewPaymentController creates and registers handles for the payment controller
+// NewEquipmentrentalController creates and registers handles for the Equipmentrental controller
 func NewEquipmentrentalController(router gin.IRouter, client *ent.Client) *EquipmentrentalController {
 	erc := &EquipmentrentalController{
 		client: client,
@@ -222,7 +222,7 @@ func NewEquipmentrentalController(router gin.IRouter, client *ent.Client) *Equip
 
 }
 
-// InitPaymentController registers routes to the main engine
+// InitEquipmentrentalController registers routes to the main engine
 func (ctl *EquipmentrentalController) register() {
 	Eqrentals := ctl.router.Group("/Eqrentals")
 

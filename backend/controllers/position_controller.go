@@ -15,11 +15,6 @@ type PositionController struct {
 	router gin.IRouter
 }
 
-// Position defines the struct for the position
-type Position struct {
-	POSITION string
-}
-
 // CreatePosition handles POST requests for adding position entities
 // @Summary Create position
 // @Description Create position
