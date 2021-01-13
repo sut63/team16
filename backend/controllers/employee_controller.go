@@ -85,7 +85,6 @@ func (ctl *EmployeeController) CreateEmployee(c *gin.Context) {
 		return
 	}
 
-	
 	var i int
 	if temps, err := strconv.ParseInt(obj.IDCARDNUMBER, 10, 64); err == nil {
 		i = int(temps)
