@@ -19,7 +19,7 @@ type MemberController struct {
 // Member defines the struct for the member controller
 type Member struct {
 	MEMBERID 	string
-	NAME		string
+	MEMBERNAME	string
 }
 
 // CreateMember handles POST requests for adding member entities
@@ -45,7 +45,7 @@ func (ctl *MemberController) CreateMember(c *gin.Context) {
 	mb, err := ctl.client.Member.
 		Create().
 		SetMEMBERID(obj.MEMBERID).
-		SetNAME(obj.NAME).
+		SetMEMBERNAME(obj.MEMBERNAME).
 		Save(context.Background())
 
 	if err != nil {
