@@ -5,10 +5,10 @@ package ent
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/G16/app/ent/promotion"
 	"github.com/G16/app/ent/promotionamount"
-	"github.com/G16/app/ent/promotiontime"
 	"github.com/G16/app/ent/promotiontype"
 	"github.com/facebookincubator/ent/dialect/sql"
 )
@@ -24,11 +24,12 @@ type Promotion struct {
 	DESC string `json:"DESC,omitempty"`
 	// CODE holds the value of the "CODE" field.
 	CODE string `json:"CODE,omitempty"`
+	// DATE holds the value of the "DATE" field.
+	DATE time.Time `json:"DATE,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the PromotionQuery when eager-loading is set.
 	Edges                     PromotionEdges `json:"edges"`
 	promotionamount_promotion *int
-	promotiontime_promotion   *int
 	promotiontype_promotion   *int
 }
 
@@ -38,13 +39,11 @@ type PromotionEdges struct {
 	Promotiontype *Promotiontype
 	// Promotionamount holds the value of the promotionamount edge.
 	Promotionamount *Promotionamount
-	// Promotiontime holds the value of the promotiontime edge.
-	Promotiontime *Promotiontime
 	// Payment holds the value of the payment edge.
 	Payment []*Payment
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [4]bool
+	loadedTypes [3]bool
 }
 
 // PromotiontypeOrErr returns the Promotiontype value or an error if the edge
@@ -75,24 +74,10 @@ func (e PromotionEdges) PromotionamountOrErr() (*Promotionamount, error) {
 	return nil, &NotLoadedError{edge: "promotionamount"}
 }
 
-// PromotiontimeOrErr returns the Promotiontime value or an error if the edge
-// was not loaded in eager-loading, or loaded but was not found.
-func (e PromotionEdges) PromotiontimeOrErr() (*Promotiontime, error) {
-	if e.loadedTypes[2] {
-		if e.Promotiontime == nil {
-			// The edge promotiontime was loaded in eager-loading,
-			// but was not found.
-			return nil, &NotFoundError{label: promotiontime.Label}
-		}
-		return e.Promotiontime, nil
-	}
-	return nil, &NotLoadedError{edge: "promotiontime"}
-}
-
 // PaymentOrErr returns the Payment value or an error if the edge
 // was not loaded in eager-loading.
 func (e PromotionEdges) PaymentOrErr() ([]*Payment, error) {
-	if e.loadedTypes[3] {
+	if e.loadedTypes[2] {
 		return e.Payment, nil
 	}
 	return nil, &NotLoadedError{edge: "payment"}
@@ -105,6 +90,7 @@ func (*Promotion) scanValues() []interface{} {
 		&sql.NullString{}, // NAME
 		&sql.NullString{}, // DESC
 		&sql.NullString{}, // CODE
+		&sql.NullTime{},   // DATE
 	}
 }
 
@@ -112,7 +98,6 @@ func (*Promotion) scanValues() []interface{} {
 func (*Promotion) fkValues() []interface{} {
 	return []interface{}{
 		&sql.NullInt64{}, // promotionamount_promotion
-		&sql.NullInt64{}, // promotiontime_promotion
 		&sql.NullInt64{}, // promotiontype_promotion
 	}
 }
@@ -144,7 +129,12 @@ func (pr *Promotion) assignValues(values ...interface{}) error {
 	} else if value.Valid {
 		pr.CODE = value.String
 	}
-	values = values[3:]
+	if value, ok := values[3].(*sql.NullTime); !ok {
+		return fmt.Errorf("unexpected type %T for field DATE", values[3])
+	} else if value.Valid {
+		pr.DATE = value.Time
+	}
+	values = values[4:]
 	if len(values) == len(promotion.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field promotionamount_promotion", value)
@@ -153,12 +143,6 @@ func (pr *Promotion) assignValues(values ...interface{}) error {
 			*pr.promotionamount_promotion = int(value.Int64)
 		}
 		if value, ok := values[1].(*sql.NullInt64); !ok {
-			return fmt.Errorf("unexpected type %T for edge-field promotiontime_promotion", value)
-		} else if value.Valid {
-			pr.promotiontime_promotion = new(int)
-			*pr.promotiontime_promotion = int(value.Int64)
-		}
-		if value, ok := values[2].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field promotiontype_promotion", value)
 		} else if value.Valid {
 			pr.promotiontype_promotion = new(int)
@@ -176,11 +160,6 @@ func (pr *Promotion) QueryPromotiontype() *PromotiontypeQuery {
 // QueryPromotionamount queries the promotionamount edge of the Promotion.
 func (pr *Promotion) QueryPromotionamount() *PromotionamountQuery {
 	return (&PromotionClient{config: pr.config}).QueryPromotionamount(pr)
-}
-
-// QueryPromotiontime queries the promotiontime edge of the Promotion.
-func (pr *Promotion) QueryPromotiontime() *PromotiontimeQuery {
-	return (&PromotionClient{config: pr.config}).QueryPromotiontime(pr)
 }
 
 // QueryPayment queries the payment edge of the Promotion.
@@ -217,6 +196,8 @@ func (pr *Promotion) String() string {
 	builder.WriteString(pr.DESC)
 	builder.WriteString(", CODE=")
 	builder.WriteString(pr.CODE)
+	builder.WriteString(", DATE=")
+	builder.WriteString(pr.DATE.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

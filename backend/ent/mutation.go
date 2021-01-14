@@ -22,7 +22,6 @@ import (
 	"github.com/G16/app/ent/position"
 	"github.com/G16/app/ent/promotion"
 	"github.com/G16/app/ent/promotionamount"
-	"github.com/G16/app/ent/promotiontime"
 	"github.com/G16/app/ent/promotiontype"
 	"github.com/G16/app/ent/salary"
 	"github.com/G16/app/ent/zone"
@@ -53,7 +52,6 @@ const (
 	TypePosition        = "Position"
 	TypePromotion       = "Promotion"
 	TypePromotionamount = "Promotionamount"
-	TypePromotiontime   = "Promotiontime"
 	TypePromotiontype   = "Promotiontype"
 	TypeSalary          = "Salary"
 	TypeZone            = "Zone"
@@ -6400,13 +6398,12 @@ type PromotionMutation struct {
 	_NAME                  *string
 	_DESC                  *string
 	_CODE                  *string
+	_DATE                  *time.Time
 	clearedFields          map[string]struct{}
 	promotiontype          *int
 	clearedpromotiontype   bool
 	promotionamount        *int
 	clearedpromotionamount bool
-	promotiontime          *int
-	clearedpromotiontime   bool
 	payment                map[int]struct{}
 	removedpayment         map[int]struct{}
 	done                   bool
@@ -6603,6 +6600,43 @@ func (m *PromotionMutation) ResetCODE() {
 	m._CODE = nil
 }
 
+// SetDATE sets the DATE field.
+func (m *PromotionMutation) SetDATE(t time.Time) {
+	m._DATE = &t
+}
+
+// DATE returns the DATE value in the mutation.
+func (m *PromotionMutation) DATE() (r time.Time, exists bool) {
+	v := m._DATE
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDATE returns the old DATE value of the Promotion.
+// If the Promotion object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *PromotionMutation) OldDATE(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldDATE is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldDATE requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDATE: %w", err)
+	}
+	return oldValue.DATE, nil
+}
+
+// ResetDATE reset all changes of the "DATE" field.
+func (m *PromotionMutation) ResetDATE() {
+	m._DATE = nil
+}
+
 // SetPromotiontypeID sets the promotiontype edge to Promotiontype by id.
 func (m *PromotionMutation) SetPromotiontypeID(id int) {
 	m.promotiontype = &id
@@ -6681,45 +6715,6 @@ func (m *PromotionMutation) ResetPromotionamount() {
 	m.clearedpromotionamount = false
 }
 
-// SetPromotiontimeID sets the promotiontime edge to Promotiontime by id.
-func (m *PromotionMutation) SetPromotiontimeID(id int) {
-	m.promotiontime = &id
-}
-
-// ClearPromotiontime clears the promotiontime edge to Promotiontime.
-func (m *PromotionMutation) ClearPromotiontime() {
-	m.clearedpromotiontime = true
-}
-
-// PromotiontimeCleared returns if the edge promotiontime was cleared.
-func (m *PromotionMutation) PromotiontimeCleared() bool {
-	return m.clearedpromotiontime
-}
-
-// PromotiontimeID returns the promotiontime id in the mutation.
-func (m *PromotionMutation) PromotiontimeID() (id int, exists bool) {
-	if m.promotiontime != nil {
-		return *m.promotiontime, true
-	}
-	return
-}
-
-// PromotiontimeIDs returns the promotiontime ids in the mutation.
-// Note that ids always returns len(ids) <= 1 for unique edges, and you should use
-// PromotiontimeID instead. It exists only for internal usage by the builders.
-func (m *PromotionMutation) PromotiontimeIDs() (ids []int) {
-	if id := m.promotiontime; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetPromotiontime reset all changes of the "promotiontime" edge.
-func (m *PromotionMutation) ResetPromotiontime() {
-	m.promotiontime = nil
-	m.clearedpromotiontime = false
-}
-
 // AddPaymentIDs adds the payment edge to Payment by ids.
 func (m *PromotionMutation) AddPaymentIDs(ids ...int) {
 	if m.payment == nil {
@@ -6776,7 +6771,7 @@ func (m *PromotionMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *PromotionMutation) Fields() []string {
-	fields := make([]string, 0, 3)
+	fields := make([]string, 0, 4)
 	if m._NAME != nil {
 		fields = append(fields, promotion.FieldNAME)
 	}
@@ -6785,6 +6780,9 @@ func (m *PromotionMutation) Fields() []string {
 	}
 	if m._CODE != nil {
 		fields = append(fields, promotion.FieldCODE)
+	}
+	if m._DATE != nil {
+		fields = append(fields, promotion.FieldDATE)
 	}
 	return fields
 }
@@ -6800,6 +6798,8 @@ func (m *PromotionMutation) Field(name string) (ent.Value, bool) {
 		return m.DESC()
 	case promotion.FieldCODE:
 		return m.CODE()
+	case promotion.FieldDATE:
+		return m.DATE()
 	}
 	return nil, false
 }
@@ -6815,6 +6815,8 @@ func (m *PromotionMutation) OldField(ctx context.Context, name string) (ent.Valu
 		return m.OldDESC(ctx)
 	case promotion.FieldCODE:
 		return m.OldCODE(ctx)
+	case promotion.FieldDATE:
+		return m.OldDATE(ctx)
 	}
 	return nil, fmt.Errorf("unknown Promotion field %s", name)
 }
@@ -6844,6 +6846,13 @@ func (m *PromotionMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCODE(v)
+		return nil
+	case promotion.FieldDATE:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDATE(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Promotion field %s", name)
@@ -6904,6 +6913,9 @@ func (m *PromotionMutation) ResetField(name string) error {
 	case promotion.FieldCODE:
 		m.ResetCODE()
 		return nil
+	case promotion.FieldDATE:
+		m.ResetDATE()
+		return nil
 	}
 	return fmt.Errorf("unknown Promotion field %s", name)
 }
@@ -6911,15 +6923,12 @@ func (m *PromotionMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this
 // mutation.
 func (m *PromotionMutation) AddedEdges() []string {
-	edges := make([]string, 0, 4)
+	edges := make([]string, 0, 3)
 	if m.promotiontype != nil {
 		edges = append(edges, promotion.EdgePromotiontype)
 	}
 	if m.promotionamount != nil {
 		edges = append(edges, promotion.EdgePromotionamount)
-	}
-	if m.promotiontime != nil {
-		edges = append(edges, promotion.EdgePromotiontime)
 	}
 	if m.payment != nil {
 		edges = append(edges, promotion.EdgePayment)
@@ -6939,10 +6948,6 @@ func (m *PromotionMutation) AddedIDs(name string) []ent.Value {
 		if id := m.promotionamount; id != nil {
 			return []ent.Value{*id}
 		}
-	case promotion.EdgePromotiontime:
-		if id := m.promotiontime; id != nil {
-			return []ent.Value{*id}
-		}
 	case promotion.EdgePayment:
 		ids := make([]ent.Value, 0, len(m.payment))
 		for id := range m.payment {
@@ -6956,7 +6961,7 @@ func (m *PromotionMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this
 // mutation.
 func (m *PromotionMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 4)
+	edges := make([]string, 0, 3)
 	if m.removedpayment != nil {
 		edges = append(edges, promotion.EdgePayment)
 	}
@@ -6980,15 +6985,12 @@ func (m *PromotionMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this
 // mutation.
 func (m *PromotionMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 4)
+	edges := make([]string, 0, 3)
 	if m.clearedpromotiontype {
 		edges = append(edges, promotion.EdgePromotiontype)
 	}
 	if m.clearedpromotionamount {
 		edges = append(edges, promotion.EdgePromotionamount)
-	}
-	if m.clearedpromotiontime {
-		edges = append(edges, promotion.EdgePromotiontime)
 	}
 	return edges
 }
@@ -7001,8 +7003,6 @@ func (m *PromotionMutation) EdgeCleared(name string) bool {
 		return m.clearedpromotiontype
 	case promotion.EdgePromotionamount:
 		return m.clearedpromotionamount
-	case promotion.EdgePromotiontime:
-		return m.clearedpromotiontime
 	}
 	return false
 }
@@ -7016,9 +7016,6 @@ func (m *PromotionMutation) ClearEdge(name string) error {
 		return nil
 	case promotion.EdgePromotionamount:
 		m.ClearPromotionamount()
-		return nil
-	case promotion.EdgePromotiontime:
-		m.ClearPromotiontime()
 		return nil
 	}
 	return fmt.Errorf("unknown Promotion unique edge %s", name)
@@ -7034,9 +7031,6 @@ func (m *PromotionMutation) ResetEdge(name string) error {
 		return nil
 	case promotion.EdgePromotionamount:
 		m.ResetPromotionamount()
-		return nil
-	case promotion.EdgePromotiontime:
-		m.ResetPromotiontime()
 		return nil
 	case promotion.EdgePayment:
 		m.ResetPayment()
@@ -7447,553 +7441,6 @@ func (m *PromotionamountMutation) ResetEdge(name string) error {
 		return nil
 	}
 	return fmt.Errorf("unknown Promotionamount edge %s", name)
-}
-
-// PromotiontimeMutation represents an operation that mutate the Promotiontimes
-// nodes in the graph.
-type PromotiontimeMutation struct {
-	config
-	op               Op
-	typ              string
-	id               *int
-	_DATE            *time.Time
-	_HOUR            *int
-	add_HOUR         *int
-	_MINUTE          *int
-	add_MINUTE       *int
-	clearedFields    map[string]struct{}
-	promotion        map[int]struct{}
-	removedpromotion map[int]struct{}
-	done             bool
-	oldValue         func(context.Context) (*Promotiontime, error)
-}
-
-var _ ent.Mutation = (*PromotiontimeMutation)(nil)
-
-// promotiontimeOption allows to manage the mutation configuration using functional options.
-type promotiontimeOption func(*PromotiontimeMutation)
-
-// newPromotiontimeMutation creates new mutation for $n.Name.
-func newPromotiontimeMutation(c config, op Op, opts ...promotiontimeOption) *PromotiontimeMutation {
-	m := &PromotiontimeMutation{
-		config:        c,
-		op:            op,
-		typ:           TypePromotiontime,
-		clearedFields: make(map[string]struct{}),
-	}
-	for _, opt := range opts {
-		opt(m)
-	}
-	return m
-}
-
-// withPromotiontimeID sets the id field of the mutation.
-func withPromotiontimeID(id int) promotiontimeOption {
-	return func(m *PromotiontimeMutation) {
-		var (
-			err   error
-			once  sync.Once
-			value *Promotiontime
-		)
-		m.oldValue = func(ctx context.Context) (*Promotiontime, error) {
-			once.Do(func() {
-				if m.done {
-					err = fmt.Errorf("querying old values post mutation is not allowed")
-				} else {
-					value, err = m.Client().Promotiontime.Get(ctx, id)
-				}
-			})
-			return value, err
-		}
-		m.id = &id
-	}
-}
-
-// withPromotiontime sets the old Promotiontime of the mutation.
-func withPromotiontime(node *Promotiontime) promotiontimeOption {
-	return func(m *PromotiontimeMutation) {
-		m.oldValue = func(context.Context) (*Promotiontime, error) {
-			return node, nil
-		}
-		m.id = &node.ID
-	}
-}
-
-// Client returns a new `ent.Client` from the mutation. If the mutation was
-// executed in a transaction (ent.Tx), a transactional client is returned.
-func (m PromotiontimeMutation) Client() *Client {
-	client := &Client{config: m.config}
-	client.init()
-	return client
-}
-
-// Tx returns an `ent.Tx` for mutations that were executed in transactions;
-// it returns an error otherwise.
-func (m PromotiontimeMutation) Tx() (*Tx, error) {
-	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
-	}
-	tx := &Tx{config: m.config}
-	tx.init()
-	return tx, nil
-}
-
-// ID returns the id value in the mutation. Note that, the id
-// is available only if it was provided to the builder.
-func (m *PromotiontimeMutation) ID() (id int, exists bool) {
-	if m.id == nil {
-		return
-	}
-	return *m.id, true
-}
-
-// SetDATE sets the DATE field.
-func (m *PromotiontimeMutation) SetDATE(t time.Time) {
-	m._DATE = &t
-}
-
-// DATE returns the DATE value in the mutation.
-func (m *PromotiontimeMutation) DATE() (r time.Time, exists bool) {
-	v := m._DATE
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDATE returns the old DATE value of the Promotiontime.
-// If the Promotiontime object wasn't provided to the builder, the object is fetched
-// from the database.
-// An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *PromotiontimeMutation) OldDATE(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDATE is allowed only on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDATE requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDATE: %w", err)
-	}
-	return oldValue.DATE, nil
-}
-
-// ResetDATE reset all changes of the "DATE" field.
-func (m *PromotiontimeMutation) ResetDATE() {
-	m._DATE = nil
-}
-
-// SetHOUR sets the HOUR field.
-func (m *PromotiontimeMutation) SetHOUR(i int) {
-	m._HOUR = &i
-	m.add_HOUR = nil
-}
-
-// HOUR returns the HOUR value in the mutation.
-func (m *PromotiontimeMutation) HOUR() (r int, exists bool) {
-	v := m._HOUR
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldHOUR returns the old HOUR value of the Promotiontime.
-// If the Promotiontime object wasn't provided to the builder, the object is fetched
-// from the database.
-// An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *PromotiontimeMutation) OldHOUR(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldHOUR is allowed only on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldHOUR requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldHOUR: %w", err)
-	}
-	return oldValue.HOUR, nil
-}
-
-// AddHOUR adds i to HOUR.
-func (m *PromotiontimeMutation) AddHOUR(i int) {
-	if m.add_HOUR != nil {
-		*m.add_HOUR += i
-	} else {
-		m.add_HOUR = &i
-	}
-}
-
-// AddedHOUR returns the value that was added to the HOUR field in this mutation.
-func (m *PromotiontimeMutation) AddedHOUR() (r int, exists bool) {
-	v := m.add_HOUR
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetHOUR reset all changes of the "HOUR" field.
-func (m *PromotiontimeMutation) ResetHOUR() {
-	m._HOUR = nil
-	m.add_HOUR = nil
-}
-
-// SetMINUTE sets the MINUTE field.
-func (m *PromotiontimeMutation) SetMINUTE(i int) {
-	m._MINUTE = &i
-	m.add_MINUTE = nil
-}
-
-// MINUTE returns the MINUTE value in the mutation.
-func (m *PromotiontimeMutation) MINUTE() (r int, exists bool) {
-	v := m._MINUTE
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldMINUTE returns the old MINUTE value of the Promotiontime.
-// If the Promotiontime object wasn't provided to the builder, the object is fetched
-// from the database.
-// An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *PromotiontimeMutation) OldMINUTE(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldMINUTE is allowed only on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldMINUTE requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldMINUTE: %w", err)
-	}
-	return oldValue.MINUTE, nil
-}
-
-// AddMINUTE adds i to MINUTE.
-func (m *PromotiontimeMutation) AddMINUTE(i int) {
-	if m.add_MINUTE != nil {
-		*m.add_MINUTE += i
-	} else {
-		m.add_MINUTE = &i
-	}
-}
-
-// AddedMINUTE returns the value that was added to the MINUTE field in this mutation.
-func (m *PromotiontimeMutation) AddedMINUTE() (r int, exists bool) {
-	v := m.add_MINUTE
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetMINUTE reset all changes of the "MINUTE" field.
-func (m *PromotiontimeMutation) ResetMINUTE() {
-	m._MINUTE = nil
-	m.add_MINUTE = nil
-}
-
-// AddPromotionIDs adds the promotion edge to Promotion by ids.
-func (m *PromotiontimeMutation) AddPromotionIDs(ids ...int) {
-	if m.promotion == nil {
-		m.promotion = make(map[int]struct{})
-	}
-	for i := range ids {
-		m.promotion[ids[i]] = struct{}{}
-	}
-}
-
-// RemovePromotionIDs removes the promotion edge to Promotion by ids.
-func (m *PromotiontimeMutation) RemovePromotionIDs(ids ...int) {
-	if m.removedpromotion == nil {
-		m.removedpromotion = make(map[int]struct{})
-	}
-	for i := range ids {
-		m.removedpromotion[ids[i]] = struct{}{}
-	}
-}
-
-// RemovedPromotion returns the removed ids of promotion.
-func (m *PromotiontimeMutation) RemovedPromotionIDs() (ids []int) {
-	for id := range m.removedpromotion {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// PromotionIDs returns the promotion ids in the mutation.
-func (m *PromotiontimeMutation) PromotionIDs() (ids []int) {
-	for id := range m.promotion {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// ResetPromotion reset all changes of the "promotion" edge.
-func (m *PromotiontimeMutation) ResetPromotion() {
-	m.promotion = nil
-	m.removedpromotion = nil
-}
-
-// Op returns the operation name.
-func (m *PromotiontimeMutation) Op() Op {
-	return m.op
-}
-
-// Type returns the node type of this mutation (Promotiontime).
-func (m *PromotiontimeMutation) Type() string {
-	return m.typ
-}
-
-// Fields returns all fields that were changed during
-// this mutation. Note that, in order to get all numeric
-// fields that were in/decremented, call AddedFields().
-func (m *PromotiontimeMutation) Fields() []string {
-	fields := make([]string, 0, 3)
-	if m._DATE != nil {
-		fields = append(fields, promotiontime.FieldDATE)
-	}
-	if m._HOUR != nil {
-		fields = append(fields, promotiontime.FieldHOUR)
-	}
-	if m._MINUTE != nil {
-		fields = append(fields, promotiontime.FieldMINUTE)
-	}
-	return fields
-}
-
-// Field returns the value of a field with the given name.
-// The second boolean value indicates that this field was
-// not set, or was not define in the schema.
-func (m *PromotiontimeMutation) Field(name string) (ent.Value, bool) {
-	switch name {
-	case promotiontime.FieldDATE:
-		return m.DATE()
-	case promotiontime.FieldHOUR:
-		return m.HOUR()
-	case promotiontime.FieldMINUTE:
-		return m.MINUTE()
-	}
-	return nil, false
-}
-
-// OldField returns the old value of the field from the database.
-// An error is returned if the mutation operation is not UpdateOne,
-// or the query to the database was failed.
-func (m *PromotiontimeMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
-	switch name {
-	case promotiontime.FieldDATE:
-		return m.OldDATE(ctx)
-	case promotiontime.FieldHOUR:
-		return m.OldHOUR(ctx)
-	case promotiontime.FieldMINUTE:
-		return m.OldMINUTE(ctx)
-	}
-	return nil, fmt.Errorf("unknown Promotiontime field %s", name)
-}
-
-// SetField sets the value for the given name. It returns an
-// error if the field is not defined in the schema, or if the
-// type mismatch the field type.
-func (m *PromotiontimeMutation) SetField(name string, value ent.Value) error {
-	switch name {
-	case promotiontime.FieldDATE:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDATE(v)
-		return nil
-	case promotiontime.FieldHOUR:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetHOUR(v)
-		return nil
-	case promotiontime.FieldMINUTE:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetMINUTE(v)
-		return nil
-	}
-	return fmt.Errorf("unknown Promotiontime field %s", name)
-}
-
-// AddedFields returns all numeric fields that were incremented
-// or decremented during this mutation.
-func (m *PromotiontimeMutation) AddedFields() []string {
-	var fields []string
-	if m.add_HOUR != nil {
-		fields = append(fields, promotiontime.FieldHOUR)
-	}
-	if m.add_MINUTE != nil {
-		fields = append(fields, promotiontime.FieldMINUTE)
-	}
-	return fields
-}
-
-// AddedField returns the numeric value that was in/decremented
-// from a field with the given name. The second value indicates
-// that this field was not set, or was not define in the schema.
-func (m *PromotiontimeMutation) AddedField(name string) (ent.Value, bool) {
-	switch name {
-	case promotiontime.FieldHOUR:
-		return m.AddedHOUR()
-	case promotiontime.FieldMINUTE:
-		return m.AddedMINUTE()
-	}
-	return nil, false
-}
-
-// AddField adds the value for the given name. It returns an
-// error if the field is not defined in the schema, or if the
-// type mismatch the field type.
-func (m *PromotiontimeMutation) AddField(name string, value ent.Value) error {
-	switch name {
-	case promotiontime.FieldHOUR:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddHOUR(v)
-		return nil
-	case promotiontime.FieldMINUTE:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddMINUTE(v)
-		return nil
-	}
-	return fmt.Errorf("unknown Promotiontime numeric field %s", name)
-}
-
-// ClearedFields returns all nullable fields that were cleared
-// during this mutation.
-func (m *PromotiontimeMutation) ClearedFields() []string {
-	return nil
-}
-
-// FieldCleared returns a boolean indicates if this field was
-// cleared in this mutation.
-func (m *PromotiontimeMutation) FieldCleared(name string) bool {
-	_, ok := m.clearedFields[name]
-	return ok
-}
-
-// ClearField clears the value for the given name. It returns an
-// error if the field is not defined in the schema.
-func (m *PromotiontimeMutation) ClearField(name string) error {
-	return fmt.Errorf("unknown Promotiontime nullable field %s", name)
-}
-
-// ResetField resets all changes in the mutation regarding the
-// given field name. It returns an error if the field is not
-// defined in the schema.
-func (m *PromotiontimeMutation) ResetField(name string) error {
-	switch name {
-	case promotiontime.FieldDATE:
-		m.ResetDATE()
-		return nil
-	case promotiontime.FieldHOUR:
-		m.ResetHOUR()
-		return nil
-	case promotiontime.FieldMINUTE:
-		m.ResetMINUTE()
-		return nil
-	}
-	return fmt.Errorf("unknown Promotiontime field %s", name)
-}
-
-// AddedEdges returns all edge names that were set/added in this
-// mutation.
-func (m *PromotiontimeMutation) AddedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.promotion != nil {
-		edges = append(edges, promotiontime.EdgePromotion)
-	}
-	return edges
-}
-
-// AddedIDs returns all ids (to other nodes) that were added for
-// the given edge name.
-func (m *PromotiontimeMutation) AddedIDs(name string) []ent.Value {
-	switch name {
-	case promotiontime.EdgePromotion:
-		ids := make([]ent.Value, 0, len(m.promotion))
-		for id := range m.promotion {
-			ids = append(ids, id)
-		}
-		return ids
-	}
-	return nil
-}
-
-// RemovedEdges returns all edge names that were removed in this
-// mutation.
-func (m *PromotiontimeMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.removedpromotion != nil {
-		edges = append(edges, promotiontime.EdgePromotion)
-	}
-	return edges
-}
-
-// RemovedIDs returns all ids (to other nodes) that were removed for
-// the given edge name.
-func (m *PromotiontimeMutation) RemovedIDs(name string) []ent.Value {
-	switch name {
-	case promotiontime.EdgePromotion:
-		ids := make([]ent.Value, 0, len(m.removedpromotion))
-		for id := range m.removedpromotion {
-			ids = append(ids, id)
-		}
-		return ids
-	}
-	return nil
-}
-
-// ClearedEdges returns all edge names that were cleared in this
-// mutation.
-func (m *PromotiontimeMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 1)
-	return edges
-}
-
-// EdgeCleared returns a boolean indicates if this edge was
-// cleared in this mutation.
-func (m *PromotiontimeMutation) EdgeCleared(name string) bool {
-	switch name {
-	}
-	return false
-}
-
-// ClearEdge clears the value for the given name. It returns an
-// error if the edge name is not defined in the schema.
-func (m *PromotiontimeMutation) ClearEdge(name string) error {
-	switch name {
-	}
-	return fmt.Errorf("unknown Promotiontime unique edge %s", name)
-}
-
-// ResetEdge resets all changes in the mutation regarding the
-// given edge name. It returns an error if the edge is not
-// defined in the schema.
-func (m *PromotiontimeMutation) ResetEdge(name string) error {
-	switch name {
-	case promotiontime.EdgePromotion:
-		m.ResetPromotion()
-		return nil
-	}
-	return fmt.Errorf("unknown Promotiontime edge %s", name)
 }
 
 // PromotiontypeMutation represents an operation that mutate the Promotiontypes

@@ -5,12 +5,12 @@ package ent
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/G16/app/ent/payment"
 	"github.com/G16/app/ent/predicate"
 	"github.com/G16/app/ent/promotion"
 	"github.com/G16/app/ent/promotionamount"
-	"github.com/G16/app/ent/promotiontime"
 	"github.com/G16/app/ent/promotiontype"
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
@@ -46,6 +46,12 @@ func (pu *PromotionUpdate) SetDESC(s string) *PromotionUpdate {
 // SetCODE sets the CODE field.
 func (pu *PromotionUpdate) SetCODE(s string) *PromotionUpdate {
 	pu.mutation.SetCODE(s)
+	return pu
+}
+
+// SetDATE sets the DATE field.
+func (pu *PromotionUpdate) SetDATE(t time.Time) *PromotionUpdate {
+	pu.mutation.SetDATE(t)
 	return pu
 }
 
@@ -87,25 +93,6 @@ func (pu *PromotionUpdate) SetPromotionamount(p *Promotionamount) *PromotionUpda
 	return pu.SetPromotionamountID(p.ID)
 }
 
-// SetPromotiontimeID sets the promotiontime edge to Promotiontime by id.
-func (pu *PromotionUpdate) SetPromotiontimeID(id int) *PromotionUpdate {
-	pu.mutation.SetPromotiontimeID(id)
-	return pu
-}
-
-// SetNillablePromotiontimeID sets the promotiontime edge to Promotiontime by id if the given value is not nil.
-func (pu *PromotionUpdate) SetNillablePromotiontimeID(id *int) *PromotionUpdate {
-	if id != nil {
-		pu = pu.SetPromotiontimeID(*id)
-	}
-	return pu
-}
-
-// SetPromotiontime sets the promotiontime edge to Promotiontime.
-func (pu *PromotionUpdate) SetPromotiontime(p *Promotiontime) *PromotionUpdate {
-	return pu.SetPromotiontimeID(p.ID)
-}
-
 // AddPaymentIDs adds the payment edge to Payment by ids.
 func (pu *PromotionUpdate) AddPaymentIDs(ids ...int) *PromotionUpdate {
 	pu.mutation.AddPaymentIDs(ids...)
@@ -135,12 +122,6 @@ func (pu *PromotionUpdate) ClearPromotiontype() *PromotionUpdate {
 // ClearPromotionamount clears the promotionamount edge to Promotionamount.
 func (pu *PromotionUpdate) ClearPromotionamount() *PromotionUpdate {
 	pu.mutation.ClearPromotionamount()
-	return pu
-}
-
-// ClearPromotiontime clears the promotiontime edge to Promotiontime.
-func (pu *PromotionUpdate) ClearPromotiontime() *PromotionUpdate {
-	pu.mutation.ClearPromotiontime()
 	return pu
 }
 
@@ -265,6 +246,13 @@ func (pu *PromotionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: promotion.FieldCODE,
 		})
 	}
+	if value, ok := pu.mutation.DATE(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: promotion.FieldDATE,
+		})
+	}
 	if pu.mutation.PromotiontypeCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -327,41 +315,6 @@ func (pu *PromotionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
 					Column: promotionamount.FieldID,
-				},
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if pu.mutation.PromotiontimeCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   promotion.PromotiontimeTable,
-			Columns: []string{promotion.PromotiontimeColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: promotiontime.FieldID,
-				},
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := pu.mutation.PromotiontimeIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   promotion.PromotiontimeTable,
-			Columns: []string{promotion.PromotiontimeColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: promotiontime.FieldID,
 				},
 			},
 		}
@@ -444,6 +397,12 @@ func (puo *PromotionUpdateOne) SetCODE(s string) *PromotionUpdateOne {
 	return puo
 }
 
+// SetDATE sets the DATE field.
+func (puo *PromotionUpdateOne) SetDATE(t time.Time) *PromotionUpdateOne {
+	puo.mutation.SetDATE(t)
+	return puo
+}
+
 // SetPromotiontypeID sets the promotiontype edge to Promotiontype by id.
 func (puo *PromotionUpdateOne) SetPromotiontypeID(id int) *PromotionUpdateOne {
 	puo.mutation.SetPromotiontypeID(id)
@@ -482,25 +441,6 @@ func (puo *PromotionUpdateOne) SetPromotionamount(p *Promotionamount) *Promotion
 	return puo.SetPromotionamountID(p.ID)
 }
 
-// SetPromotiontimeID sets the promotiontime edge to Promotiontime by id.
-func (puo *PromotionUpdateOne) SetPromotiontimeID(id int) *PromotionUpdateOne {
-	puo.mutation.SetPromotiontimeID(id)
-	return puo
-}
-
-// SetNillablePromotiontimeID sets the promotiontime edge to Promotiontime by id if the given value is not nil.
-func (puo *PromotionUpdateOne) SetNillablePromotiontimeID(id *int) *PromotionUpdateOne {
-	if id != nil {
-		puo = puo.SetPromotiontimeID(*id)
-	}
-	return puo
-}
-
-// SetPromotiontime sets the promotiontime edge to Promotiontime.
-func (puo *PromotionUpdateOne) SetPromotiontime(p *Promotiontime) *PromotionUpdateOne {
-	return puo.SetPromotiontimeID(p.ID)
-}
-
 // AddPaymentIDs adds the payment edge to Payment by ids.
 func (puo *PromotionUpdateOne) AddPaymentIDs(ids ...int) *PromotionUpdateOne {
 	puo.mutation.AddPaymentIDs(ids...)
@@ -530,12 +470,6 @@ func (puo *PromotionUpdateOne) ClearPromotiontype() *PromotionUpdateOne {
 // ClearPromotionamount clears the promotionamount edge to Promotionamount.
 func (puo *PromotionUpdateOne) ClearPromotionamount() *PromotionUpdateOne {
 	puo.mutation.ClearPromotionamount()
-	return puo
-}
-
-// ClearPromotiontime clears the promotiontime edge to Promotiontime.
-func (puo *PromotionUpdateOne) ClearPromotiontime() *PromotionUpdateOne {
-	puo.mutation.ClearPromotiontime()
 	return puo
 }
 
@@ -658,6 +592,13 @@ func (puo *PromotionUpdateOne) sqlSave(ctx context.Context) (pr *Promotion, err 
 			Column: promotion.FieldCODE,
 		})
 	}
+	if value, ok := puo.mutation.DATE(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: promotion.FieldDATE,
+		})
+	}
 	if puo.mutation.PromotiontypeCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -720,41 +661,6 @@ func (puo *PromotionUpdateOne) sqlSave(ctx context.Context) (pr *Promotion, err 
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
 					Column: promotionamount.FieldID,
-				},
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if puo.mutation.PromotiontimeCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   promotion.PromotiontimeTable,
-			Columns: []string{promotion.PromotiontimeColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: promotiontime.FieldID,
-				},
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := puo.mutation.PromotiontimeIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   promotion.PromotiontimeTable,
-			Columns: []string{promotion.PromotiontimeColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: promotiontime.FieldID,
 				},
 			},
 		}

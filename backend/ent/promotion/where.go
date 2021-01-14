@@ -3,6 +3,8 @@
 package promotion
 
 import (
+	"time"
+
 	"github.com/G16/app/ent/predicate"
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
@@ -109,6 +111,13 @@ func DESC(v string) predicate.Promotion {
 func CODE(v string) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldCODE), v))
+	})
+}
+
+// DATE applies equality check predicate on the "DATE" field. It's identical to DATEEQ.
+func DATE(v time.Time) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldDATE), v))
 	})
 }
 
@@ -445,6 +454,82 @@ func CODEContainsFold(v string) predicate.Promotion {
 	})
 }
 
+// DATEEQ applies the EQ predicate on the "DATE" field.
+func DATEEQ(v time.Time) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldDATE), v))
+	})
+}
+
+// DATENEQ applies the NEQ predicate on the "DATE" field.
+func DATENEQ(v time.Time) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldDATE), v))
+	})
+}
+
+// DATEIn applies the In predicate on the "DATE" field.
+func DATEIn(vs ...time.Time) predicate.Promotion {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Promotion(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldDATE), v...))
+	})
+}
+
+// DATENotIn applies the NotIn predicate on the "DATE" field.
+func DATENotIn(vs ...time.Time) predicate.Promotion {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Promotion(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldDATE), v...))
+	})
+}
+
+// DATEGT applies the GT predicate on the "DATE" field.
+func DATEGT(v time.Time) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldDATE), v))
+	})
+}
+
+// DATEGTE applies the GTE predicate on the "DATE" field.
+func DATEGTE(v time.Time) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldDATE), v))
+	})
+}
+
+// DATELT applies the LT predicate on the "DATE" field.
+func DATELT(v time.Time) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldDATE), v))
+	})
+}
+
+// DATELTE applies the LTE predicate on the "DATE" field.
+func DATELTE(v time.Time) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldDATE), v))
+	})
+}
+
 // HasPromotiontype applies the HasEdge predicate on the "promotiontype" edge.
 func HasPromotiontype() predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
@@ -492,34 +577,6 @@ func HasPromotionamountWith(preds ...predicate.Promotionamount) predicate.Promot
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.To(PromotionamountInverseTable, FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, PromotionamountTable, PromotionamountColumn),
-		)
-		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
-			for _, p := range preds {
-				p(s)
-			}
-		})
-	})
-}
-
-// HasPromotiontime applies the HasEdge predicate on the "promotiontime" edge.
-func HasPromotiontime() predicate.Promotion {
-	return predicate.Promotion(func(s *sql.Selector) {
-		step := sqlgraph.NewStep(
-			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(PromotiontimeTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, PromotiontimeTable, PromotiontimeColumn),
-		)
-		sqlgraph.HasNeighbors(s, step)
-	})
-}
-
-// HasPromotiontimeWith applies the HasEdge predicate on the "promotiontime" edge with a given conditions (other predicates).
-func HasPromotiontimeWith(preds ...predicate.Promotiontime) predicate.Promotion {
-	return predicate.Promotion(func(s *sql.Selector) {
-		step := sqlgraph.NewStep(
-			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(PromotiontimeInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, PromotiontimeTable, PromotiontimeColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

@@ -48,9 +48,6 @@ type Promotion func(*sql.Selector)
 // Promotionamount is the predicate function for promotionamount builders.
 type Promotionamount func(*sql.Selector)
 
-// Promotiontime is the predicate function for promotiontime builders.
-type Promotiontime func(*sql.Selector)
-
 // Promotiontype is the predicate function for promotiontype builders.
 type Promotiontype func(*sql.Selector)
 

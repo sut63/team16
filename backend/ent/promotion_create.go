@@ -6,11 +6,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/G16/app/ent/payment"
 	"github.com/G16/app/ent/promotion"
 	"github.com/G16/app/ent/promotionamount"
-	"github.com/G16/app/ent/promotiontime"
 	"github.com/G16/app/ent/promotiontype"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
@@ -38,6 +38,12 @@ func (pc *PromotionCreate) SetDESC(s string) *PromotionCreate {
 // SetCODE sets the CODE field.
 func (pc *PromotionCreate) SetCODE(s string) *PromotionCreate {
 	pc.mutation.SetCODE(s)
+	return pc
+}
+
+// SetDATE sets the DATE field.
+func (pc *PromotionCreate) SetDATE(t time.Time) *PromotionCreate {
+	pc.mutation.SetDATE(t)
 	return pc
 }
 
@@ -77,25 +83,6 @@ func (pc *PromotionCreate) SetNillablePromotionamountID(id *int) *PromotionCreat
 // SetPromotionamount sets the promotionamount edge to Promotionamount.
 func (pc *PromotionCreate) SetPromotionamount(p *Promotionamount) *PromotionCreate {
 	return pc.SetPromotionamountID(p.ID)
-}
-
-// SetPromotiontimeID sets the promotiontime edge to Promotiontime by id.
-func (pc *PromotionCreate) SetPromotiontimeID(id int) *PromotionCreate {
-	pc.mutation.SetPromotiontimeID(id)
-	return pc
-}
-
-// SetNillablePromotiontimeID sets the promotiontime edge to Promotiontime by id if the given value is not nil.
-func (pc *PromotionCreate) SetNillablePromotiontimeID(id *int) *PromotionCreate {
-	if id != nil {
-		pc = pc.SetPromotiontimeID(*id)
-	}
-	return pc
-}
-
-// SetPromotiontime sets the promotiontime edge to Promotiontime.
-func (pc *PromotionCreate) SetPromotiontime(p *Promotiontime) *PromotionCreate {
-	return pc.SetPromotiontimeID(p.ID)
 }
 
 // AddPaymentIDs adds the payment edge to Payment by ids.
@@ -143,6 +130,9 @@ func (pc *PromotionCreate) Save(ctx context.Context) (*Promotion, error) {
 		if err := promotion.CODEValidator(v); err != nil {
 			return nil, &ValidationError{Name: "CODE", err: fmt.Errorf("ent: validator failed for field \"CODE\": %w", err)}
 		}
+	}
+	if _, ok := pc.mutation.DATE(); !ok {
+		return nil, &ValidationError{Name: "DATE", err: errors.New("ent: missing required field \"DATE\"")}
 	}
 	var (
 		err  error
@@ -228,6 +218,14 @@ func (pc *PromotionCreate) createSpec() (*Promotion, *sqlgraph.CreateSpec) {
 		})
 		pr.CODE = value
 	}
+	if value, ok := pc.mutation.DATE(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: promotion.FieldDATE,
+		})
+		pr.DATE = value
+	}
 	if nodes := pc.mutation.PromotiontypeIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -258,25 +256,6 @@ func (pc *PromotionCreate) createSpec() (*Promotion, *sqlgraph.CreateSpec) {
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
 					Column: promotionamount.FieldID,
-				},
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges = append(_spec.Edges, edge)
-	}
-	if nodes := pc.mutation.PromotiontimeIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   promotion.PromotiontimeTable,
-			Columns: []string{promotion.PromotiontimeColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: promotiontime.FieldID,
 				},
 			},
 		}

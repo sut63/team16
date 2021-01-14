@@ -13,13 +13,13 @@ const (
 	FieldDESC = "desc"
 	// FieldCODE holds the string denoting the code field in the database.
 	FieldCODE = "code"
+	// FieldDATE holds the string denoting the date field in the database.
+	FieldDATE = "date"
 
 	// EdgePromotiontype holds the string denoting the promotiontype edge name in mutations.
 	EdgePromotiontype = "promotiontype"
 	// EdgePromotionamount holds the string denoting the promotionamount edge name in mutations.
 	EdgePromotionamount = "promotionamount"
-	// EdgePromotiontime holds the string denoting the promotiontime edge name in mutations.
-	EdgePromotiontime = "promotiontime"
 	// EdgePayment holds the string denoting the payment edge name in mutations.
 	EdgePayment = "payment"
 
@@ -39,13 +39,6 @@ const (
 	PromotionamountInverseTable = "promotionamounts"
 	// PromotionamountColumn is the table column denoting the promotionamount relation/edge.
 	PromotionamountColumn = "promotionamount_promotion"
-	// PromotiontimeTable is the table the holds the promotiontime relation/edge.
-	PromotiontimeTable = "promotions"
-	// PromotiontimeInverseTable is the table name for the Promotiontime entity.
-	// It exists in this package in order to avoid circular dependency with the "promotiontime" package.
-	PromotiontimeInverseTable = "promotiontimes"
-	// PromotiontimeColumn is the table column denoting the promotiontime relation/edge.
-	PromotiontimeColumn = "promotiontime_promotion"
 	// PaymentTable is the table the holds the payment relation/edge.
 	PaymentTable = "payments"
 	// PaymentInverseTable is the table name for the Payment entity.
@@ -61,12 +54,12 @@ var Columns = []string{
 	FieldNAME,
 	FieldDESC,
 	FieldCODE,
+	FieldDATE,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the Promotion type.
 var ForeignKeys = []string{
 	"promotionamount_promotion",
-	"promotiontime_promotion",
 	"promotiontype_promotion",
 }
 

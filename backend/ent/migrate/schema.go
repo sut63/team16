@@ -317,8 +317,8 @@ var (
 		{Name: "name", Type: field.TypeString},
 		{Name: "desc", Type: field.TypeString},
 		{Name: "code", Type: field.TypeString},
+		{Name: "date", Type: field.TypeTime},
 		{Name: "promotionamount_promotion", Type: field.TypeInt, Nullable: true},
-		{Name: "promotiontime_promotion", Type: field.TypeInt, Nullable: true},
 		{Name: "promotiontype_promotion", Type: field.TypeInt, Nullable: true},
 	}
 	// PromotionsTable holds the schema information for the "promotions" table.
@@ -329,16 +329,9 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "promotions_promotionamounts_promotion",
-				Columns: []*schema.Column{PromotionsColumns[4]},
-
-				RefColumns: []*schema.Column{PromotionamountsColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-			{
-				Symbol:  "promotions_promotiontimes_promotion",
 				Columns: []*schema.Column{PromotionsColumns[5]},
 
-				RefColumns: []*schema.Column{PromotiontimesColumns[0]},
+				RefColumns: []*schema.Column{PromotionamountsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
@@ -360,20 +353,6 @@ var (
 		Name:        "promotionamounts",
 		Columns:     PromotionamountsColumns,
 		PrimaryKey:  []*schema.Column{PromotionamountsColumns[0]},
-		ForeignKeys: []*schema.ForeignKey{},
-	}
-	// PromotiontimesColumns holds the columns for the "promotiontimes" table.
-	PromotiontimesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "date", Type: field.TypeTime},
-		{Name: "hour", Type: field.TypeInt},
-		{Name: "minute", Type: field.TypeInt},
-	}
-	// PromotiontimesTable holds the schema information for the "promotiontimes" table.
-	PromotiontimesTable = &schema.Table{
-		Name:        "promotiontimes",
-		Columns:     PromotiontimesColumns,
-		PrimaryKey:  []*schema.Column{PromotiontimesColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{},
 	}
 	// PromotiontypesColumns holds the columns for the "promotiontypes" table.
@@ -428,7 +407,6 @@ var (
 		PositionsTable,
 		PromotionsTable,
 		PromotionamountsTable,
-		PromotiontimesTable,
 		PromotiontypesTable,
 		SalariesTable,
 		ZonesTable,
@@ -455,6 +433,5 @@ func init() {
 	PaymentsTable.ForeignKeys[2].RefTable = PaymenttypesTable
 	PaymentsTable.ForeignKeys[3].RefTable = PromotionsTable
 	PromotionsTable.ForeignKeys[0].RefTable = PromotionamountsTable
-	PromotionsTable.ForeignKeys[1].RefTable = PromotiontimesTable
-	PromotionsTable.ForeignKeys[2].RefTable = PromotiontypesTable
+	PromotionsTable.ForeignKeys[1].RefTable = PromotiontypesTable
 }
