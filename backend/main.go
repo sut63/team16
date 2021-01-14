@@ -22,7 +22,7 @@ type Courses struct {
 
 // Course  defines the struct for the course
 type Course struct {
-	course string
+	COURSE string
 }
 
 // Employees  defines the struct for the employees
@@ -96,6 +96,28 @@ type Zone struct {
 	EQUIPMENTZONE string
 }
 
+// Promotiontypes  defines the struct for the Promotiontypes
+//---------------------------------------------
+type Promotiontypes struct {
+	Promotiontype []Promotiontype
+}
+
+// Promotiontype  defines the struct for the Promotiontype
+type Promotiontype struct {
+	TYPE string
+}
+
+// Promotionamounts  defines the struct for the Promotionamounts
+//---------------------------------------------
+type Promotionamounts struct {
+	Promotionamount []Promotionamount
+}
+
+// Promotionamount  defines the struct for the Promotionamount
+type Promotionamount struct {
+	AMOUNT int
+}
+
 // @title SUT SA Example API Patient
 // @version 1.0
 // @description This is a sample server for SUT SE 2563
@@ -167,10 +189,45 @@ func main() {
 	controllers.NewPositionController(v1, client)
 	controllers.NewPromotionController(v1, client)
 	controllers.NewPromotionamountController(v1, client)
-	controllers.NewPromotiontimeController(v1, client)
 	controllers.NewPromotiontypeController(v1, client)
 	controllers.NewSalaryController(v1, client)
 	controllers.NewZoneController(v1, client)
+
+	// Set Promotiontype Data
+	promotiontypes := Promotiontypes{
+		Promotiontype: []Promotiontype{
+			Promotiontype{"ส่วนลด"},
+			Promotiontype{"ลุ้นโชค"},
+			Promotiontype{"สะสมแต้ม"},
+			Promotiontype{"การใช้งาน"},
+			Promotiontype{"อายุสมาชิก"},
+		},
+	}
+
+	for _, prt := range promotiontypes.Promotiontype {
+		client.Promotiontype.
+			Create().
+			SetTYPE(prt.TYPE).
+			Save(context.Background())
+	}
+
+	// Set Promotionamount Data
+	promotionamounts := Promotionamounts{
+		Promotionamount: []Promotionamount{
+			Promotionamount{1},
+			Promotionamount{3},
+			Promotionamount{5},
+			Promotionamount{7},
+			Promotionamount{9},
+		},
+	}
+
+	for _, prm := range promotionamounts.Promotionamount {
+		client.Promotionamount.
+			Create().
+			SetAMOUNT(prm.AMOUNT).
+			Save(context.Background())
+	}
 
 	// Set Employees Data
 	employees := Employees{
@@ -186,7 +243,10 @@ func main() {
 	for _, em := range employee.Employee {
 		client.Employee.
 			Create().
-			SetCOURSE(em.employee).
+			SetEMPLOYEEID(em.EMPLOYEEID).
+			SetEMPLOYEENAME(em.EMPLOYEENAME).
+			SetEMPLOYEEADDRESS(em.EMPLOYEEADDRESS).
+			SetIDCARDNUMBER(em.IDCARDNUMBER).
 			Save(context.Background())
 	}
 
@@ -207,7 +267,7 @@ func main() {
 	for _, ag := range age.Age {
 		client.Age.
 			Create().
-			SetCOURSE(ag.age).
+			SetAGE(ag.age).
 			Save(context.Background())
 	}
 
@@ -224,7 +284,7 @@ func main() {
 	for _, pst := range position.Position {
 		client.Position.
 			Create().
-			SetCOURSE(pst.position).
+			SetPOSITION(pst.position).
 			Save(context.Background())
 	}
 
@@ -244,7 +304,7 @@ func main() {
 	for _, sr := range salary.Salary {
 		client.Salary.
 			Create().
-			SetCOURSE(sr.salary).
+			SetSALARY(sr.salary).
 			Save(context.Background())
 	}
 
@@ -312,7 +372,7 @@ func main() {
 	for _, co := range courses.Course {
 		client.Course.
 			Create().
-			SetCOURSE(co.course).
+			SetCOURSE(co.COURSE).
 			Save(context.Background())
 	}
 
