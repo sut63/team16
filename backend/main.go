@@ -25,6 +25,50 @@ type Course struct {
 	course string
 }
 
+// Employees  defines the struct for the employees
+type Employees struct {
+	Employee []Employee
+}
+
+// Employee  defines the struct for the employee
+type Employee struct {
+	EMPLOYEEID      string
+	EMPLOYEENAME    string
+	EMPLOYEEADDRESS string
+	IDCARDNUMBER    string
+}
+
+// Ages  defines the struct for the ages
+type Ages struct {
+	Age []Age
+}
+
+// Age  defines the struct for the age
+type Age struct {
+	AGE int
+}
+
+// Positions  defines the struct for the positions
+type Positions struct {
+	Position []Position
+}
+
+// Position  defines the struct for the position
+type Position struct {
+	POSITION string
+}
+
+// Salarys  defines the struct for the salarys
+type Salarys struct {
+	Salary []Salary
+}
+
+// Salary  defines the struct for the position
+type Salary struct {
+	POSITION string
+}
+
+
 // @title SUT SA Example API Patient
 // @version 1.0
 // @description This is a sample server for SUT SE 2563

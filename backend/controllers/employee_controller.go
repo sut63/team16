@@ -35,7 +35,7 @@ type Employee struct {
 // @ID create-employee
 // @Accept   json
 // @Produce  json
-// @Param employee body ent.Employee true "Employee entity"
+// @Param employee body Employee true "Employee entity"
 // @Success 200 {object} ent.Employee
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -85,11 +85,6 @@ func (ctl *EmployeeController) CreateEmployee(c *gin.Context) {
 		return
 	}
 
-	var i int
-	if temps, err := strconv.ParseInt(obj.IDCARDNUMBER, 10, 64); err == nil {
-		i = int(temps)
-	}
-
 	em, err := ctl.client.Employee.
 		Create().
 		SetAge(ag).
@@ -98,7 +93,7 @@ func (ctl *EmployeeController) CreateEmployee(c *gin.Context) {
 		SetEMPLOYEEID(obj.EMPLOYEEID).
 		SetEMPLOYEENAME(obj.EMPLOYEENAME).
 		SetEMPLOYEEADDRESS(obj.EMPLOYEEADDRESS).
-		SetIDCARDNUMBER(i).
+		SetIDCARDNUMBER(obj.IDCARDNUMBER).
 		Save(context.Background())
 
 	if err != nil {
