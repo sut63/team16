@@ -1,5 +1,6 @@
 package schema
 
+
 import (
 	"github.com/facebookincubator/ent"
 	"github.com/facebookincubator/ent/schema/edge"
@@ -35,5 +36,6 @@ func (Equipmentrental) Edges() []ent.Edge {
 		edge.From("equipmenttype", Equipmenttype.Type).
 			Ref("equipmentrental").
 			Unique(),
+		
 	}
 }
