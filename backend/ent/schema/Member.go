@@ -16,7 +16,7 @@ func (Member) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("MEMBERID").
 			NotEmpty(),
-		field.String("NAME").
+		field.String("MEMBERNAME").
 			NotEmpty(),
 	}
 }

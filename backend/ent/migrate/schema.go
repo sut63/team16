@@ -232,7 +232,7 @@ var (
 	MembersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "memberid", Type: field.TypeString},
-		{Name: "name", Type: field.TypeString},
+		{Name: "membername", Type: field.TypeString},
 	}
 	// MembersTable holds the schema information for the "members" table.
 	MembersTable = &schema.Table{

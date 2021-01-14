@@ -98,10 +98,10 @@ func MEMBERID(v string) predicate.Member {
 	})
 }
 
-// NAME applies equality check predicate on the "NAME" field. It's identical to NAMEEQ.
-func NAME(v string) predicate.Member {
+// MEMBERNAME applies equality check predicate on the "MEMBERNAME" field. It's identical to MEMBERNAMEEQ.
+func MEMBERNAME(v string) predicate.Member {
 	return predicate.Member(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldNAME), v))
+		s.Where(sql.EQ(s.C(FieldMEMBERNAME), v))
 	})
 }
 
@@ -216,22 +216,22 @@ func MEMBERIDContainsFold(v string) predicate.Member {
 	})
 }
 
-// NAMEEQ applies the EQ predicate on the "NAME" field.
-func NAMEEQ(v string) predicate.Member {
+// MEMBERNAMEEQ applies the EQ predicate on the "MEMBERNAME" field.
+func MEMBERNAMEEQ(v string) predicate.Member {
 	return predicate.Member(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldNAME), v))
+		s.Where(sql.EQ(s.C(FieldMEMBERNAME), v))
 	})
 }
 
-// NAMENEQ applies the NEQ predicate on the "NAME" field.
-func NAMENEQ(v string) predicate.Member {
+// MEMBERNAMENEQ applies the NEQ predicate on the "MEMBERNAME" field.
+func MEMBERNAMENEQ(v string) predicate.Member {
 	return predicate.Member(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldNAME), v))
+		s.Where(sql.NEQ(s.C(FieldMEMBERNAME), v))
 	})
 }
 
-// NAMEIn applies the In predicate on the "NAME" field.
-func NAMEIn(vs ...string) predicate.Member {
+// MEMBERNAMEIn applies the In predicate on the "MEMBERNAME" field.
+func MEMBERNAMEIn(vs ...string) predicate.Member {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -243,12 +243,12 @@ func NAMEIn(vs ...string) predicate.Member {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.In(s.C(FieldNAME), v...))
+		s.Where(sql.In(s.C(FieldMEMBERNAME), v...))
 	})
 }
 
-// NAMENotIn applies the NotIn predicate on the "NAME" field.
-func NAMENotIn(vs ...string) predicate.Member {
+// MEMBERNAMENotIn applies the NotIn predicate on the "MEMBERNAME" field.
+func MEMBERNAMENotIn(vs ...string) predicate.Member {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -260,70 +260,70 @@ func NAMENotIn(vs ...string) predicate.Member {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.NotIn(s.C(FieldNAME), v...))
+		s.Where(sql.NotIn(s.C(FieldMEMBERNAME), v...))
 	})
 }
 
-// NAMEGT applies the GT predicate on the "NAME" field.
-func NAMEGT(v string) predicate.Member {
+// MEMBERNAMEGT applies the GT predicate on the "MEMBERNAME" field.
+func MEMBERNAMEGT(v string) predicate.Member {
 	return predicate.Member(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldNAME), v))
+		s.Where(sql.GT(s.C(FieldMEMBERNAME), v))
 	})
 }
 
-// NAMEGTE applies the GTE predicate on the "NAME" field.
-func NAMEGTE(v string) predicate.Member {
+// MEMBERNAMEGTE applies the GTE predicate on the "MEMBERNAME" field.
+func MEMBERNAMEGTE(v string) predicate.Member {
 	return predicate.Member(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldNAME), v))
+		s.Where(sql.GTE(s.C(FieldMEMBERNAME), v))
 	})
 }
 
-// NAMELT applies the LT predicate on the "NAME" field.
-func NAMELT(v string) predicate.Member {
+// MEMBERNAMELT applies the LT predicate on the "MEMBERNAME" field.
+func MEMBERNAMELT(v string) predicate.Member {
 	return predicate.Member(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldNAME), v))
+		s.Where(sql.LT(s.C(FieldMEMBERNAME), v))
 	})
 }
 
-// NAMELTE applies the LTE predicate on the "NAME" field.
-func NAMELTE(v string) predicate.Member {
+// MEMBERNAMELTE applies the LTE predicate on the "MEMBERNAME" field.
+func MEMBERNAMELTE(v string) predicate.Member {
 	return predicate.Member(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldNAME), v))
+		s.Where(sql.LTE(s.C(FieldMEMBERNAME), v))
 	})
 }
 
-// NAMEContains applies the Contains predicate on the "NAME" field.
-func NAMEContains(v string) predicate.Member {
+// MEMBERNAMEContains applies the Contains predicate on the "MEMBERNAME" field.
+func MEMBERNAMEContains(v string) predicate.Member {
 	return predicate.Member(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldNAME), v))
+		s.Where(sql.Contains(s.C(FieldMEMBERNAME), v))
 	})
 }
 
-// NAMEHasPrefix applies the HasPrefix predicate on the "NAME" field.
-func NAMEHasPrefix(v string) predicate.Member {
+// MEMBERNAMEHasPrefix applies the HasPrefix predicate on the "MEMBERNAME" field.
+func MEMBERNAMEHasPrefix(v string) predicate.Member {
 	return predicate.Member(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldNAME), v))
+		s.Where(sql.HasPrefix(s.C(FieldMEMBERNAME), v))
 	})
 }
 
-// NAMEHasSuffix applies the HasSuffix predicate on the "NAME" field.
-func NAMEHasSuffix(v string) predicate.Member {
+// MEMBERNAMEHasSuffix applies the HasSuffix predicate on the "MEMBERNAME" field.
+func MEMBERNAMEHasSuffix(v string) predicate.Member {
 	return predicate.Member(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldNAME), v))
+		s.Where(sql.HasSuffix(s.C(FieldMEMBERNAME), v))
 	})
 }
 
-// NAMEEqualFold applies the EqualFold predicate on the "NAME" field.
-func NAMEEqualFold(v string) predicate.Member {
+// MEMBERNAMEEqualFold applies the EqualFold predicate on the "MEMBERNAME" field.
+func MEMBERNAMEEqualFold(v string) predicate.Member {
 	return predicate.Member(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldNAME), v))
+		s.Where(sql.EqualFold(s.C(FieldMEMBERNAME), v))
 	})
 }
 
-// NAMEContainsFold applies the ContainsFold predicate on the "NAME" field.
-func NAMEContainsFold(v string) predicate.Member {
+// MEMBERNAMEContainsFold applies the ContainsFold predicate on the "MEMBERNAME" field.
+func MEMBERNAMEContainsFold(v string) predicate.Member {
 	return predicate.Member(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldNAME), v))
+		s.Where(sql.ContainsFold(s.C(FieldMEMBERNAME), v))
 	})
 }
 

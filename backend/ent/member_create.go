@@ -28,9 +28,9 @@ func (mc *MemberCreate) SetMEMBERID(s string) *MemberCreate {
 	return mc
 }
 
-// SetNAME sets the NAME field.
-func (mc *MemberCreate) SetNAME(s string) *MemberCreate {
-	mc.mutation.SetNAME(s)
+// SetMEMBERNAME sets the MEMBERNAME field.
+func (mc *MemberCreate) SetMEMBERNAME(s string) *MemberCreate {
+	mc.mutation.SetMEMBERNAME(s)
 	return mc
 }
 
@@ -94,12 +94,12 @@ func (mc *MemberCreate) Save(ctx context.Context) (*Member, error) {
 			return nil, &ValidationError{Name: "MEMBERID", err: fmt.Errorf("ent: validator failed for field \"MEMBERID\": %w", err)}
 		}
 	}
-	if _, ok := mc.mutation.NAME(); !ok {
-		return nil, &ValidationError{Name: "NAME", err: errors.New("ent: missing required field \"NAME\"")}
+	if _, ok := mc.mutation.MEMBERNAME(); !ok {
+		return nil, &ValidationError{Name: "MEMBERNAME", err: errors.New("ent: missing required field \"MEMBERNAME\"")}
 	}
-	if v, ok := mc.mutation.NAME(); ok {
-		if err := member.NAMEValidator(v); err != nil {
-			return nil, &ValidationError{Name: "NAME", err: fmt.Errorf("ent: validator failed for field \"NAME\": %w", err)}
+	if v, ok := mc.mutation.MEMBERNAME(); ok {
+		if err := member.MEMBERNAMEValidator(v); err != nil {
+			return nil, &ValidationError{Name: "MEMBERNAME", err: fmt.Errorf("ent: validator failed for field \"MEMBERNAME\": %w", err)}
 		}
 	}
 	var (
@@ -170,13 +170,13 @@ func (mc *MemberCreate) createSpec() (*Member, *sqlgraph.CreateSpec) {
 		})
 		m.MEMBERID = value
 	}
-	if value, ok := mc.mutation.NAME(); ok {
+	if value, ok := mc.mutation.MEMBERNAME(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: member.FieldNAME,
+			Column: member.FieldMEMBERNAME,
 		})
-		m.NAME = value
+		m.MEMBERNAME = value
 	}
 	if nodes := mc.mutation.PaymentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

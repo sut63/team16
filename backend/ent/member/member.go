@@ -9,8 +9,8 @@ const (
 	FieldID = "id"
 	// FieldMEMBERID holds the string denoting the memberid field in the database.
 	FieldMEMBERID = "memberid"
-	// FieldNAME holds the string denoting the name field in the database.
-	FieldNAME = "name"
+	// FieldMEMBERNAME holds the string denoting the membername field in the database.
+	FieldMEMBERNAME = "membername"
 
 	// EdgePayment holds the string denoting the payment edge name in mutations.
 	EdgePayment = "payment"
@@ -48,12 +48,12 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldMEMBERID,
-	FieldNAME,
+	FieldMEMBERNAME,
 }
 
 var (
 	// MEMBERIDValidator is a validator for the "MEMBERID" field. It is called by the builders before save.
 	MEMBERIDValidator func(string) error
-	// NAMEValidator is a validator for the "NAME" field. It is called by the builders before save.
-	NAMEValidator func(string) error
+	// MEMBERNAMEValidator is a validator for the "MEMBERNAME" field. It is called by the builders before save.
+	MEMBERNAMEValidator func(string) error
 )
