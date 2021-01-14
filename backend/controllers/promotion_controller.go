@@ -3,14 +3,13 @@ package controllers
 import (
 	"context"
 	"strconv"
-	
+	"time"
 
 	"github.com/G16/app/ent/promotion"
 
 	"github.com/G16/app/ent"
 	"github.com/G16/app/ent/promotiontype"
 	"github.com/G16/app/ent/promotionamount"
-	"github.com/G16/app/ent/promotiontime"
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,10 +23,10 @@ type PromotionController struct {
 type Promotion struct {
 	PROMOTIONTYPE 	int
 	PROMOTIONAMOUNT int
-	PROMOTIONTIME 	int
 	NAME 			string
 	DESC 			string
 	CODE 			string
+	DATE			string
 }
 
 // CreatePromotion handles POST requests for adding promotion entities
@@ -74,26 +73,15 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 		return
 	}
 
-	ptm, err := ctl.client.Promotiontime.
-		Query().
-		Where(promotiontime.IDEQ(int(obj.PROMOTIONTIME))).
-		Only(context.Background())
-
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "promotiontime not found",
-		})
-		return
-	}
-
+	time, err := time.Parse(time.RFC3339, obj.DATE)
 	pr, err := ctl.client.Promotion.
 		Create().
 		SetPromotiontype(prt).
 		SetPromotionamount(pa).
-		SetPromotiontime(ptm).
 		SetNAME(obj.NAME).
 		SetDESC(obj.DESC).
 		SetCODE(obj.CODE).
+		SetDATE(time).
 		Save(context.Background())
 
 	if err != nil {
@@ -130,7 +118,6 @@ func (ctl *PromotionController) GetPromotion(c *gin.Context) {
 		Query().
 		WithPromotiontype().
 		WithPromotionamount().
-		WithPromotiontime().
 		Where(promotion.IDEQ(int(id))).
 		Only(context.Background())
 	if err != nil {
@@ -177,7 +164,6 @@ func (ctl *PromotionController) ListPromotion(c *gin.Context) {
 		Query().
 		WithPromotiontype().
 		WithPromotionamount().
-		WithPromotiontime().
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())
