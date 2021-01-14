@@ -4,9 +4,9 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
 	"github.com/G16/app/ent"
 	"github.com/G16/app/ent/equipmenttype"
+	"github.com/gin-gonic/gin"
 )
 
 // EquipmenttypeController defines the struct for the equipmenttype controller
@@ -35,7 +35,7 @@ func (ctl *EquipmenttypeController) CreateEquipmenttype(c *gin.Context) {
 	obj := ent.Equipmenttype{}
 	if err := c.ShouldBind(&obj); err != nil {
 		c.JSON(400, gin.H{
-			"error": "equipmenttype binding failed",
+			"error": "Equipmenttype binding failed",
 		})
 		return
 	}

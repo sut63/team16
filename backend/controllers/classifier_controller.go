@@ -35,7 +35,7 @@ func (ctl *ClassifierController) CreateClassifier(c *gin.Context) {
 	obj := ent.Classifier{}
 	if err := c.ShouldBind(&obj); err != nil {
 		c.JSON(400, gin.H{
-			"error": "classifier binding failed",
+			"error": "Classifier binding failed",
 		})
 		return
 	}

@@ -68,6 +68,38 @@ type Salary struct {
 	POSITION string
 }
 
+// Classifiers  defines the struct for the classifiers
+//---------------------------------------------
+type Classifiers struct {
+	Classifier []Classifier
+}
+
+// Classifier  defines the struct for the classifier
+type Classifier struct {
+	EQUIPMENTCLASSIFIER string
+}
+
+// Equipmenttypes  defines the struct for the Equipmenttypes
+//---------------------------------------------
+type Equipmenttypes struct {
+	Equipmenttype []Equipmenttype
+}
+
+// Equipmenttype  defines the struct for the Equipmenttype
+type Equipmenttype struct {
+	EQUIPMENTTYPE string
+}
+
+// Zones  defines the struct for the Zones
+//---------------------------------------------
+type Zones struct {
+	Zone []Zone
+}
+
+// Zone  defines the struct for the Zone
+type Zone struct {
+	EQUIPMENTZONE string
+}
 
 // @title SUT SA Example API Patient
 // @version 1.0
@@ -144,6 +176,56 @@ func main() {
 	controllers.NewPromotiontypeController(v1, client)
 	controllers.NewSalaryController(v1, client)
 	controllers.NewZoneController(v1, client)
+
+	// Set Classifiers Data
+	classifiers := Classifiers{
+		Classifier: []Classifier{
+			Classifier{"ชั้น"},
+			Classifier{"อัน"},
+			Classifier{"เครื่อง"},
+		},
+	}
+
+	for _, ecf := range classifiers.Classifier {
+		client.Classifier.
+			Create().
+			SetEQUIPMENTCLASSIFIER(ecf.EQUIPMENTCLASSIFIER).
+			Save(context.Background())
+	}
+
+	// Set Equipmenttypes Data
+	equipmenttypes := Equipmenttypes{
+		Equipmenttype: []Equipmenttype{
+			Equipmenttype{"เเบต"},
+			Equipmenttype{"กีฑา"},
+			Equipmenttype{"ว่ายน้ำ"},
+		},
+	}
+
+	for _, et := range equipmenttypes.Equipmenttype {
+		client.Equipmenttype.
+			Create().
+			SetEQUIPMENTTYPE(et.EQUIPMENTTYPE).
+			Save(context.Background())
+	}
+
+	// Set Zones Data
+	zones := Zones{
+		Zone: []Zone{
+			Zone{"A"},
+			Zone{"B"},
+			Zone{"C"},
+			Zone{"D"},
+			Zone{"E"},
+		},
+	}
+
+	for _, zn := range zones.Zone {
+		client.Zone.
+			Create().
+			SetEQUIPMENTZONE(zn.EQUIPMENTZONE).
+			Save(context.Background())
+	}
 
 	// Set Courses Data
 	courses := Courses{
