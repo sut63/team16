@@ -109,8 +109,8 @@ func (ctl *BookcourseController) CreateBookcourse(c *gin.Context) {
 // @Description get bookcourse by ID
 // @ID get-bookcourse
 // @Produce  json
-// @Param id path int true "bookcourse ID"
-// @Success 200 {object} bookcourse
+// @Param id path int true "Bookcourse ID"
+// @Success 200 {object} Bookcourse
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H

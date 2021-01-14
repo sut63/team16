@@ -5,12 +5,12 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/RakSR/app/ent/equipmentrental"
-	"github.com/RakSR/app/ent"
-	"github.com/RakSR/app/ent/employee"
-	"github.com/RakSR/app/ent/member"
-	"github.com/RakSR/app/ent/equipment"
-	"github.com/RakSR/app/ent/equipmenttype"
+	"github.com/G16/app/ent/equipmentrental"
+	"github.com/G16/app/ent"
+	"github.com/G16/app/ent/employee"
+	"github.com/G16/app/ent/member"
+	"github.com/G16/app/ent/equipment"
+	"github.com/G16/app/ent/equipmenttype"
 	"github.com/gin-gonic/gin"
 )
 
@@ -122,7 +122,7 @@ func (ctl *EquipmentrentalController) CreateEquipmentrental(c *gin.Context) {
 	c.JSON(200, er)
 }
 
-// Equipmentrental handles GET requests to retrieve a equipmentrental entity
+// GetEquipmentrental handles GET requests to retrieve a equipmentrental entity
 // @Summary Get a equipmentrental entity by ID
 // @Description get equipmentrental by ID
 // @ID get-equipmentrental

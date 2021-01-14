@@ -63,6 +63,11 @@ type Salarys struct {
 	Salary []Salary
 }
 
+// Salary  defines the struct for the salary
+type Salary struct {
+	SALARY int
+}
+
 // Classifiers  defines the struct for the classifiers
 //---------------------------------------------
 type Classifiers struct {
@@ -127,7 +132,18 @@ type Members struct {
 // Member  defines the struct for the Member
 type Member struct {
 	MEMBERID	string
-	MAMBERNAME	string
+	MEMBERNAME	string
+}
+
+// Paymenttypes  defines the struct for the Paymenttypes
+//---------------------------------------------
+type Paymenttypes struct {
+	Paymenttype []Paymenttype
+}
+
+// Paymenttype  defines the struct for the Paymenttype
+type Paymenttype struct {
+	TYPE string
 }
 
 // @title SUT SA Example API Patient
@@ -190,7 +206,7 @@ func main() {
 	controllers.NewAgeController(v1, client)
 	controllers.NewBookcourseController(v1, client)
 	controllers.NewClassifierController(v1, client)
-	controllers.NewCoursecontroller(v1, client)
+	controllers.NewCourseController(v1, client)
 	controllers.NewEmployeeController(v1, client)
 	controllers.NewEquipmentController(v1, client)
 	controllers.NewEquipmentrentalController(v1, client)
@@ -208,15 +224,15 @@ func main() {
 	// Set Member Data
 	members := Members{
 		Member: []Member{
-			Menber{"B6011","โทน"},
-			Menber{"B6022","ที"},
-			Menber{"B6033","ตัง"},
-			Menber{"B6044","ปลื้ม"},
-			Menber{"B6055","รัก"},
+			Member{"B6011", "โทน"},
+			Member{"B6022", "ที"},
+			Member{"B6033", "ตัง"},
+			Member{"B6044", "ปลื้ม"},
+			Member{"B6055", "รัก"},
 		},
 	}
 
-	for _, mb := range members.Membere {
+	for _, mb := range members.Member {
 		client.Member.
 			Create().
 			SetMEMBERID(mb.MEMBERID).
@@ -271,7 +287,7 @@ func main() {
 		},
 	}
 
-	for _, em := range employee.Employee {
+	for _, em := range employees.Employee {
 		client.Employee.
 			Create().
 			SetEMPLOYEEID(em.EMPLOYEEID).
@@ -295,10 +311,10 @@ func main() {
 			Age{30},
 		},
 	}
-	for _, ag := range age.Age {
+	for _, ag := range ages.Age {
 		client.Age.
 			Create().
-			SetAGE(ag.age).
+			SetAGE(ag.AGE).
 			Save(context.Background())
 	}
 
@@ -312,10 +328,10 @@ func main() {
 			Position{"เทรนเนอร์"},
 		},
 	}
-	for _, pst := range position.Position {
+	for _, pst := range positions.Position {
 		client.Position.
 			Create().
-			SetPOSITION(pst.position).
+			SetPOSITION(pst.POSITION).
 			Save(context.Background())
 	}
 
@@ -332,10 +348,10 @@ func main() {
 		},
 	}
 
-	for _, sr := range salary.Salary {
+	for _, sr := range salarys.Salary {
 		client.Salary.
 			Create().
-			SetSALARY(sr.salary).
+			SetSALARY(sr.SALARY).
 			Save(context.Background())
 	}
 
@@ -406,6 +422,21 @@ func main() {
 			SetCOURSE(co.COURSE).
 			Save(context.Background())
 	}
+
+	// Set Paymenttypes Data
+    paymenttypes := Paymenttypes{
+        Paymenttype: []Paymenttype{
+            Paymenttype{"ชำระเงินสด"},
+            Paymenttype{"ชำระเงินผ่านออนไลน์"},
+        },
+    }
+
+    for _, pt := range paymenttypes.Paymenttype {
+        client.Paymenttype.
+            Create().
+            SetTYPE(pt.TYPE).
+            Save(context.Background())
+    }
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.Run()

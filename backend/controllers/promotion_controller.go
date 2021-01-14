@@ -100,7 +100,7 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 // @ID get-promotion
 // @Produce  json
 // @Param id path int true "Promotion ID"
-// @Success 200 {object} Promotion
+// @Success 200 {object} ent.Promotion
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H

@@ -112,7 +112,7 @@ func (ctl *EmployeeController) CreateEmployee(c *gin.Context) {
 // @ID get-employee
 // @Produce  json
 // @Param id path int true "Employee ID"
-// @Success 200 {object} Employee
+// @Success 200 {object} ent.Employee
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
