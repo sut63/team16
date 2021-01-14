@@ -34,7 +34,7 @@ func init() {
 	// employeeDescIDCARDNUMBER is the schema descriptor for IDCARDNUMBER field.
 	employeeDescIDCARDNUMBER := employeeFields[3].Descriptor()
 	// employee.IDCARDNUMBERValidator is a validator for the "IDCARDNUMBER" field. It is called by the builders before save.
-	employee.IDCARDNUMBERValidator = employeeDescIDCARDNUMBER.Validators[0].(func(int) error)
+	employee.IDCARDNUMBERValidator = employeeDescIDCARDNUMBER.Validators[0].(func(string) error)
 	equipmentFields := schema.Equipment{}.Fields()
 	_ = equipmentFields
 	// equipmentDescEQUIPMENTAMOUNT is the schema descriptor for EQUIPMENTAMOUNT field.

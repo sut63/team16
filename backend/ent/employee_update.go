@@ -53,15 +53,8 @@ func (eu *EmployeeUpdate) SetEMPLOYEEADDRESS(s string) *EmployeeUpdate {
 }
 
 // SetIDCARDNUMBER sets the IDCARDNUMBER field.
-func (eu *EmployeeUpdate) SetIDCARDNUMBER(i int) *EmployeeUpdate {
-	eu.mutation.ResetIDCARDNUMBER()
-	eu.mutation.SetIDCARDNUMBER(i)
-	return eu
-}
-
-// AddIDCARDNUMBER adds i to IDCARDNUMBER.
-func (eu *EmployeeUpdate) AddIDCARDNUMBER(i int) *EmployeeUpdate {
-	eu.mutation.AddIDCARDNUMBER(i)
+func (eu *EmployeeUpdate) SetIDCARDNUMBER(s string) *EmployeeUpdate {
+	eu.mutation.SetIDCARDNUMBER(s)
 	return eu
 }
 
@@ -378,14 +371,7 @@ func (eu *EmployeeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := eu.mutation.IDCARDNUMBER(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: employee.FieldIDCARDNUMBER,
-		})
-	}
-	if value, ok := eu.mutation.AddedIDCARDNUMBER(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeString,
 			Value:  value,
 			Column: employee.FieldIDCARDNUMBER,
 		})
@@ -684,15 +670,8 @@ func (euo *EmployeeUpdateOne) SetEMPLOYEEADDRESS(s string) *EmployeeUpdateOne {
 }
 
 // SetIDCARDNUMBER sets the IDCARDNUMBER field.
-func (euo *EmployeeUpdateOne) SetIDCARDNUMBER(i int) *EmployeeUpdateOne {
-	euo.mutation.ResetIDCARDNUMBER()
-	euo.mutation.SetIDCARDNUMBER(i)
-	return euo
-}
-
-// AddIDCARDNUMBER adds i to IDCARDNUMBER.
-func (euo *EmployeeUpdateOne) AddIDCARDNUMBER(i int) *EmployeeUpdateOne {
-	euo.mutation.AddIDCARDNUMBER(i)
+func (euo *EmployeeUpdateOne) SetIDCARDNUMBER(s string) *EmployeeUpdateOne {
+	euo.mutation.SetIDCARDNUMBER(s)
 	return euo
 }
 
@@ -1007,14 +986,7 @@ func (euo *EmployeeUpdateOne) sqlSave(ctx context.Context) (e *Employee, err err
 	}
 	if value, ok := euo.mutation.IDCARDNUMBER(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: employee.FieldIDCARDNUMBER,
-		})
-	}
-	if value, ok := euo.mutation.AddedIDCARDNUMBER(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeString,
 			Value:  value,
 			Column: employee.FieldIDCARDNUMBER,
 		})

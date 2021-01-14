@@ -108,5 +108,5 @@ var (
 	// EMPLOYEEADDRESSValidator is a validator for the "EMPLOYEEADDRESS" field. It is called by the builders before save.
 	EMPLOYEEADDRESSValidator func(string) error
 	// IDCARDNUMBERValidator is a validator for the "IDCARDNUMBER" field. It is called by the builders before save.
-	IDCARDNUMBERValidator func(int) error
+	IDCARDNUMBERValidator func(string) error
 )

@@ -113,7 +113,7 @@ func EMPLOYEEADDRESS(v string) predicate.Employee {
 }
 
 // IDCARDNUMBER applies equality check predicate on the "IDCARDNUMBER" field. It's identical to IDCARDNUMBEREQ.
-func IDCARDNUMBER(v int) predicate.Employee {
+func IDCARDNUMBER(v string) predicate.Employee {
 	return predicate.Employee(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldIDCARDNUMBER), v))
 	})
@@ -453,21 +453,21 @@ func EMPLOYEEADDRESSContainsFold(v string) predicate.Employee {
 }
 
 // IDCARDNUMBEREQ applies the EQ predicate on the "IDCARDNUMBER" field.
-func IDCARDNUMBEREQ(v int) predicate.Employee {
+func IDCARDNUMBEREQ(v string) predicate.Employee {
 	return predicate.Employee(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldIDCARDNUMBER), v))
 	})
 }
 
 // IDCARDNUMBERNEQ applies the NEQ predicate on the "IDCARDNUMBER" field.
-func IDCARDNUMBERNEQ(v int) predicate.Employee {
+func IDCARDNUMBERNEQ(v string) predicate.Employee {
 	return predicate.Employee(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldIDCARDNUMBER), v))
 	})
 }
 
 // IDCARDNUMBERIn applies the In predicate on the "IDCARDNUMBER" field.
-func IDCARDNUMBERIn(vs ...int) predicate.Employee {
+func IDCARDNUMBERIn(vs ...string) predicate.Employee {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -484,7 +484,7 @@ func IDCARDNUMBERIn(vs ...int) predicate.Employee {
 }
 
 // IDCARDNUMBERNotIn applies the NotIn predicate on the "IDCARDNUMBER" field.
-func IDCARDNUMBERNotIn(vs ...int) predicate.Employee {
+func IDCARDNUMBERNotIn(vs ...string) predicate.Employee {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -501,30 +501,65 @@ func IDCARDNUMBERNotIn(vs ...int) predicate.Employee {
 }
 
 // IDCARDNUMBERGT applies the GT predicate on the "IDCARDNUMBER" field.
-func IDCARDNUMBERGT(v int) predicate.Employee {
+func IDCARDNUMBERGT(v string) predicate.Employee {
 	return predicate.Employee(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldIDCARDNUMBER), v))
 	})
 }
 
 // IDCARDNUMBERGTE applies the GTE predicate on the "IDCARDNUMBER" field.
-func IDCARDNUMBERGTE(v int) predicate.Employee {
+func IDCARDNUMBERGTE(v string) predicate.Employee {
 	return predicate.Employee(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldIDCARDNUMBER), v))
 	})
 }
 
 // IDCARDNUMBERLT applies the LT predicate on the "IDCARDNUMBER" field.
-func IDCARDNUMBERLT(v int) predicate.Employee {
+func IDCARDNUMBERLT(v string) predicate.Employee {
 	return predicate.Employee(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldIDCARDNUMBER), v))
 	})
 }
 
 // IDCARDNUMBERLTE applies the LTE predicate on the "IDCARDNUMBER" field.
-func IDCARDNUMBERLTE(v int) predicate.Employee {
+func IDCARDNUMBERLTE(v string) predicate.Employee {
 	return predicate.Employee(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldIDCARDNUMBER), v))
+	})
+}
+
+// IDCARDNUMBERContains applies the Contains predicate on the "IDCARDNUMBER" field.
+func IDCARDNUMBERContains(v string) predicate.Employee {
+	return predicate.Employee(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldIDCARDNUMBER), v))
+	})
+}
+
+// IDCARDNUMBERHasPrefix applies the HasPrefix predicate on the "IDCARDNUMBER" field.
+func IDCARDNUMBERHasPrefix(v string) predicate.Employee {
+	return predicate.Employee(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldIDCARDNUMBER), v))
+	})
+}
+
+// IDCARDNUMBERHasSuffix applies the HasSuffix predicate on the "IDCARDNUMBER" field.
+func IDCARDNUMBERHasSuffix(v string) predicate.Employee {
+	return predicate.Employee(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldIDCARDNUMBER), v))
+	})
+}
+
+// IDCARDNUMBEREqualFold applies the EqualFold predicate on the "IDCARDNUMBER" field.
+func IDCARDNUMBEREqualFold(v string) predicate.Employee {
+	return predicate.Employee(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldIDCARDNUMBER), v))
+	})
+}
+
+// IDCARDNUMBERContainsFold applies the ContainsFold predicate on the "IDCARDNUMBER" field.
+func IDCARDNUMBERContainsFold(v string) predicate.Employee {
+	return predicate.Employee(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldIDCARDNUMBER), v))
 	})
 }
 
