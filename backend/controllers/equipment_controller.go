@@ -131,7 +131,7 @@ func (ctl *EquipmentController) CreateEquipment(c *gin.Context) {
 // @ID get-equipment
 // @Produce  json
 // @Param id path int true "Equipment ID"
-// @Success 200 {object} Equipment
+// @Success 200 {object} ent.Equipment
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H

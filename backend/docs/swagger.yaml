@@ -1,0 +1,2167 @@
+basePath: /api/v1
+definitions:
+  controllers.Bookcourse:
+    properties:
+      booktime:
+        type: string
+      course:
+        type: integer
+      employee:
+        type: integer
+      member:
+        type: integer
+    type: object
+  controllers.Employee:
+    properties:
+      age:
+        type: integer
+      employeeaddress:
+        type: string
+      employeeid:
+        type: string
+      employeename:
+        type: string
+      idcardnumber:
+        type: string
+      position:
+        type: integer
+      salary:
+        type: integer
+    type: object
+  controllers.Equipmentrental:
+    properties:
+      employee:
+        type: integer
+      equipment:
+        type: integer
+      equipmenttype:
+        type: integer
+      member:
+        type: integer
+      rentalamount:
+        type: integer
+      rentaldate:
+        type: string
+      returndate:
+        type: string
+    type: object
+  controllers.Payment:
+    properties:
+      employee:
+        type: integer
+      member:
+        type: integer
+      paymentamount:
+        type: string
+      paymentdate:
+        type: string
+      paymenttype:
+        type: integer
+      promotion:
+        type: integer
+    type: object
+  controllers.Promotionamount:
+    properties:
+      amount:
+        type: integer
+    type: object
+  controllers.Promotiontype:
+    properties:
+      type:
+        type: string
+    type: object
+  ent.Age:
+    properties:
+      AGE:
+        description: AGE holds the value of the "AGE" field.
+        type: integer
+      edges:
+        $ref: '#/definitions/ent.AgeEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the AgeQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.AgeEdges:
+    properties:
+      employee:
+        description: Employee holds the value of the employee edge.
+        items:
+          $ref: '#/definitions/ent.Employee'
+        type: array
+    type: object
+  ent.Bookcourse:
+    properties:
+      BOOKTIME:
+        description: BOOKTIME holds the value of the "BOOKTIME" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.BookcourseEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the BookcourseQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.BookcourseEdges:
+    properties:
+      course:
+        $ref: '#/definitions/ent.Course'
+        description: Course holds the value of the course edge.
+        type: object
+      employee:
+        $ref: '#/definitions/ent.Employee'
+        description: Employee holds the value of the employee edge.
+        type: object
+      member:
+        $ref: '#/definitions/ent.Member'
+        description: Member holds the value of the member edge.
+        type: object
+    type: object
+  ent.Classifier:
+    properties:
+      EQUIPMENTCLASSIFIER:
+        description: EQUIPMENTCLASSIFIER holds the value of the "EQUIPMENTCLASSIFIER"
+          field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.ClassifierEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the ClassifierQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.ClassifierEdges:
+    properties:
+      equipment:
+        description: Equipment holds the value of the equipment edge.
+        items:
+          $ref: '#/definitions/ent.Equipment'
+        type: array
+    type: object
+  ent.Course:
+    properties:
+      COURSE:
+        description: COURSE holds the value of the "COURSE" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.CourseEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the CourseQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.CourseEdges:
+    properties:
+      bookcourse:
+        description: Bookcourse holds the value of the bookcourse edge.
+        items:
+          $ref: '#/definitions/ent.Bookcourse'
+        type: array
+    type: object
+  ent.Employee:
+    properties:
+      EMPLOYEEADDRESS:
+        description: EMPLOYEEADDRESS holds the value of the "EMPLOYEEADDRESS" field.
+        type: string
+      EMPLOYEEID:
+        description: EMPLOYEEID holds the value of the "EMPLOYEEID" field.
+        type: string
+      EMPLOYEENAME:
+        description: EMPLOYEENAME holds the value of the "EMPLOYEENAME" field.
+        type: string
+      IDCARDNUMBER:
+        description: IDCARDNUMBER holds the value of the "IDCARDNUMBER" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.EmployeeEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the EmployeeQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.EmployeeEdges:
+    properties:
+      age:
+        $ref: '#/definitions/ent.Age'
+        description: Age holds the value of the age edge.
+        type: object
+      bookcourse:
+        description: Bookcourse holds the value of the bookcourse edge.
+        items:
+          $ref: '#/definitions/ent.Bookcourse'
+        type: array
+      equipment:
+        description: Equipment holds the value of the equipment edge.
+        items:
+          $ref: '#/definitions/ent.Equipment'
+        type: array
+      equipmentrental:
+        description: Equipmentrental holds the value of the equipmentrental edge.
+        items:
+          $ref: '#/definitions/ent.Equipmentrental'
+        type: array
+      payment:
+        description: Payment holds the value of the payment edge.
+        items:
+          $ref: '#/definitions/ent.Payment'
+        type: array
+      position:
+        $ref: '#/definitions/ent.Position'
+        description: Position holds the value of the position edge.
+        type: object
+      salary:
+        $ref: '#/definitions/ent.Salary'
+        description: Salary holds the value of the salary edge.
+        type: object
+    type: object
+  ent.Equipment:
+    properties:
+      EQUIPMENTAMOUNT:
+        description: EQUIPMENTAMOUNT holds the value of the "EQUIPMENTAMOUNT" field.
+        type: integer
+      EQUIPMENTDATE:
+        description: EQUIPMENTDATE holds the value of the "EQUIPMENTDATE" field.
+        type: string
+      EQUIPMENTDETAIL:
+        description: EQUIPMENTDETAIL holds the value of the "EQUIPMENTDETAIL" field.
+        type: string
+      EQUIPMENTNAME:
+        description: EQUIPMENTNAME holds the value of the "EQUIPMENTNAME" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.EquipmentEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the EquipmentQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.EquipmentEdges:
+    properties:
+      classifier:
+        $ref: '#/definitions/ent.Classifier'
+        description: Classifier holds the value of the classifier edge.
+        type: object
+      employee:
+        $ref: '#/definitions/ent.Employee'
+        description: Employee holds the value of the employee edge.
+        type: object
+      equipmentrental:
+        description: Equipmentrental holds the value of the equipmentrental edge.
+        items:
+          $ref: '#/definitions/ent.Equipmentrental'
+        type: array
+      equipmenttype:
+        $ref: '#/definitions/ent.Equipmenttype'
+        description: Equipmenttype holds the value of the equipmenttype edge.
+        type: object
+      zone:
+        $ref: '#/definitions/ent.Zone'
+        description: Zone holds the value of the zone edge.
+        type: object
+    type: object
+  ent.Equipmentrental:
+    properties:
+      RENTALAMOUNT:
+        description: RENTALAMOUNT holds the value of the "RENTALAMOUNT" field.
+        type: integer
+      RENTALDATE:
+        description: RENTALDATE holds the value of the "RENTALDATE" field.
+        type: string
+      RETURNDATE:
+        description: RETURNDATE holds the value of the "RETURNDATE" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.EquipmentrentalEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the EquipmentrentalQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.EquipmentrentalEdges:
+    properties:
+      employee:
+        $ref: '#/definitions/ent.Employee'
+        description: Employee holds the value of the employee edge.
+        type: object
+      equipment:
+        $ref: '#/definitions/ent.Equipment'
+        description: Equipment holds the value of the equipment edge.
+        type: object
+      equipmenttype:
+        $ref: '#/definitions/ent.Equipmenttype'
+        description: Equipmenttype holds the value of the equipmenttype edge.
+        type: object
+      member:
+        $ref: '#/definitions/ent.Member'
+        description: Member holds the value of the member edge.
+        type: object
+    type: object
+  ent.Equipmenttype:
+    properties:
+      EQUIPMENTTYPE:
+        description: EQUIPMENTTYPE holds the value of the "EQUIPMENTTYPE" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.EquipmenttypeEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the EquipmenttypeQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.EquipmenttypeEdges:
+    properties:
+      equipment:
+        description: Equipment holds the value of the equipment edge.
+        items:
+          $ref: '#/definitions/ent.Equipment'
+        type: array
+      equipmentrental:
+        description: Equipmentrental holds the value of the equipmentrental edge.
+        items:
+          $ref: '#/definitions/ent.Equipmentrental'
+        type: array
+    type: object
+  ent.Member:
+    properties:
+      MEMBERID:
+        description: MEMBERID holds the value of the "MEMBERID" field.
+        type: string
+      MEMBERNAME:
+        description: MEMBERNAME holds the value of the "MEMBERNAME" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.MemberEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the MemberQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.MemberEdges:
+    properties:
+      bookcourse:
+        description: Bookcourse holds the value of the bookcourse edge.
+        items:
+          $ref: '#/definitions/ent.Bookcourse'
+        type: array
+      equipmentrental:
+        description: Equipmentrental holds the value of the equipmentrental edge.
+        items:
+          $ref: '#/definitions/ent.Equipmentrental'
+        type: array
+      payment:
+        description: Payment holds the value of the payment edge.
+        items:
+          $ref: '#/definitions/ent.Payment'
+        type: array
+    type: object
+  ent.Payment:
+    properties:
+      PAYMENTAMOUNT:
+        description: PAYMENTAMOUNT holds the value of the "PAYMENTAMOUNT" field.
+        type: string
+      PAYMENTDATE:
+        description: PAYMENTDATE holds the value of the "PAYMENTDATE" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.PaymentEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the PaymentQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.PaymentEdges:
+    properties:
+      employee:
+        $ref: '#/definitions/ent.Employee'
+        description: Employee holds the value of the employee edge.
+        type: object
+      member:
+        $ref: '#/definitions/ent.Member'
+        description: Member holds the value of the member edge.
+        type: object
+      paymenttype:
+        $ref: '#/definitions/ent.Paymenttype'
+        description: Paymenttype holds the value of the paymenttype edge.
+        type: object
+      promotion:
+        $ref: '#/definitions/ent.Promotion'
+        description: Promotion holds the value of the promotion edge.
+        type: object
+    type: object
+  ent.Paymenttype:
+    properties:
+      TYPE:
+        description: TYPE holds the value of the "TYPE" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.PaymenttypeEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the PaymenttypeQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.PaymenttypeEdges:
+    properties:
+      payment:
+        description: Payment holds the value of the payment edge.
+        items:
+          $ref: '#/definitions/ent.Payment'
+        type: array
+    type: object
+  ent.Position:
+    properties:
+      POSITION:
+        description: POSITION holds the value of the "POSITION" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.PositionEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the PositionQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.PositionEdges:
+    properties:
+      employee:
+        description: Employee holds the value of the employee edge.
+        items:
+          $ref: '#/definitions/ent.Employee'
+        type: array
+    type: object
+  ent.Promotion:
+    properties:
+      CODE:
+        description: CODE holds the value of the "CODE" field.
+        type: string
+      DATE:
+        description: DATE holds the value of the "DATE" field.
+        type: string
+      DESC:
+        description: DESC holds the value of the "DESC" field.
+        type: string
+      NAME:
+        description: NAME holds the value of the "NAME" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.PromotionEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the PromotionQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.PromotionEdges:
+    properties:
+      payment:
+        description: Payment holds the value of the payment edge.
+        items:
+          $ref: '#/definitions/ent.Payment'
+        type: array
+      promotionamount:
+        $ref: '#/definitions/ent.Promotionamount'
+        description: Promotionamount holds the value of the promotionamount edge.
+        type: object
+      promotiontype:
+        $ref: '#/definitions/ent.Promotiontype'
+        description: Promotiontype holds the value of the promotiontype edge.
+        type: object
+    type: object
+  ent.Promotionamount:
+    properties:
+      AMOUNT:
+        description: AMOUNT holds the value of the "AMOUNT" field.
+        type: integer
+      edges:
+        $ref: '#/definitions/ent.PromotionamountEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the PromotionamountQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.PromotionamountEdges:
+    properties:
+      promotion:
+        description: Promotion holds the value of the promotion edge.
+        items:
+          $ref: '#/definitions/ent.Promotion'
+        type: array
+    type: object
+  ent.Promotiontype:
+    properties:
+      TYPE:
+        description: TYPE holds the value of the "TYPE" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.PromotiontypeEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the PromotiontypeQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.PromotiontypeEdges:
+    properties:
+      promotion:
+        description: Promotion holds the value of the promotion edge.
+        items:
+          $ref: '#/definitions/ent.Promotion'
+        type: array
+    type: object
+  ent.Salary:
+    properties:
+      SALARY:
+        description: SALARY holds the value of the "SALARY" field.
+        type: integer
+      edges:
+        $ref: '#/definitions/ent.SalaryEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the SalaryQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.SalaryEdges:
+    properties:
+      employee:
+        description: Employee holds the value of the employee edge.
+        items:
+          $ref: '#/definitions/ent.Employee'
+        type: array
+    type: object
+  ent.Zone:
+    properties:
+      EQUIPMENTZONE:
+        description: EQUIPMENTZONE holds the value of the "EQUIPMENTZONE" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.ZoneEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the ZoneQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.ZoneEdges:
+    properties:
+      equipment:
+        description: Equipment holds the value of the equipment edge.
+        items:
+          $ref: '#/definitions/ent.Equipment'
+        type: array
+    type: object
+  gin.H:
+    additionalProperties: true
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server for SUT SE 2563
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: SUT SA Example API Patient
+  version: "1.0"
+paths:
+  /ages:
+    get:
+      description: list age entities
+      operationId: list-age
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Age'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List age entities
+    post:
+      consumes:
+      - application/json
+      description: Create age
+      operationId: create-age
+      parameters:
+      - description: Age entity
+        in: body
+        name: age
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Age'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Age'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create age
+  /ages/{id}:
+    get:
+      description: get age by ID
+      operationId: get-age
+      parameters:
+      - description: Age ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Age'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a age entity by ID
+  /bookcourses:
+    get:
+      description: list bookcourse entities
+      operationId: list-bookcourse
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Bookcourse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List bookcourse entities
+    post:
+      consumes:
+      - application/json
+      description: Create bookcourse
+      operationId: create-bookcourse
+      parameters:
+      - description: Bookcourse entity
+        in: body
+        name: bookcourse
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Bookcourse'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Bookcourse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create bookcourse
+  /bookcourses/{id}:
+    get:
+      description: get bookcourse by ID
+      operationId: get-bookcourse
+      parameters:
+      - description: Bookcourse ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Bookcourse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a bookcourse entity by ID
+  /classifiers:
+    get:
+      description: list classifier entities
+      operationId: list-classifier
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Classifier'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List classifier entities
+    post:
+      consumes:
+      - application/json
+      description: Create classifier
+      operationId: create-classifier
+      parameters:
+      - description: Classifier entity
+        in: body
+        name: classifier
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Classifier'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Classifier'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create classifier
+  /classifiers/{id}:
+    get:
+      description: get classifier by ID
+      operationId: get-classifier
+      parameters:
+      - description: Classifier ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Classifier'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a classifier entity by ID
+  /courses:
+    get:
+      description: list course entities
+      operationId: list-course
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Course'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List course entities
+    post:
+      consumes:
+      - application/json
+      description: Create course
+      operationId: create-course
+      parameters:
+      - description: Course entity
+        in: body
+        name: course
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Course'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Course'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create course
+  /courses/{id}:
+    get:
+      description: get course by ID
+      operationId: get-course
+      parameters:
+      - description: Course ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Course'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a course entity by ID
+  /employees:
+    get:
+      description: list employee entities
+      operationId: list-employee
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Employee'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List employee entities
+    post:
+      consumes:
+      - application/json
+      description: Create employee
+      operationId: create-employee
+      parameters:
+      - description: Employee entity
+        in: body
+        name: employee
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.Employee'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Employee'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create employee
+  /employees/{id}:
+    get:
+      description: get employee by ID
+      operationId: get-employee
+      parameters:
+      - description: Employee ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Employee'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a employee entity by ID
+  /equipmentrentals:
+    get:
+      description: list equipmentrental entities
+      operationId: list-equipmentrental
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Equipmentrental'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List equipmentrental entities
+    post:
+      consumes:
+      - application/json
+      description: Create equipmentrental
+      operationId: create-equipmentrental
+      parameters:
+      - description: Equipmentrental entity
+        in: body
+        name: equipmentrental
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Equipmentrental'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Equipmentrental'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create equipmentrental
+  /equipmentrentals/{id}:
+    get:
+      description: get equipmentrental by ID
+      operationId: get-equipmentrental
+      parameters:
+      - description: Equipmentrental ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Equipmentrental'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a equipmentrental entity by ID
+  /equipments:
+    get:
+      description: list equipment entities
+      operationId: list-equipment
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Equipment'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List equipment entities
+    post:
+      consumes:
+      - application/json
+      description: Create equipment
+      operationId: create-equipment
+      parameters:
+      - description: Equipment entity
+        in: body
+        name: equipment
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Equipment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Equipment'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create equipment
+  /equipments/{id}:
+    get:
+      description: get equipment by ID
+      operationId: get-equipment
+      parameters:
+      - description: Equipment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Equipment'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a equipment entity by ID
+  /equipmenttypes:
+    get:
+      description: list equipmenttype entities
+      operationId: list-equipmenttype
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Equipmenttype'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List equipmenttype entities
+    post:
+      consumes:
+      - application/json
+      description: Create equipmenttype
+      operationId: create-equipmenttype
+      parameters:
+      - description: Equipmenttype entity
+        in: body
+        name: equipmenttype
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Equipmenttype'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Equipmenttype'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create equipmenttype
+  /equipmenttypes/{id}:
+    get:
+      description: get equipmenttype by ID
+      operationId: get-equipmenttype
+      parameters:
+      - description: Equipmenttype ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Equipmenttype'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a equipmenttype entity by ID
+  /members:
+    get:
+      description: list member entities
+      operationId: list-member
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Member'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List member entities
+    post:
+      consumes:
+      - application/json
+      description: Create member
+      operationId: create-member
+      parameters:
+      - description: Member entity
+        in: body
+        name: member
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Member'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Member'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create member
+  /members/{id}:
+    get:
+      description: get member by ID
+      operationId: get-member
+      parameters:
+      - description: Member ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Member'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a member entity by ID
+  /payments:
+    get:
+      description: list payment entities
+      operationId: list-payment
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Payment'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List payment entities
+    post:
+      consumes:
+      - application/json
+      description: Create payment
+      operationId: create-payment
+      parameters:
+      - description: Payment entity
+        in: body
+        name: payment
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Payment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Payment'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create payment
+  /payments/{id}:
+    get:
+      description: get payment by ID
+      operationId: get-payment
+      parameters:
+      - description: Payment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Payment'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a payment entity by ID
+  /paymenttypes:
+    get:
+      description: list paymenttype entities
+      operationId: list-paymenttype
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Paymenttype'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List paymenttype entities
+    post:
+      consumes:
+      - application/json
+      description: Create paymenttype
+      operationId: create-paymenttype
+      parameters:
+      - description: Paymenttype entity
+        in: body
+        name: paymenttype
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Paymenttype'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Paymenttype'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create paymenttype
+  /paymenttypes/{id}:
+    get:
+      description: get paymenttype by ID
+      operationId: get-paymenttype
+      parameters:
+      - description: Paymenttype ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Paymenttype'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a paymenttype entity by ID
+  /positions:
+    get:
+      description: list position entities
+      operationId: list-position
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Position'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List position entities
+    post:
+      consumes:
+      - application/json
+      description: Create position
+      operationId: create-position
+      parameters:
+      - description: Position entity
+        in: body
+        name: position
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Position'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Position'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create position
+  /positions/{id}:
+    get:
+      description: get position by ID
+      operationId: get-position
+      parameters:
+      - description: Position ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Position'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a position entity by ID
+  /promotionamounts:
+    get:
+      description: list promotionamount entities
+      operationId: list-promotionamount
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Promotionamount'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List promotionamount entities
+    post:
+      consumes:
+      - application/json
+      description: Create promotionamount
+      operationId: create-promotionamount
+      parameters:
+      - description: Promotionamount entity
+        in: body
+        name: promotionamount
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Promotionamount'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Promotionamount'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create promotionamount
+  /promotionamounts/{id}:
+    get:
+      description: get promotionamount by ID
+      operationId: get-promotionamount
+      parameters:
+      - description: Promotionamount ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Promotionamount'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a promotionamount entity by ID
+  /promotions:
+    get:
+      description: list promotion entities
+      operationId: list-promotion
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Promotion'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List promotion entities
+    post:
+      consumes:
+      - application/json
+      description: Create promotion
+      operationId: create-promotion
+      parameters:
+      - description: Promotion entity
+        in: body
+        name: promotion
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Promotion'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Promotion'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create promotion
+  /promotions/{id}:
+    get:
+      description: get promotion by ID
+      operationId: get-promotion
+      parameters:
+      - description: Promotion ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Promotion'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a promotion entity by ID
+  /promotiontypes:
+    get:
+      description: list promotiontype entities
+      operationId: list-promotiontype
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Promotiontype'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List promotiontype entities
+    post:
+      consumes:
+      - application/json
+      description: Create promotiontype
+      operationId: create-promotiontype
+      parameters:
+      - description: Promotiontype entity
+        in: body
+        name: promotiontype
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Promotiontype'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Promotiontype'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create promotiontype
+  /promotiontypes/{id}:
+    get:
+      description: get promotiontype by ID
+      operationId: get-promotiontype
+      parameters:
+      - description: Promotiontype ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Promotiontype'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a promotiontype entity by ID
+  /salarys:
+    get:
+      description: list salary entities
+      operationId: list-salary
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Salary'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List salary entities
+    post:
+      consumes:
+      - application/json
+      description: Create salary
+      operationId: create-salary
+      parameters:
+      - description: Salary entity
+        in: body
+        name: salary
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Salary'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Salary'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create salary
+  /salarys/{id}:
+    get:
+      description: get salary by ID
+      operationId: get-salary
+      parameters:
+      - description: Salary ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Salary'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a salary entity by ID
+  /zones:
+    get:
+      description: list zone entities
+      operationId: list-zone
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Zone'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List zone entities
+    post:
+      consumes:
+      - application/json
+      description: Create zone
+      operationId: create-zone
+      parameters:
+      - description: Zone entity
+        in: body
+        name: zone
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Zone'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Zone'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create zone
+  /zones/{id}:
+    get:
+      description: get zone by ID
+      operationId: get-zone
+      parameters:
+      - description: Zone ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Zone'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a zone entity by ID
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  BasicAuth:
+    type: basic
+  OAuth2AccessCode:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: accessCode
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Application:
+    authorizationUrl: ""
+    flow: application
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Implicit:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: implicit
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    type: oauth2
+  OAuth2Password:
+    authorizationUrl: ""
+    flow: password
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      read: ' Grants read access'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+swagger: "2.0"

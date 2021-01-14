@@ -63,8 +63,8 @@ func (ctl *MemberController) CreateMember(c *gin.Context) {
 // @Description get member by ID
 // @ID get-member
 // @Produce  json
-// @Param id path int true "member ID"
-// @Success 200 {object} member
+// @Param id path int true "Member ID"
+// @Success 200 {object} ent.Member
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
