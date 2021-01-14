@@ -4,9 +4,10 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
-	"github.com/G16/app/ent"
 	"github.com/G16/app/ent/zone"
+
+	"github.com/G16/app/ent"
+	"github.com/gin-gonic/gin"
 )
 
 // ZoneController defines the struct for the zone controller
@@ -32,7 +33,7 @@ type Zone struct {
 // @Failure 500 {object} gin.H
 // @Router /zones [post]
 func (ctl *ZoneController) CreateZone(c *gin.Context) {
-	obj := ent.Zone{}
+	obj := Zone{}
 	if err := c.ShouldBind(&obj); err != nil {
 		c.JSON(400, gin.H{
 			"error": "zone binding failed",
@@ -44,6 +45,7 @@ func (ctl *ZoneController) CreateZone(c *gin.Context) {
 		Create().
 		SetEQUIPMENTZONE(obj.EQUIPMENTZONE).
 		Save(context.Background())
+
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": "saving failed",
@@ -123,8 +125,11 @@ func (ctl *ZoneController) ListZone(c *gin.Context) {
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())
+
 	if err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
@@ -139,6 +144,7 @@ func NewZoneController(router gin.IRouter, client *ent.Client) *ZoneController {
 	}
 	znc.register()
 	return znc
+
 }
 
 // InitZoneController registers routes to the main engine

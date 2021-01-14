@@ -5,13 +5,14 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/G16/app/ent/equipment"
+	"github.com/G16/app/ent/classifier"
 
 	"github.com/G16/app/ent"
-	"github.com/G16/app/ent/classifier"
 	"github.com/G16/app/ent/employee"
+	"github.com/G16/app/ent/equipment"
 	"github.com/G16/app/ent/equipmenttype"
 	"github.com/G16/app/ent/zone"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -60,31 +61,7 @@ func (ctl *EquipmentController) CreateEquipment(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "classifier not found",
-		})
-		return
-	}
-
-	et, err := ctl.client.Equipmenttype.
-		Query().
-		Where(equipmenttype.IDEQ(int(obj.EQUIPMENTTYPE))).
-		Only(context.Background())
-
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "equipmenttype not found",
-		})
-		return
-	}
-
-	zn, err := ctl.client.Zone.
-		Query().
-		Where(zone.IDEQ(int(obj.EQUIPMENTZONE))).
-		Only(context.Background())
-
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "zone not found",
+			"error": "Classifier not found",
 		})
 		return
 	}
@@ -101,15 +78,39 @@ func (ctl *EquipmentController) CreateEquipment(c *gin.Context) {
 		return
 	}
 
+	zn, err := ctl.client.Zone.
+		Query().
+		Where(zone.IDEQ(int(obj.EQUIPMENTZONE))).
+		Only(context.Background())
+
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "zone not found",
+		})
+		return
+	}
+
+	et, err := ctl.client.Equipmenttype.
+		Query().
+		Where(equipmenttype.IDEQ(int(obj.EQUIPMENTTYPE))).
+		Only(context.Background())
+
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "equipmenttype not found",
+		})
+		return
+	}
+
 	time, err := time.Parse(time.RFC3339, obj.EQUIPMENTDATE)
-	pm, err := ctl.client.Equipment.
+	eq, err := ctl.client.Equipment.
 		Create().
 		SetClassifier(cf).
 		SetEquipmenttype(et).
-		SetZone(zn).
 		SetEmployee(em).
-		SetEQUIPMENTNAME(obj.EQUIPMENTNAME).
+		SetZone(zn).
 		SetEQUIPMENTDETAIL(obj.EQUIPMENTDETAIL).
+		SetEQUIPMENTNAME(obj.EQUIPMENTNAME).
 		SetEQUIPMENTAMOUNT(obj.EQUIPMENTAMOUNT).
 		SetEQUIPMENTDATE(time).
 		Save(context.Background())
@@ -121,7 +122,7 @@ func (ctl *EquipmentController) CreateEquipment(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, pm)
+	c.JSON(200, eq)
 }
 
 // GetEquipment handles GET requests to retrieve a equipment entity
@@ -144,11 +145,8 @@ func (ctl *EquipmentController) GetEquipment(c *gin.Context) {
 		return
 	}
 
-	pm, err := ctl.client.Equipment.
+	eq, err := ctl.client.Equipment.
 		Query().
-		WithClassifier().
-		WithEquipmenttype().
-		WithZone().
 		WithEmployee().
 		Where(equipment.IDEQ(int(id))).
 		Only(context.Background())
@@ -159,7 +157,7 @@ func (ctl *EquipmentController) GetEquipment(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, pm)
+	c.JSON(200, eq)
 }
 
 // ListEquipment handles request to get a list of equipment entities
@@ -195,8 +193,8 @@ func (ctl *EquipmentController) ListEquipment(c *gin.Context) {
 	equipments, err := ctl.client.Equipment.
 		Query().
 		WithClassifier().
-		WithEquipmenttype().
 		WithZone().
+		WithEquipmenttype().
 		WithEmployee().
 		Limit(limit).
 		Offset(offset).
@@ -214,12 +212,12 @@ func (ctl *EquipmentController) ListEquipment(c *gin.Context) {
 
 // NewEquipmentController creates and registers handles for the equipment controller
 func NewEquipmentController(router gin.IRouter, client *ent.Client) *EquipmentController {
-	pmc := &EquipmentController{
+	eqc := &EquipmentController{
 		client: client,
 		router: router,
 	}
-	pmc.register()
-	return pmc
+	eqc.register()
+	return eqc
 
 }
 
