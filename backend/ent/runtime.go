@@ -8,7 +8,6 @@ import (
 	"github.com/G16/app/ent/member"
 	"github.com/G16/app/ent/promotion"
 	"github.com/G16/app/ent/promotionamount"
-	"github.com/G16/app/ent/promotiontime"
 	"github.com/G16/app/ent/promotiontype"
 	"github.com/G16/app/ent/schema"
 )
@@ -71,16 +70,6 @@ func init() {
 	promotionamountDescAMOUNT := promotionamountFields[0].Descriptor()
 	// promotionamount.AMOUNTValidator is a validator for the "AMOUNT" field. It is called by the builders before save.
 	promotionamount.AMOUNTValidator = promotionamountDescAMOUNT.Validators[0].(func(int) error)
-	promotiontimeFields := schema.Promotiontime{}.Fields()
-	_ = promotiontimeFields
-	// promotiontimeDescHOUR is the schema descriptor for HOUR field.
-	promotiontimeDescHOUR := promotiontimeFields[1].Descriptor()
-	// promotiontime.HOURValidator is a validator for the "HOUR" field. It is called by the builders before save.
-	promotiontime.HOURValidator = promotiontimeDescHOUR.Validators[0].(func(int) error)
-	// promotiontimeDescMINUTE is the schema descriptor for MINUTE field.
-	promotiontimeDescMINUTE := promotiontimeFields[2].Descriptor()
-	// promotiontime.MINUTEValidator is a validator for the "MINUTE" field. It is called by the builders before save.
-	promotiontime.MINUTEValidator = promotiontimeDescMINUTE.Validators[0].(func(int) error)
 	promotiontypeFields := schema.Promotiontype{}.Fields()
 	_ = promotiontypeFields
 	// promotiontypeDescTYPE is the schema descriptor for TYPE field.

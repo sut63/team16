@@ -38,7 +38,6 @@ type hooks struct {
 	Position        []ent.Hook
 	Promotion       []ent.Hook
 	Promotionamount []ent.Hook
-	Promotiontime   []ent.Hook
 	Promotiontype   []ent.Hook
 	Salary          []ent.Hook
 	Zone            []ent.Hook

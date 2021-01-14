@@ -191,19 +191,6 @@ func (f PromotionamountFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Va
 	return f(ctx, mv)
 }
 
-// The PromotiontimeFunc type is an adapter to allow the use of ordinary
-// function as Promotiontime mutator.
-type PromotiontimeFunc func(context.Context, *ent.PromotiontimeMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f PromotiontimeFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	mv, ok := m.(*ent.PromotiontimeMutation)
-	if !ok {
-		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.PromotiontimeMutation", m)
-	}
-	return f(ctx, mv)
-}
-
 // The PromotiontypeFunc type is an adapter to allow the use of ordinary
 // function as Promotiontype mutator.
 type PromotiontypeFunc func(context.Context, *ent.PromotiontypeMutation) (ent.Value, error)

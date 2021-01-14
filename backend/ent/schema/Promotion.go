@@ -20,6 +20,7 @@ func (Promotion) Fields() []ent.Field {
 			NotEmpty(),
 		field.String("CODE").
 			NotEmpty(),
+		field.Time("DATE"),
 	}
 }
 
@@ -30,9 +31,6 @@ func (Promotion) Edges() []ent.Edge {
 			Ref("promotion").
 			Unique(),
 		edge.From("promotionamount", Promotionamount.Type).
-			Ref("promotion").
-			Unique(),
-		edge.From("promotiontime", Promotiontime.Type).
 			Ref("promotion").
 			Unique(),
 		edge.To("payment", Payment.Type),

@@ -546,30 +546,6 @@ func (f PromotionamountMutationRuleFunc) EvalMutation(ctx context.Context, m ent
 	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.PromotionamountMutation", m)
 }
 
-// The PromotiontimeQueryRuleFunc type is an adapter to allow the use of ordinary
-// functions as a query rule.
-type PromotiontimeQueryRuleFunc func(context.Context, *ent.PromotiontimeQuery) error
-
-// EvalQuery return f(ctx, q).
-func (f PromotiontimeQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
-	if q, ok := q.(*ent.PromotiontimeQuery); ok {
-		return f(ctx, q)
-	}
-	return Denyf("ent/privacy: unexpected query type %T, expect *ent.PromotiontimeQuery", q)
-}
-
-// The PromotiontimeMutationRuleFunc type is an adapter to allow the use of ordinary
-// functions as a mutation rule.
-type PromotiontimeMutationRuleFunc func(context.Context, *ent.PromotiontimeMutation) error
-
-// EvalMutation calls f(ctx, m).
-func (f PromotiontimeMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
-	if m, ok := m.(*ent.PromotiontimeMutation); ok {
-		return f(ctx, m)
-	}
-	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.PromotiontimeMutation", m)
-}
-
 // The PromotiontypeQueryRuleFunc type is an adapter to allow the use of ordinary
 // functions as a query rule.
 type PromotiontypeQueryRuleFunc func(context.Context, *ent.PromotiontypeQuery) error

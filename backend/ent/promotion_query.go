@@ -13,7 +13,6 @@ import (
 	"github.com/G16/app/ent/predicate"
 	"github.com/G16/app/ent/promotion"
 	"github.com/G16/app/ent/promotionamount"
-	"github.com/G16/app/ent/promotiontime"
 	"github.com/G16/app/ent/promotiontype"
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
@@ -31,7 +30,6 @@ type PromotionQuery struct {
 	// eager-loading edges.
 	withPromotiontype   *PromotiontypeQuery
 	withPromotionamount *PromotionamountQuery
-	withPromotiontime   *PromotiontimeQuery
 	withPayment         *PaymentQuery
 	withFKs             bool
 	// intermediate query (i.e. traversal path).
@@ -92,24 +90,6 @@ func (pq *PromotionQuery) QueryPromotionamount() *PromotionamountQuery {
 			sqlgraph.From(promotion.Table, promotion.FieldID, pq.sqlQuery()),
 			sqlgraph.To(promotionamount.Table, promotionamount.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, promotion.PromotionamountTable, promotion.PromotionamountColumn),
-		)
-		fromU = sqlgraph.SetNeighbors(pq.driver.Dialect(), step)
-		return fromU, nil
-	}
-	return query
-}
-
-// QueryPromotiontime chains the current query on the promotiontime edge.
-func (pq *PromotionQuery) QueryPromotiontime() *PromotiontimeQuery {
-	query := &PromotiontimeQuery{config: pq.config}
-	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := pq.prepareQuery(ctx); err != nil {
-			return nil, err
-		}
-		step := sqlgraph.NewStep(
-			sqlgraph.From(promotion.Table, promotion.FieldID, pq.sqlQuery()),
-			sqlgraph.To(promotiontime.Table, promotiontime.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, promotion.PromotiontimeTable, promotion.PromotiontimeColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(pq.driver.Dialect(), step)
 		return fromU, nil
@@ -336,17 +316,6 @@ func (pq *PromotionQuery) WithPromotionamount(opts ...func(*PromotionamountQuery
 	return pq
 }
 
-//  WithPromotiontime tells the query-builder to eager-loads the nodes that are connected to
-// the "promotiontime" edge. The optional arguments used to configure the query builder of the edge.
-func (pq *PromotionQuery) WithPromotiontime(opts ...func(*PromotiontimeQuery)) *PromotionQuery {
-	query := &PromotiontimeQuery{config: pq.config}
-	for _, opt := range opts {
-		opt(query)
-	}
-	pq.withPromotiontime = query
-	return pq
-}
-
 //  WithPayment tells the query-builder to eager-loads the nodes that are connected to
 // the "payment" edge. The optional arguments used to configure the query builder of the edge.
 func (pq *PromotionQuery) WithPayment(opts ...func(*PaymentQuery)) *PromotionQuery {
@@ -425,14 +394,13 @@ func (pq *PromotionQuery) sqlAll(ctx context.Context) ([]*Promotion, error) {
 		nodes       = []*Promotion{}
 		withFKs     = pq.withFKs
 		_spec       = pq.querySpec()
-		loadedTypes = [4]bool{
+		loadedTypes = [3]bool{
 			pq.withPromotiontype != nil,
 			pq.withPromotionamount != nil,
-			pq.withPromotiontime != nil,
 			pq.withPayment != nil,
 		}
 	)
-	if pq.withPromotiontype != nil || pq.withPromotionamount != nil || pq.withPromotiontime != nil {
+	if pq.withPromotiontype != nil || pq.withPromotionamount != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -508,31 +476,6 @@ func (pq *PromotionQuery) sqlAll(ctx context.Context) ([]*Promotion, error) {
 			}
 			for i := range nodes {
 				nodes[i].Edges.Promotionamount = n
-			}
-		}
-	}
-
-	if query := pq.withPromotiontime; query != nil {
-		ids := make([]int, 0, len(nodes))
-		nodeids := make(map[int][]*Promotion)
-		for i := range nodes {
-			if fk := nodes[i].promotiontime_promotion; fk != nil {
-				ids = append(ids, *fk)
-				nodeids[*fk] = append(nodeids[*fk], nodes[i])
-			}
-		}
-		query.Where(promotiontime.IDIn(ids...))
-		neighbors, err := query.All(ctx)
-		if err != nil {
-			return nil, err
-		}
-		for _, n := range neighbors {
-			nodes, ok := nodeids[n.ID]
-			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "promotiontime_promotion" returned %v`, n.ID)
-			}
-			for i := range nodes {
-				nodes[i].Edges.Promotiontime = n
 			}
 		}
 	}

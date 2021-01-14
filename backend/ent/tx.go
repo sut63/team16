@@ -40,8 +40,6 @@ type Tx struct {
 	Promotion *PromotionClient
 	// Promotionamount is the client for interacting with the Promotionamount builders.
 	Promotionamount *PromotionamountClient
-	// Promotiontime is the client for interacting with the Promotiontime builders.
-	Promotiontime *PromotiontimeClient
 	// Promotiontype is the client for interacting with the Promotiontype builders.
 	Promotiontype *PromotiontypeClient
 	// Salary is the client for interacting with the Salary builders.
@@ -197,7 +195,6 @@ func (tx *Tx) init() {
 	tx.Position = NewPositionClient(tx.config)
 	tx.Promotion = NewPromotionClient(tx.config)
 	tx.Promotionamount = NewPromotionamountClient(tx.config)
-	tx.Promotiontime = NewPromotiontimeClient(tx.config)
 	tx.Promotiontype = NewPromotiontypeClient(tx.config)
 	tx.Salary = NewSalaryClient(tx.config)
 	tx.Zone = NewZoneClient(tx.config)

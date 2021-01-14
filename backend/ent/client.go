@@ -23,7 +23,6 @@ import (
 	"github.com/G16/app/ent/position"
 	"github.com/G16/app/ent/promotion"
 	"github.com/G16/app/ent/promotionamount"
-	"github.com/G16/app/ent/promotiontime"
 	"github.com/G16/app/ent/promotiontype"
 	"github.com/G16/app/ent/salary"
 	"github.com/G16/app/ent/zone"
@@ -66,8 +65,6 @@ type Client struct {
 	Promotion *PromotionClient
 	// Promotionamount is the client for interacting with the Promotionamount builders.
 	Promotionamount *PromotionamountClient
-	// Promotiontime is the client for interacting with the Promotiontime builders.
-	Promotiontime *PromotiontimeClient
 	// Promotiontype is the client for interacting with the Promotiontype builders.
 	Promotiontype *PromotiontypeClient
 	// Salary is the client for interacting with the Salary builders.
@@ -101,7 +98,6 @@ func (c *Client) init() {
 	c.Position = NewPositionClient(c.config)
 	c.Promotion = NewPromotionClient(c.config)
 	c.Promotionamount = NewPromotionamountClient(c.config)
-	c.Promotiontime = NewPromotiontimeClient(c.config)
 	c.Promotiontype = NewPromotiontypeClient(c.config)
 	c.Salary = NewSalaryClient(c.config)
 	c.Zone = NewZoneClient(c.config)
@@ -151,7 +147,6 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		Position:        NewPositionClient(cfg),
 		Promotion:       NewPromotionClient(cfg),
 		Promotionamount: NewPromotionamountClient(cfg),
-		Promotiontime:   NewPromotiontimeClient(cfg),
 		Promotiontype:   NewPromotiontypeClient(cfg),
 		Salary:          NewSalaryClient(cfg),
 		Zone:            NewZoneClient(cfg),
@@ -184,7 +179,6 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		Position:        NewPositionClient(cfg),
 		Promotion:       NewPromotionClient(cfg),
 		Promotionamount: NewPromotionamountClient(cfg),
-		Promotiontime:   NewPromotiontimeClient(cfg),
 		Promotiontype:   NewPromotiontypeClient(cfg),
 		Salary:          NewSalaryClient(cfg),
 		Zone:            NewZoneClient(cfg),
@@ -230,7 +224,6 @@ func (c *Client) Use(hooks ...Hook) {
 	c.Position.Use(hooks...)
 	c.Promotion.Use(hooks...)
 	c.Promotionamount.Use(hooks...)
-	c.Promotiontime.Use(hooks...)
 	c.Promotiontype.Use(hooks...)
 	c.Salary.Use(hooks...)
 	c.Zone.Use(hooks...)
@@ -1870,22 +1863,6 @@ func (c *PromotionClient) QueryPromotionamount(pr *Promotion) *PromotionamountQu
 	return query
 }
 
-// QueryPromotiontime queries the promotiontime edge of a Promotion.
-func (c *PromotionClient) QueryPromotiontime(pr *Promotion) *PromotiontimeQuery {
-	query := &PromotiontimeQuery{config: c.config}
-	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
-		id := pr.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(promotion.Table, promotion.FieldID, id),
-			sqlgraph.To(promotiontime.Table, promotiontime.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, promotion.PromotiontimeTable, promotion.PromotiontimeColumn),
-		)
-		fromV = sqlgraph.Neighbors(pr.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
 // QueryPayment queries the payment edge of a Promotion.
 func (c *PromotionClient) QueryPayment(pr *Promotion) *PaymentQuery {
 	query := &PaymentQuery{config: c.config}
@@ -2004,105 +1981,6 @@ func (c *PromotionamountClient) QueryPromotion(pr *Promotionamount) *PromotionQu
 // Hooks returns the client hooks.
 func (c *PromotionamountClient) Hooks() []Hook {
 	return c.hooks.Promotionamount
-}
-
-// PromotiontimeClient is a client for the Promotiontime schema.
-type PromotiontimeClient struct {
-	config
-}
-
-// NewPromotiontimeClient returns a client for the Promotiontime from the given config.
-func NewPromotiontimeClient(c config) *PromotiontimeClient {
-	return &PromotiontimeClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `promotiontime.Hooks(f(g(h())))`.
-func (c *PromotiontimeClient) Use(hooks ...Hook) {
-	c.hooks.Promotiontime = append(c.hooks.Promotiontime, hooks...)
-}
-
-// Create returns a create builder for Promotiontime.
-func (c *PromotiontimeClient) Create() *PromotiontimeCreate {
-	mutation := newPromotiontimeMutation(c.config, OpCreate)
-	return &PromotiontimeCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Update returns an update builder for Promotiontime.
-func (c *PromotiontimeClient) Update() *PromotiontimeUpdate {
-	mutation := newPromotiontimeMutation(c.config, OpUpdate)
-	return &PromotiontimeUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *PromotiontimeClient) UpdateOne(pr *Promotiontime) *PromotiontimeUpdateOne {
-	mutation := newPromotiontimeMutation(c.config, OpUpdateOne, withPromotiontime(pr))
-	return &PromotiontimeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *PromotiontimeClient) UpdateOneID(id int) *PromotiontimeUpdateOne {
-	mutation := newPromotiontimeMutation(c.config, OpUpdateOne, withPromotiontimeID(id))
-	return &PromotiontimeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for Promotiontime.
-func (c *PromotiontimeClient) Delete() *PromotiontimeDelete {
-	mutation := newPromotiontimeMutation(c.config, OpDelete)
-	return &PromotiontimeDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a delete builder for the given entity.
-func (c *PromotiontimeClient) DeleteOne(pr *Promotiontime) *PromotiontimeDeleteOne {
-	return c.DeleteOneID(pr.ID)
-}
-
-// DeleteOneID returns a delete builder for the given id.
-func (c *PromotiontimeClient) DeleteOneID(id int) *PromotiontimeDeleteOne {
-	builder := c.Delete().Where(promotiontime.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &PromotiontimeDeleteOne{builder}
-}
-
-// Create returns a query builder for Promotiontime.
-func (c *PromotiontimeClient) Query() *PromotiontimeQuery {
-	return &PromotiontimeQuery{config: c.config}
-}
-
-// Get returns a Promotiontime entity by its id.
-func (c *PromotiontimeClient) Get(ctx context.Context, id int) (*Promotiontime, error) {
-	return c.Query().Where(promotiontime.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *PromotiontimeClient) GetX(ctx context.Context, id int) *Promotiontime {
-	pr, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return pr
-}
-
-// QueryPromotion queries the promotion edge of a Promotiontime.
-func (c *PromotiontimeClient) QueryPromotion(pr *Promotiontime) *PromotionQuery {
-	query := &PromotionQuery{config: c.config}
-	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
-		id := pr.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(promotiontime.Table, promotiontime.FieldID, id),
-			sqlgraph.To(promotion.Table, promotion.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, promotiontime.PromotionTable, promotiontime.PromotionColumn),
-		)
-		fromV = sqlgraph.Neighbors(pr.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// Hooks returns the client hooks.
-func (c *PromotiontimeClient) Hooks() []Hook {
-	return c.hooks.Promotiontime
 }
 
 // PromotiontypeClient is a client for the Promotiontype schema.
