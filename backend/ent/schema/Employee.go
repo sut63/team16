@@ -14,14 +14,10 @@ type Employee struct {
 // Fields of the Employee.
 func (Employee) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("EMPLOYEEID").
-			NotEmpty(),
-		field.String("EMPLOYEENAME").
-			NotEmpty(),
-		field.String("EMPLOYEEADDRESS").
-			NotEmpty(),
-		field.Int("IDCARDNUMBER").
-			Positive(),
+		field.String("EMPLOYEEID").NotEmpty().Unique(),
+		field.String("EMPLOYEENAME").NotEmpty(),
+		field.String("EMPLOYEEADDRESS").NotEmpty(),
+		field.String("IDCARDNUMBER").NotEmpty().Unique(),
 	}
 }
 
