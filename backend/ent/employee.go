@@ -25,7 +25,7 @@ type Employee struct {
 	// EMPLOYEEADDRESS holds the value of the "EMPLOYEEADDRESS" field.
 	EMPLOYEEADDRESS string `json:"EMPLOYEEADDRESS,omitempty"`
 	// IDCARDNUMBER holds the value of the "IDCARDNUMBER" field.
-	IDCARDNUMBER int `json:"IDCARDNUMBER,omitempty"`
+	IDCARDNUMBER string `json:"IDCARDNUMBER,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the EmployeeQuery when eager-loading is set.
 	Edges             EmployeeEdges `json:"edges"`
@@ -140,7 +140,7 @@ func (*Employee) scanValues() []interface{} {
 		&sql.NullString{}, // EMPLOYEEID
 		&sql.NullString{}, // EMPLOYEENAME
 		&sql.NullString{}, // EMPLOYEEADDRESS
-		&sql.NullInt64{},  // IDCARDNUMBER
+		&sql.NullString{}, // IDCARDNUMBER
 	}
 }
 
@@ -180,10 +180,10 @@ func (e *Employee) assignValues(values ...interface{}) error {
 	} else if value.Valid {
 		e.EMPLOYEEADDRESS = value.String
 	}
-	if value, ok := values[3].(*sql.NullInt64); !ok {
+	if value, ok := values[3].(*sql.NullString); !ok {
 		return fmt.Errorf("unexpected type %T for field IDCARDNUMBER", values[3])
 	} else if value.Valid {
-		e.IDCARDNUMBER = int(value.Int64)
+		e.IDCARDNUMBER = value.String
 	}
 	values = values[4:]
 	if len(values) == len(employee.ForeignKeys) {
@@ -274,7 +274,7 @@ func (e *Employee) String() string {
 	builder.WriteString(", EMPLOYEEADDRESS=")
 	builder.WriteString(e.EMPLOYEEADDRESS)
 	builder.WriteString(", IDCARDNUMBER=")
-	builder.WriteString(fmt.Sprintf("%v", e.IDCARDNUMBER))
+	builder.WriteString(e.IDCARDNUMBER)
 	builder.WriteByte(')')
 	return builder.String()
 }

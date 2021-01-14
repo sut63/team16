@@ -84,10 +84,10 @@ var (
 	// EmployeesColumns holds the columns for the "employees" table.
 	EmployeesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "employeeid", Type: field.TypeString},
+		{Name: "employeeid", Type: field.TypeString, Unique: true},
 		{Name: "employeename", Type: field.TypeString},
 		{Name: "employeeaddress", Type: field.TypeString},
-		{Name: "idcardnumber", Type: field.TypeInt},
+		{Name: "idcardnumber", Type: field.TypeString, Unique: true},
 		{Name: "age_employee", Type: field.TypeInt, Nullable: true},
 		{Name: "position_employee", Type: field.TypeInt, Nullable: true},
 		{Name: "salary_employee", Type: field.TypeInt, Nullable: true},

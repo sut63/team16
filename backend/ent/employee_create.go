@@ -45,8 +45,8 @@ func (ec *EmployeeCreate) SetEMPLOYEEADDRESS(s string) *EmployeeCreate {
 }
 
 // SetIDCARDNUMBER sets the IDCARDNUMBER field.
-func (ec *EmployeeCreate) SetIDCARDNUMBER(i int) *EmployeeCreate {
-	ec.mutation.SetIDCARDNUMBER(i)
+func (ec *EmployeeCreate) SetIDCARDNUMBER(s string) *EmployeeCreate {
+	ec.mutation.SetIDCARDNUMBER(s)
 	return ec
 }
 
@@ -292,7 +292,7 @@ func (ec *EmployeeCreate) createSpec() (*Employee, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := ec.mutation.IDCARDNUMBER(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeString,
 			Value:  value,
 			Column: employee.FieldIDCARDNUMBER,
 		})

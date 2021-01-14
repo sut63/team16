@@ -1689,8 +1689,7 @@ type EmployeeMutation struct {
 	_EMPLOYEEID            *string
 	_EMPLOYEENAME          *string
 	_EMPLOYEEADDRESS       *string
-	_IDCARDNUMBER          *int
-	add_IDCARDNUMBER       *int
+	_IDCARDNUMBER          *string
 	clearedFields          map[string]struct{}
 	age                    *int
 	clearedage             bool
@@ -1901,13 +1900,12 @@ func (m *EmployeeMutation) ResetEMPLOYEEADDRESS() {
 }
 
 // SetIDCARDNUMBER sets the IDCARDNUMBER field.
-func (m *EmployeeMutation) SetIDCARDNUMBER(i int) {
-	m._IDCARDNUMBER = &i
-	m.add_IDCARDNUMBER = nil
+func (m *EmployeeMutation) SetIDCARDNUMBER(s string) {
+	m._IDCARDNUMBER = &s
 }
 
 // IDCARDNUMBER returns the IDCARDNUMBER value in the mutation.
-func (m *EmployeeMutation) IDCARDNUMBER() (r int, exists bool) {
+func (m *EmployeeMutation) IDCARDNUMBER() (r string, exists bool) {
 	v := m._IDCARDNUMBER
 	if v == nil {
 		return
@@ -1919,7 +1917,7 @@ func (m *EmployeeMutation) IDCARDNUMBER() (r int, exists bool) {
 // If the Employee object wasn't provided to the builder, the object is fetched
 // from the database.
 // An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *EmployeeMutation) OldIDCARDNUMBER(ctx context.Context) (v int, err error) {
+func (m *EmployeeMutation) OldIDCARDNUMBER(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldIDCARDNUMBER is allowed only on UpdateOne operations")
 	}
@@ -1933,28 +1931,9 @@ func (m *EmployeeMutation) OldIDCARDNUMBER(ctx context.Context) (v int, err erro
 	return oldValue.IDCARDNUMBER, nil
 }
 
-// AddIDCARDNUMBER adds i to IDCARDNUMBER.
-func (m *EmployeeMutation) AddIDCARDNUMBER(i int) {
-	if m.add_IDCARDNUMBER != nil {
-		*m.add_IDCARDNUMBER += i
-	} else {
-		m.add_IDCARDNUMBER = &i
-	}
-}
-
-// AddedIDCARDNUMBER returns the value that was added to the IDCARDNUMBER field in this mutation.
-func (m *EmployeeMutation) AddedIDCARDNUMBER() (r int, exists bool) {
-	v := m.add_IDCARDNUMBER
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ResetIDCARDNUMBER reset all changes of the "IDCARDNUMBER" field.
 func (m *EmployeeMutation) ResetIDCARDNUMBER() {
 	m._IDCARDNUMBER = nil
-	m.add_IDCARDNUMBER = nil
 }
 
 // SetAgeID sets the age edge to Age by id.
@@ -2333,7 +2312,7 @@ func (m *EmployeeMutation) SetField(name string, value ent.Value) error {
 		m.SetEMPLOYEEADDRESS(v)
 		return nil
 	case employee.FieldIDCARDNUMBER:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -2346,21 +2325,13 @@ func (m *EmployeeMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented
 // or decremented during this mutation.
 func (m *EmployeeMutation) AddedFields() []string {
-	var fields []string
-	if m.add_IDCARDNUMBER != nil {
-		fields = append(fields, employee.FieldIDCARDNUMBER)
-	}
-	return fields
+	return nil
 }
 
 // AddedField returns the numeric value that was in/decremented
 // from a field with the given name. The second value indicates
 // that this field was not set, or was not define in the schema.
 func (m *EmployeeMutation) AddedField(name string) (ent.Value, bool) {
-	switch name {
-	case employee.FieldIDCARDNUMBER:
-		return m.AddedIDCARDNUMBER()
-	}
 	return nil, false
 }
 
@@ -2369,13 +2340,6 @@ func (m *EmployeeMutation) AddedField(name string) (ent.Value, bool) {
 // type mismatch the field type.
 func (m *EmployeeMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case employee.FieldIDCARDNUMBER:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddIDCARDNUMBER(v)
-		return nil
 	}
 	return fmt.Errorf("unknown Employee numeric field %s", name)
 }
