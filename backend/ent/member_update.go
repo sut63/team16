@@ -36,9 +36,9 @@ func (mu *MemberUpdate) SetMEMBERID(s string) *MemberUpdate {
 	return mu
 }
 
-// SetNAME sets the NAME field.
-func (mu *MemberUpdate) SetNAME(s string) *MemberUpdate {
-	mu.mutation.SetNAME(s)
+// SetMEMBERNAME sets the MEMBERNAME field.
+func (mu *MemberUpdate) SetMEMBERNAME(s string) *MemberUpdate {
+	mu.mutation.SetMEMBERNAME(s)
 	return mu
 }
 
@@ -144,9 +144,9 @@ func (mu *MemberUpdate) Save(ctx context.Context) (int, error) {
 			return 0, &ValidationError{Name: "MEMBERID", err: fmt.Errorf("ent: validator failed for field \"MEMBERID\": %w", err)}
 		}
 	}
-	if v, ok := mu.mutation.NAME(); ok {
-		if err := member.NAMEValidator(v); err != nil {
-			return 0, &ValidationError{Name: "NAME", err: fmt.Errorf("ent: validator failed for field \"NAME\": %w", err)}
+	if v, ok := mu.mutation.MEMBERNAME(); ok {
+		if err := member.MEMBERNAMEValidator(v); err != nil {
+			return 0, &ValidationError{Name: "MEMBERNAME", err: fmt.Errorf("ent: validator failed for field \"MEMBERNAME\": %w", err)}
 		}
 	}
 
@@ -224,11 +224,11 @@ func (mu *MemberUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: member.FieldMEMBERID,
 		})
 	}
-	if value, ok := mu.mutation.NAME(); ok {
+	if value, ok := mu.mutation.MEMBERNAME(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: member.FieldNAME,
+			Column: member.FieldMEMBERNAME,
 		})
 	}
 	if nodes := mu.mutation.RemovedPaymentIDs(); len(nodes) > 0 {
@@ -369,9 +369,9 @@ func (muo *MemberUpdateOne) SetMEMBERID(s string) *MemberUpdateOne {
 	return muo
 }
 
-// SetNAME sets the NAME field.
-func (muo *MemberUpdateOne) SetNAME(s string) *MemberUpdateOne {
-	muo.mutation.SetNAME(s)
+// SetMEMBERNAME sets the MEMBERNAME field.
+func (muo *MemberUpdateOne) SetMEMBERNAME(s string) *MemberUpdateOne {
+	muo.mutation.SetMEMBERNAME(s)
 	return muo
 }
 
@@ -477,9 +477,9 @@ func (muo *MemberUpdateOne) Save(ctx context.Context) (*Member, error) {
 			return nil, &ValidationError{Name: "MEMBERID", err: fmt.Errorf("ent: validator failed for field \"MEMBERID\": %w", err)}
 		}
 	}
-	if v, ok := muo.mutation.NAME(); ok {
-		if err := member.NAMEValidator(v); err != nil {
-			return nil, &ValidationError{Name: "NAME", err: fmt.Errorf("ent: validator failed for field \"NAME\": %w", err)}
+	if v, ok := muo.mutation.MEMBERNAME(); ok {
+		if err := member.MEMBERNAMEValidator(v); err != nil {
+			return nil, &ValidationError{Name: "MEMBERNAME", err: fmt.Errorf("ent: validator failed for field \"MEMBERNAME\": %w", err)}
 		}
 	}
 
@@ -555,11 +555,11 @@ func (muo *MemberUpdateOne) sqlSave(ctx context.Context) (m *Member, err error) 
 			Column: member.FieldMEMBERID,
 		})
 	}
-	if value, ok := muo.mutation.NAME(); ok {
+	if value, ok := muo.mutation.MEMBERNAME(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: member.FieldNAME,
+			Column: member.FieldMEMBERNAME,
 		})
 	}
 	if nodes := muo.mutation.RemovedPaymentIDs(); len(nodes) > 0 {

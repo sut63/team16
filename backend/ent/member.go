@@ -17,8 +17,8 @@ type Member struct {
 	ID int `json:"id,omitempty"`
 	// MEMBERID holds the value of the "MEMBERID" field.
 	MEMBERID string `json:"MEMBERID,omitempty"`
-	// NAME holds the value of the "NAME" field.
-	NAME string `json:"NAME,omitempty"`
+	// MEMBERNAME holds the value of the "MEMBERNAME" field.
+	MEMBERNAME string `json:"MEMBERNAME,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the MemberQuery when eager-loading is set.
 	Edges MemberEdges `json:"edges"`
@@ -69,7 +69,7 @@ func (*Member) scanValues() []interface{} {
 	return []interface{}{
 		&sql.NullInt64{},  // id
 		&sql.NullString{}, // MEMBERID
-		&sql.NullString{}, // NAME
+		&sql.NullString{}, // MEMBERNAME
 	}
 }
 
@@ -91,9 +91,9 @@ func (m *Member) assignValues(values ...interface{}) error {
 		m.MEMBERID = value.String
 	}
 	if value, ok := values[1].(*sql.NullString); !ok {
-		return fmt.Errorf("unexpected type %T for field NAME", values[1])
+		return fmt.Errorf("unexpected type %T for field MEMBERNAME", values[1])
 	} else if value.Valid {
-		m.NAME = value.String
+		m.MEMBERNAME = value.String
 	}
 	return nil
 }
@@ -138,8 +138,8 @@ func (m *Member) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v", m.ID))
 	builder.WriteString(", MEMBERID=")
 	builder.WriteString(m.MEMBERID)
-	builder.WriteString(", NAME=")
-	builder.WriteString(m.NAME)
+	builder.WriteString(", MEMBERNAME=")
+	builder.WriteString(m.MEMBERNAME)
 	builder.WriteByte(')')
 	return builder.String()
 }

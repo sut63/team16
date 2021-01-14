@@ -4513,7 +4513,7 @@ type MemberMutation struct {
 	typ                    string
 	id                     *int
 	_MEMBERID              *string
-	_NAME                  *string
+	_MEMBERNAME            *string
 	clearedFields          map[string]struct{}
 	payment                map[int]struct{}
 	removedpayment         map[int]struct{}
@@ -4641,41 +4641,41 @@ func (m *MemberMutation) ResetMEMBERID() {
 	m._MEMBERID = nil
 }
 
-// SetNAME sets the NAME field.
-func (m *MemberMutation) SetNAME(s string) {
-	m._NAME = &s
+// SetMEMBERNAME sets the MEMBERNAME field.
+func (m *MemberMutation) SetMEMBERNAME(s string) {
+	m._MEMBERNAME = &s
 }
 
-// NAME returns the NAME value in the mutation.
-func (m *MemberMutation) NAME() (r string, exists bool) {
-	v := m._NAME
+// MEMBERNAME returns the MEMBERNAME value in the mutation.
+func (m *MemberMutation) MEMBERNAME() (r string, exists bool) {
+	v := m._MEMBERNAME
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldNAME returns the old NAME value of the Member.
+// OldMEMBERNAME returns the old MEMBERNAME value of the Member.
 // If the Member object wasn't provided to the builder, the object is fetched
 // from the database.
 // An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *MemberMutation) OldNAME(ctx context.Context) (v string, err error) {
+func (m *MemberMutation) OldMEMBERNAME(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldNAME is allowed only on UpdateOne operations")
+		return v, fmt.Errorf("OldMEMBERNAME is allowed only on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldNAME requires an ID field in the mutation")
+		return v, fmt.Errorf("OldMEMBERNAME requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldNAME: %w", err)
+		return v, fmt.Errorf("querying old value for OldMEMBERNAME: %w", err)
 	}
-	return oldValue.NAME, nil
+	return oldValue.MEMBERNAME, nil
 }
 
-// ResetNAME reset all changes of the "NAME" field.
-func (m *MemberMutation) ResetNAME() {
-	m._NAME = nil
+// ResetMEMBERNAME reset all changes of the "MEMBERNAME" field.
+func (m *MemberMutation) ResetMEMBERNAME() {
+	m._MEMBERNAME = nil
 }
 
 // AddPaymentIDs adds the payment edge to Payment by ids.
@@ -4822,8 +4822,8 @@ func (m *MemberMutation) Fields() []string {
 	if m._MEMBERID != nil {
 		fields = append(fields, member.FieldMEMBERID)
 	}
-	if m._NAME != nil {
-		fields = append(fields, member.FieldNAME)
+	if m._MEMBERNAME != nil {
+		fields = append(fields, member.FieldMEMBERNAME)
 	}
 	return fields
 }
@@ -4835,8 +4835,8 @@ func (m *MemberMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case member.FieldMEMBERID:
 		return m.MEMBERID()
-	case member.FieldNAME:
-		return m.NAME()
+	case member.FieldMEMBERNAME:
+		return m.MEMBERNAME()
 	}
 	return nil, false
 }
@@ -4848,8 +4848,8 @@ func (m *MemberMutation) OldField(ctx context.Context, name string) (ent.Value, 
 	switch name {
 	case member.FieldMEMBERID:
 		return m.OldMEMBERID(ctx)
-	case member.FieldNAME:
-		return m.OldNAME(ctx)
+	case member.FieldMEMBERNAME:
+		return m.OldMEMBERNAME(ctx)
 	}
 	return nil, fmt.Errorf("unknown Member field %s", name)
 }
@@ -4866,12 +4866,12 @@ func (m *MemberMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetMEMBERID(v)
 		return nil
-	case member.FieldNAME:
+	case member.FieldMEMBERNAME:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetNAME(v)
+		m.SetMEMBERNAME(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Member field %s", name)
@@ -4926,8 +4926,8 @@ func (m *MemberMutation) ResetField(name string) error {
 	case member.FieldMEMBERID:
 		m.ResetMEMBERID()
 		return nil
-	case member.FieldNAME:
-		m.ResetNAME()
+	case member.FieldMEMBERNAME:
+		m.ResetMEMBERNAME()
 		return nil
 	}
 	return fmt.Errorf("unknown Member field %s", name)

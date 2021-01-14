@@ -46,10 +46,10 @@ func init() {
 	memberDescMEMBERID := memberFields[0].Descriptor()
 	// member.MEMBERIDValidator is a validator for the "MEMBERID" field. It is called by the builders before save.
 	member.MEMBERIDValidator = memberDescMEMBERID.Validators[0].(func(string) error)
-	// memberDescNAME is the schema descriptor for NAME field.
-	memberDescNAME := memberFields[1].Descriptor()
-	// member.NAMEValidator is a validator for the "NAME" field. It is called by the builders before save.
-	member.NAMEValidator = memberDescNAME.Validators[0].(func(string) error)
+	// memberDescMEMBERNAME is the schema descriptor for MEMBERNAME field.
+	memberDescMEMBERNAME := memberFields[1].Descriptor()
+	// member.MEMBERNAMEValidator is a validator for the "MEMBERNAME" field. It is called by the builders before save.
+	member.MEMBERNAMEValidator = memberDescMEMBERNAME.Validators[0].(func(string) error)
 	promotionFields := schema.Promotion{}.Fields()
 	_ = promotionFields
 	// promotionDescNAME is the schema descriptor for NAME field.
