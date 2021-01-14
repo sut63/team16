@@ -1,5 +1,6 @@
 package schema
 
+
 import (
 	"github.com/facebookincubator/ent"
 	"github.com/facebookincubator/ent/schema/edge"
@@ -14,7 +15,7 @@ type Equipmentrental struct {
 // Fields of the Equipmentrental.
 func (Equipmentrental) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("RENTALAMOUNT"),
+		field.Int("RENTALAMOUNT"),
 		field.Time("RENTALDATE"),
 		field.Time("RETURNDATE"),
 	}
@@ -35,5 +36,6 @@ func (Equipmentrental) Edges() []ent.Edge {
 		edge.From("equipmenttype", Equipmenttype.Type).
 			Ref("equipmentrental").
 			Unique(),
+		
 	}
 }

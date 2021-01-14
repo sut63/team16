@@ -25,8 +25,8 @@ type EquipmentrentalCreate struct {
 }
 
 // SetRENTALAMOUNT sets the RENTALAMOUNT field.
-func (ec *EquipmentrentalCreate) SetRENTALAMOUNT(s string) *EquipmentrentalCreate {
-	ec.mutation.SetRENTALAMOUNT(s)
+func (ec *EquipmentrentalCreate) SetRENTALAMOUNT(i int) *EquipmentrentalCreate {
+	ec.mutation.SetRENTALAMOUNT(i)
 	return ec
 }
 
@@ -196,7 +196,7 @@ func (ec *EquipmentrentalCreate) createSpec() (*Equipmentrental, *sqlgraph.Creat
 	)
 	if value, ok := ec.mutation.RENTALAMOUNT(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: equipmentrental.FieldRENTALAMOUNT,
 		})

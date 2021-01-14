@@ -172,7 +172,7 @@ var (
 	// EquipmentrentalsColumns holds the columns for the "equipmentrentals" table.
 	EquipmentrentalsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "rentalamount", Type: field.TypeString},
+		{Name: "rentalamount", Type: field.TypeInt},
 		{Name: "rentaldate", Type: field.TypeTime},
 		{Name: "returndate", Type: field.TypeTime},
 		{Name: "employee_equipmentrental", Type: field.TypeInt, Nullable: true},
