@@ -118,6 +118,18 @@ type Promotionamount struct {
 	AMOUNT int
 }
 
+// Members  defines the struct for the Members
+//---------------------------------------------
+type Members struct {
+	Member []Member
+}
+
+// Member  defines the struct for the Member
+type Member struct {
+	MEMBERID	string
+	MAMBERNAME	string
+}
+
 // @title SUT SA Example API Patient
 // @version 1.0
 // @description This is a sample server for SUT SE 2563
@@ -192,6 +204,25 @@ func main() {
 	controllers.NewPromotiontypeController(v1, client)
 	controllers.NewSalaryController(v1, client)
 	controllers.NewZoneController(v1, client)
+
+	// Set Member Data
+	members := Members{
+		Member: []Member{
+			Menber{"B6011","โทน"},
+			Menber{"B6022","ที"},
+			Menber{"B6033","ตัง"},
+			Menber{"B6044","รัก"},
+			Menber{"B6055","ปลื้ม"},
+		},
+	}
+
+	for _, mb := range members.Membere {
+		client.Member.
+			Create().
+			SetMEMBERID(mb.MEMBERID).
+			SetMEMBERNAME(mb.MEMBERNAME).
+			Save(context.Background())
+	}
 
 	// Set Promotiontype Data
 	promotiontypes := Promotiontypes{
