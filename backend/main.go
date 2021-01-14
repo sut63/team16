@@ -63,11 +63,6 @@ type Salarys struct {
 	Salary []Salary
 }
 
-// Salary  defines the struct for the position
-type Salary struct {
-	POSITION string
-}
-
 // Classifiers  defines the struct for the classifiers
 //---------------------------------------------
 type Classifiers struct {
@@ -176,6 +171,82 @@ func main() {
 	controllers.NewPromotiontypeController(v1, client)
 	controllers.NewSalaryController(v1, client)
 	controllers.NewZoneController(v1, client)
+
+	// Set Employees Data
+	employees := Employees{
+		Employee: []Employee{
+			Employee{"EM01", "Tee", "อุดรธานี", "1234567892581"},
+			Employee{"EM02", "Tone", "พัทลุง", "1234567892582"},
+			Employee{"EM03", "Tang", "ชลบุรี", "1234567892583"},
+			Employee{"EM04", "Rak", "นครราชสีมา", "1234567892584"},
+			Employee{"EM05", "Jo", "บุรีรัมย์", "1234567892585"},
+		},
+	}
+
+	for _, em := range employee.Employee {
+		client.Employee.
+			Create().
+			SetCOURSE(em.employee).
+			Save(context.Background())
+	}
+
+	// Set Ages Data
+	ages := Ages{
+		Age: []Age{
+			Age{22},
+			Age{23},
+			Age{24},
+			Age{25},
+			Age{26},
+			Age{27},
+			Age{28},
+			Age{29},
+			Age{30},
+		},
+	}
+	for _, ag := range age.Age {
+		client.Age.
+			Create().
+			SetCOURSE(ag.age).
+			Save(context.Background())
+	}
+
+	// Set Positions Data
+	positions := Positions{
+		Position: []Position{
+			Position{"เจ้าหน้าที่รักษาความปลอดภัย"},
+			Position{"พนักงานทำความสะอาด"},
+			Position{"พนักงานเคาน์เตอร์"},
+			Position{"ผู้จัดการ"},
+			Position{"เทรนเนอร์"},
+		},
+	}
+	for _, pst := range position.Position {
+		client.Position.
+			Create().
+			SetCOURSE(pst.position).
+			Save(context.Background())
+	}
+
+	// Set Salarys Data
+	salarys := Salarys{
+		Salary: []Salary{
+			Salary{15000},
+			Salary{17000},
+			Salary{19000},
+			Salary{21000},
+			Salary{23000},
+			Salary{25000},
+			Salary{30000},
+		},
+	}
+
+	for _, sr := range salary.Salary {
+		client.Salary.
+			Create().
+			SetCOURSE(sr.salary).
+			Save(context.Background())
+	}
 
 	// Set Classifiers Data
 	classifiers := Classifiers{
