@@ -68,8 +68,8 @@ const WelcomePage: FC<{}> = () => {
       <Content>
         <ContentHeader title="สมาชิกในกลุ่ม"></ContentHeader>
         <Grid container>
-          <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."} linkto="/Payment" ></CardTeam>
-          <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."} linkto="/Payment" ></CardTeam>
+          <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบชำระเงิน"} linkto="/Payment" ></CardTeam>
+          <CardTeam name={"นายสุธี สีสิงห์"} id={"B6025427"} system={"ระบบเพิ่มอุปกรณ์"} linkto="/Equipment" ></CardTeam>
           <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."} linkto="/Payment" ></CardTeam>
           <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."} linkto="/Payment" ></CardTeam>
           <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."} linkto="/Payment" ></CardTeam>
