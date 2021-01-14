@@ -5,13 +5,12 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/G16/app/ent/equipmentrental"
-
-	"github.com/G16/app/ent"
-	"github.com/G16/app/ent/employee"
-	"github.com/G16/app/ent/equipment"
-	"github.com/G16/app/ent/equipmenttype"
-	"github.com/G16/app/ent/member"
+	"github.com/RakSR/app/ent/equipmentrental"
+	"github.com/RakSR/app/ent"
+	"github.com/RakSR/app/ent/employee"
+	"github.com/RakSR/app/ent/member"
+	"github.com/RakSR/app/ent/equipment"
+	"github.com/RakSR/app/ent/equipmenttype"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,26 +22,26 @@ type EquipmentrentalController struct {
 
 // Equipmentrental defines the struct for the equipmentrental controller
 type Equipmentrental struct {
-	MEMBER        int
-	EQUIPMENT     int
-	EQUIPMENTTYPE int
-	EMPLOYEE      int
-	RENTALAMOUNT  int
-	RENTALDATE    string
-	RETURNDATE    string
+	MEMBER          int
+	EQUIPMENT       int
+	EQUIPMENTTYPE   int
+	EMPLOYEE        int
+	RENTALAMOUNT    int
+	RENTALDATE      string
+	RETURNDATE      string
 }
 
-// CreateEquipmentrental handles POST requests for adding Equipmentrental entities
-// @Summary Create Equipmentrental
-// @Description Create Equipmentrental
-// @ID create-Equipmentrental
+// CreateEquipmentrental handles POST requests for adding equipmentrental entities
+// @Summary Create equipmentrental
+// @Description Create equipmentrental
+// @ID create-equipmentrental
 // @Accept   json
 // @Produce  json
-// @Param Equipmentrental body ent.Payment true "Equipmentrental entity"
+// @Param equipmentrental body ent.Equipmentrental true "Equipmentrental entity"
 // @Success 200 {object} ent.Equipmentrental
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /Equipmentrental [post]
+// @Router /equipmentrentals [post]
 func (ctl *EquipmentrentalController) CreateEquipmentrental(c *gin.Context) {
 	obj := Equipmentrental{}
 	if err := c.ShouldBind(&obj); err != nil {
@@ -123,17 +122,17 @@ func (ctl *EquipmentrentalController) CreateEquipmentrental(c *gin.Context) {
 	c.JSON(200, er)
 }
 
-// GetEquipmentrental handles GET requests to retrieve a equipmentrental entity
+// Equipmentrental handles GET requests to retrieve a equipmentrental entity
 // @Summary Get a equipmentrental entity by ID
 // @Description get equipmentrental by ID
 // @ID get-equipmentrental
 // @Produce  json
 // @Param id path int true "Equipmentrental ID"
-// @Success 200 {object} ent.Equipmentrental
+// @Success 200 {object} Equipmentrental
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /equipmentrental/{id} [get]
+// @Router /equipmentrentals/{id} [get]
 func (ctl *EquipmentrentalController) GetEquipmentrental(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
@@ -161,17 +160,17 @@ func (ctl *EquipmentrentalController) GetEquipmentrental(c *gin.Context) {
 	c.JSON(200, er)
 }
 
-// ListEquipmentrental handles request to get a list of Equipmentrental entities
-// @Summary List Equipmentrental entities
-// @Description list Equipmentrental entities
-// @ID list-Equipmentrental
+// ListEquipmentrental handles request to get a list of equipmentrental entities
+// @Summary List equipmentrental entities
+// @Description list equipmentrental entities
+// @ID list-equipmentrental
 // @Produce json
 // @Param limit  query int false "Limit"
 // @Param offset query int false "Offset"
 // @Success 200 {array} ent.Equipmentrental
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /Equipmentrental [get]
+// @Router /equipmentrentals [get]
 func (ctl *EquipmentrentalController) ListEquipmentrental(c *gin.Context) {
 	limitQuery := c.Query("limit")
 	limit := 10
@@ -211,7 +210,7 @@ func (ctl *EquipmentrentalController) ListEquipmentrental(c *gin.Context) {
 	c.JSON(200, Eqrentals)
 }
 
-// NewEquipmentrentalController creates and registers handles for the Equipmentrental controller
+// NewEquipmentrentalController creates and registers handles for the equipmentrental controller
 func NewEquipmentrentalController(router gin.IRouter, client *ent.Client) *EquipmentrentalController {
 	erc := &EquipmentrentalController{
 		client: client,
@@ -224,7 +223,7 @@ func NewEquipmentrentalController(router gin.IRouter, client *ent.Client) *Equip
 
 // InitEquipmentrentalController registers routes to the main engine
 func (ctl *EquipmentrentalController) register() {
-	Eqrentals := ctl.router.Group("/Eqrentals")
+	Eqrentals := ctl.router.Group("/equipmentrentals")
 
 	Eqrentals.GET("", ctl.ListEquipmentrental)
 
