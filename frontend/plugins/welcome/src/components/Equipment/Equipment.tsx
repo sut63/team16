@@ -113,10 +113,28 @@ const Equipment: FC<{}> = () => {
   function clear() {
     setEquipment({});
   }
+  // alert setting
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
+  
 
   // function save data
   function save() {
+    if (equipment.EQUIPMENTAMOUNT <= 0){
+      Toast.fire({
+        icon: 'error',
+        title: 'บันทึกข้อมูลไม่สำเร็จ',
+      });
+      return 0;
+    }
+
     equipment.EQUIPMENTDATE += ":00+07:00";
+    equipment.EQUIPMENTAMOUNT = parseInt(equipment.EQUIPMENTAMOUNT);
     const apiUrl = 'http://localhost:8080/api/v1/equipments';
     const requestOptions = {
       method: 'POST',
@@ -124,14 +142,6 @@ const Equipment: FC<{}> = () => {
       body: JSON.stringify(equipment),
     };
 
-    // alert setting
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-    });
     
     console.log(equipment); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
 

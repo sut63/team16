@@ -73,7 +73,7 @@ const WelcomePage: FC<{}> = () => {
           <CardTeam name={"นาย ชยากร พิลึกนา"} id={"B6005818"} system={"ระบบโปรโมชั่น"} linkto="/Promotion" ></CardTeam>
           <CardTeam name={"นาย กิตติศักดิ์ เพชรแหน"} id={"B6015909"} system={"ระบบจองสนามกีฬา"} linkto="/Bookcourse" ></CardTeam>
           <CardTeam name={"นาย ชนุดม ศรีสุรัตน์"} id={"B6006297"} system={"ระบบเพิ่มข้อมูลพนักงาน"} linkto="/Employee" ></CardTeam>
-          <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."} linkto="/Payment" ></CardTeam>
+          <CardTeam name={"นางสาว ศิริลักษณ์ รองกระโทก"} id={"B6010256"} system={"ระบบยืมอุปกรณ์กีฬา"} linkto="/Equipmentrental" ></CardTeam>
         </Grid>
       </Content>
     </Page>
