@@ -70,7 +70,7 @@ const Login: FC<{}> = () => {
   const [Password, setPassword] = React.useState(String);
   const [login, setLogin] = React.useState<Partial<Login>>({});
   const [employee, setEmployee] = React.useState<EntEmployee[]>([]);
-
+ 
   const getEmployee = async () => {
     const res = await http.listEmployee({ limit: 20, offset: 0 });
     setEmployee(res);
@@ -97,10 +97,6 @@ const Login: FC<{}> = () => {
     employee.map((item) => {
       if (item.eMPLOYEEID == Name && item.iDCARDNUMBER == Password)
       {
-        Toast.fire({
-          icon: 'success',
-          title: 'เข้าสู่ระบบสำเร็จ',
-        });
         window.location.href = "http://localhost:3000/WelcomePage";
       } else {
         Toast.fire({
