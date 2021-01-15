@@ -43,7 +43,7 @@ export function CardTeam({ name, id, system, linkto }: ProfileProps) {
             component="img"
             alt="นาย สมชาย ใจดี"
             height="140"
-            image="../../image/account.jpg"
+            image="../../image/promotionimage.png"
             title="นาย สมชาย ใจดี"
           />
           </Link>
@@ -64,13 +64,13 @@ export function CardTeam({ name, id, system, linkto }: ProfileProps) {
 const WelcomePage: FC<{}> = () => {
   return (
     <Page theme={pageTheme.home}>
-      <Header style={HeaderCustom} title={`ระบบ...`}></Header>
+      <Header style={HeaderCustom} title={`ระบบสถานกีฬา`}></Header>
       <Content>
         <ContentHeader title="สมาชิกในกลุ่ม"></ContentHeader>
         <Grid container>
-          <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบชำระเงิน"} linkto="/Payment" ></CardTeam>
-          <CardTeam name={"นายสุธี สีสิงห์"} id={"B6025427"} system={"ระบบเพิ่มอุปกรณ์"} linkto="/Equipment" ></CardTeam>
           <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."} linkto="/Payment" ></CardTeam>
+          <CardTeam name={"นายสุธี สีสิงห์"} id={"B6025427"} system={"ระบบเพิ่มอุปกรณ์"} linkto="/Equipment" ></CardTeam>
+          <CardTeam name={"นาย ชยากร พิลึกนา"} id={"B6005818"} system={"ระบบโปรโมชั่น"} linkto="/Promotion" ></CardTeam>
           <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."} linkto="/Payment" ></CardTeam>
           <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."} linkto="/Payment" ></CardTeam>
           <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."} linkto="/Payment" ></CardTeam>
