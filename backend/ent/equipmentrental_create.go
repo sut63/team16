@@ -128,6 +128,11 @@ func (ec *EquipmentrentalCreate) Save(ctx context.Context) (*Equipmentrental, er
 	if _, ok := ec.mutation.RENTALAMOUNT(); !ok {
 		return nil, &ValidationError{Name: "RENTALAMOUNT", err: errors.New("ent: missing required field \"RENTALAMOUNT\"")}
 	}
+	if v, ok := ec.mutation.RENTALAMOUNT(); ok {
+		if err := equipmentrental.RENTALAMOUNTValidator(v); err != nil {
+			return nil, &ValidationError{Name: "RENTALAMOUNT", err: fmt.Errorf("ent: validator failed for field \"RENTALAMOUNT\": %w", err)}
+		}
+	}
 	if _, ok := ec.mutation.RENTALDATE(); !ok {
 		return nil, &ValidationError{Name: "RENTALDATE", err: errors.New("ent: missing required field \"RENTALDATE\"")}
 	}

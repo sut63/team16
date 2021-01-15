@@ -38,6 +38,10 @@ import {
     EntPositionFromJSON,
     EntPositionFromJSONTyped,
     EntPositionToJSON,
+    EntPromotion,
+    EntPromotionFromJSON,
+    EntPromotionFromJSONTyped,
+    EntPromotionToJSON,
     EntSalary,
     EntSalaryFromJSON,
     EntSalaryFromJSONTyped,
@@ -87,6 +91,12 @@ export interface EntEmployeeEdges {
      */
     position?: EntPosition;
     /**
+     * Promotion holds the value of the promotion edge.
+     * @type {Array<EntPromotion>}
+     * @memberof EntEmployeeEdges
+     */
+    promotion?: Array<EntPromotion>;
+    /**
      * 
      * @type {EntSalary}
      * @memberof EntEmployeeEdges
@@ -110,6 +120,7 @@ export function EntEmployeeEdgesFromJSONTyped(json: any, ignoreDiscriminator: bo
         'equipmentrental': !exists(json, 'equipmentrental') ? undefined : ((json['equipmentrental'] as Array<any>).map(EntEquipmentrentalFromJSON)),
         'payment': !exists(json, 'payment') ? undefined : ((json['payment'] as Array<any>).map(EntPaymentFromJSON)),
         'position': !exists(json, 'position') ? undefined : EntPositionFromJSON(json['position']),
+        'promotion': !exists(json, 'promotion') ? undefined : ((json['promotion'] as Array<any>).map(EntPromotionFromJSON)),
         'salary': !exists(json, 'salary') ? undefined : EntSalaryFromJSON(json['salary']),
     };
 }
@@ -129,6 +140,7 @@ export function EntEmployeeEdgesToJSON(value?: EntEmployeeEdges | null): any {
         'equipmentrental': value.equipmentrental === undefined ? undefined : ((value.equipmentrental as Array<any>).map(EntEquipmentrentalToJSON)),
         'payment': value.payment === undefined ? undefined : ((value.payment as Array<any>).map(EntPaymentToJSON)),
         'position': EntPositionToJSON(value.position),
+        'promotion': value.promotion === undefined ? undefined : ((value.promotion as Array<any>).map(EntPromotionToJSON)),
         'salary': EntSalaryToJSON(value.salary),
     };
 }

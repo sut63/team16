@@ -15,7 +15,8 @@ type Equipmentrental struct {
 // Fields of the Equipmentrental.
 func (Equipmentrental) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int("RENTALAMOUNT"),
+		field.Int("RENTALAMOUNT").
+			Positive(),
 		field.Time("RENTALDATE"),
 		field.Time("RETURNDATE"),
 	}

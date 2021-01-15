@@ -164,6 +164,11 @@ func (eu *EquipmentrentalUpdate) ClearEquipmenttype() *EquipmentrentalUpdate {
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
 func (eu *EquipmentrentalUpdate) Save(ctx context.Context) (int, error) {
+	if v, ok := eu.mutation.RENTALAMOUNT(); ok {
+		if err := equipmentrental.RENTALAMOUNTValidator(v); err != nil {
+			return 0, &ValidationError{Name: "RENTALAMOUNT", err: fmt.Errorf("ent: validator failed for field \"RENTALAMOUNT\": %w", err)}
+		}
+	}
 
 	var (
 		err      error
@@ -550,6 +555,11 @@ func (euo *EquipmentrentalUpdateOne) ClearEquipmenttype() *EquipmentrentalUpdate
 
 // Save executes the query and returns the updated entity.
 func (euo *EquipmentrentalUpdateOne) Save(ctx context.Context) (*Equipmentrental, error) {
+	if v, ok := euo.mutation.RENTALAMOUNT(); ok {
+		if err := equipmentrental.RENTALAMOUNTValidator(v); err != nil {
+			return nil, &ValidationError{Name: "RENTALAMOUNT", err: fmt.Errorf("ent: validator failed for field \"RENTALAMOUNT\": %w", err)}
+		}
+	}
 
 	var (
 		err  error

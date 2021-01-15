@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    EntEmployee,
+    EntEmployeeFromJSON,
+    EntEmployeeFromJSONTyped,
+    EntEmployeeToJSON,
     EntPayment,
     EntPaymentFromJSON,
     EntPaymentFromJSONTyped,
@@ -34,6 +38,12 @@ import {
  * @interface EntPromotionEdges
  */
 export interface EntPromotionEdges {
+    /**
+     * 
+     * @type {EntEmployee}
+     * @memberof EntPromotionEdges
+     */
+    employee?: EntEmployee;
     /**
      * Payment holds the value of the payment edge.
      * @type {Array<EntPayment>}
@@ -64,6 +74,7 @@ export function EntPromotionEdgesFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
+        'employee': !exists(json, 'employee') ? undefined : EntEmployeeFromJSON(json['employee']),
         'payment': !exists(json, 'payment') ? undefined : ((json['payment'] as Array<any>).map(EntPaymentFromJSON)),
         'promotionamount': !exists(json, 'promotionamount') ? undefined : EntPromotionamountFromJSON(json['promotionamount']),
         'promotiontype': !exists(json, 'promotiontype') ? undefined : EntPromotiontypeFromJSON(json['promotiontype']),
@@ -79,6 +90,7 @@ export function EntPromotionEdgesToJSON(value?: EntPromotionEdges | null): any {
     }
     return {
         
+        'employee': EntEmployeeToJSON(value.employee),
         'payment': value.payment === undefined ? undefined : ((value.payment as Array<any>).map(EntPaymentToJSON)),
         'promotionamount': EntPromotionamountToJSON(value.promotionamount),
         'promotiontype': EntPromotiontypeToJSON(value.promotiontype),
