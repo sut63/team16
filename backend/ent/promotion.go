@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/G16/app/ent/employee"
 	"github.com/G16/app/ent/promotion"
 	"github.com/G16/app/ent/promotionamount"
 	"github.com/G16/app/ent/promotiontype"
@@ -29,6 +30,7 @@ type Promotion struct {
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the PromotionQuery when eager-loading is set.
 	Edges                     PromotionEdges `json:"edges"`
+	employee_promotion        *int
 	promotionamount_promotion *int
 	promotiontype_promotion   *int
 }
@@ -39,11 +41,13 @@ type PromotionEdges struct {
 	Promotiontype *Promotiontype
 	// Promotionamount holds the value of the promotionamount edge.
 	Promotionamount *Promotionamount
+	// Employee holds the value of the employee edge.
+	Employee *Employee
 	// Payment holds the value of the payment edge.
 	Payment []*Payment
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [3]bool
+	loadedTypes [4]bool
 }
 
 // PromotiontypeOrErr returns the Promotiontype value or an error if the edge
@@ -74,10 +78,24 @@ func (e PromotionEdges) PromotionamountOrErr() (*Promotionamount, error) {
 	return nil, &NotLoadedError{edge: "promotionamount"}
 }
 
+// EmployeeOrErr returns the Employee value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e PromotionEdges) EmployeeOrErr() (*Employee, error) {
+	if e.loadedTypes[2] {
+		if e.Employee == nil {
+			// The edge employee was loaded in eager-loading,
+			// but was not found.
+			return nil, &NotFoundError{label: employee.Label}
+		}
+		return e.Employee, nil
+	}
+	return nil, &NotLoadedError{edge: "employee"}
+}
+
 // PaymentOrErr returns the Payment value or an error if the edge
 // was not loaded in eager-loading.
 func (e PromotionEdges) PaymentOrErr() ([]*Payment, error) {
-	if e.loadedTypes[2] {
+	if e.loadedTypes[3] {
 		return e.Payment, nil
 	}
 	return nil, &NotLoadedError{edge: "payment"}
@@ -97,6 +115,7 @@ func (*Promotion) scanValues() []interface{} {
 // fkValues returns the types for scanning foreign-keys values from sql.Rows.
 func (*Promotion) fkValues() []interface{} {
 	return []interface{}{
+		&sql.NullInt64{}, // employee_promotion
 		&sql.NullInt64{}, // promotionamount_promotion
 		&sql.NullInt64{}, // promotiontype_promotion
 	}
@@ -137,12 +156,18 @@ func (pr *Promotion) assignValues(values ...interface{}) error {
 	values = values[4:]
 	if len(values) == len(promotion.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
+			return fmt.Errorf("unexpected type %T for edge-field employee_promotion", value)
+		} else if value.Valid {
+			pr.employee_promotion = new(int)
+			*pr.employee_promotion = int(value.Int64)
+		}
+		if value, ok := values[1].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field promotionamount_promotion", value)
 		} else if value.Valid {
 			pr.promotionamount_promotion = new(int)
 			*pr.promotionamount_promotion = int(value.Int64)
 		}
-		if value, ok := values[1].(*sql.NullInt64); !ok {
+		if value, ok := values[2].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field promotiontype_promotion", value)
 		} else if value.Valid {
 			pr.promotiontype_promotion = new(int)
@@ -160,6 +185,11 @@ func (pr *Promotion) QueryPromotiontype() *PromotiontypeQuery {
 // QueryPromotionamount queries the promotionamount edge of the Promotion.
 func (pr *Promotion) QueryPromotionamount() *PromotionamountQuery {
 	return (&PromotionClient{config: pr.config}).QueryPromotionamount(pr)
+}
+
+// QueryEmployee queries the employee edge of the Promotion.
+func (pr *Promotion) QueryEmployee() *EmployeeQuery {
+	return (&PromotionClient{config: pr.config}).QueryEmployee(pr)
 }
 
 // QueryPayment queries the payment edge of the Promotion.

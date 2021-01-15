@@ -847,6 +847,22 @@ func (c *EmployeeClient) QueryEquipmentrental(e *Employee) *EquipmentrentalQuery
 	return query
 }
 
+// QueryPromotion queries the promotion edge of a Employee.
+func (c *EmployeeClient) QueryPromotion(e *Employee) *PromotionQuery {
+	query := &PromotionQuery{config: c.config}
+	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
+		id := e.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(employee.Table, employee.FieldID, id),
+			sqlgraph.To(promotion.Table, promotion.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, employee.PromotionTable, employee.PromotionColumn),
+		)
+		fromV = sqlgraph.Neighbors(e.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
 // Hooks returns the client hooks.
 func (c *EmployeeClient) Hooks() []Hook {
 	return c.hooks.Employee
@@ -1856,6 +1872,22 @@ func (c *PromotionClient) QueryPromotionamount(pr *Promotion) *PromotionamountQu
 			sqlgraph.From(promotion.Table, promotion.FieldID, id),
 			sqlgraph.To(promotionamount.Table, promotionamount.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, promotion.PromotionamountTable, promotion.PromotionamountColumn),
+		)
+		fromV = sqlgraph.Neighbors(pr.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryEmployee queries the employee edge of a Promotion.
+func (c *PromotionClient) QueryEmployee(pr *Promotion) *EmployeeQuery {
+	query := &EmployeeQuery{config: c.config}
+	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
+		id := pr.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(promotion.Table, promotion.FieldID, id),
+			sqlgraph.To(employee.Table, employee.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, promotion.EmployeeTable, promotion.EmployeeColumn),
 		)
 		fromV = sqlgraph.Neighbors(pr.driver.Dialect(), step)
 		return fromV, nil

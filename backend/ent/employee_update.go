@@ -14,6 +14,7 @@ import (
 	"github.com/G16/app/ent/payment"
 	"github.com/G16/app/ent/position"
 	"github.com/G16/app/ent/predicate"
+	"github.com/G16/app/ent/promotion"
 	"github.com/G16/app/ent/salary"
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
@@ -175,6 +176,21 @@ func (eu *EmployeeUpdate) AddEquipmentrental(e ...*Equipmentrental) *EmployeeUpd
 	return eu.AddEquipmentrentalIDs(ids...)
 }
 
+// AddPromotionIDs adds the promotion edge to Promotion by ids.
+func (eu *EmployeeUpdate) AddPromotionIDs(ids ...int) *EmployeeUpdate {
+	eu.mutation.AddPromotionIDs(ids...)
+	return eu
+}
+
+// AddPromotion adds the promotion edges to Promotion.
+func (eu *EmployeeUpdate) AddPromotion(p ...*Promotion) *EmployeeUpdate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return eu.AddPromotionIDs(ids...)
+}
+
 // Mutation returns the EmployeeMutation object of the builder.
 func (eu *EmployeeUpdate) Mutation() *EmployeeMutation {
 	return eu.mutation
@@ -256,6 +272,21 @@ func (eu *EmployeeUpdate) RemoveEquipmentrental(e ...*Equipmentrental) *Employee
 		ids[i] = e[i].ID
 	}
 	return eu.RemoveEquipmentrentalIDs(ids...)
+}
+
+// RemovePromotionIDs removes the promotion edge to Promotion by ids.
+func (eu *EmployeeUpdate) RemovePromotionIDs(ids ...int) *EmployeeUpdate {
+	eu.mutation.RemovePromotionIDs(ids...)
+	return eu
+}
+
+// RemovePromotion removes promotion edges to Promotion.
+func (eu *EmployeeUpdate) RemovePromotion(p ...*Promotion) *EmployeeUpdate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return eu.RemovePromotionIDs(ids...)
 }
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
@@ -633,6 +664,44 @@ func (eu *EmployeeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if nodes := eu.mutation.RemovedPromotionIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   employee.PromotionTable,
+			Columns: []string{employee.PromotionColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: promotion.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := eu.mutation.PromotionIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   employee.PromotionTable,
+			Columns: []string{employee.PromotionColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: promotion.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if n, err = sqlgraph.UpdateNodes(ctx, eu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{employee.Label}
@@ -792,6 +861,21 @@ func (euo *EmployeeUpdateOne) AddEquipmentrental(e ...*Equipmentrental) *Employe
 	return euo.AddEquipmentrentalIDs(ids...)
 }
 
+// AddPromotionIDs adds the promotion edge to Promotion by ids.
+func (euo *EmployeeUpdateOne) AddPromotionIDs(ids ...int) *EmployeeUpdateOne {
+	euo.mutation.AddPromotionIDs(ids...)
+	return euo
+}
+
+// AddPromotion adds the promotion edges to Promotion.
+func (euo *EmployeeUpdateOne) AddPromotion(p ...*Promotion) *EmployeeUpdateOne {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return euo.AddPromotionIDs(ids...)
+}
+
 // Mutation returns the EmployeeMutation object of the builder.
 func (euo *EmployeeUpdateOne) Mutation() *EmployeeMutation {
 	return euo.mutation
@@ -873,6 +957,21 @@ func (euo *EmployeeUpdateOne) RemoveEquipmentrental(e ...*Equipmentrental) *Empl
 		ids[i] = e[i].ID
 	}
 	return euo.RemoveEquipmentrentalIDs(ids...)
+}
+
+// RemovePromotionIDs removes the promotion edge to Promotion by ids.
+func (euo *EmployeeUpdateOne) RemovePromotionIDs(ids ...int) *EmployeeUpdateOne {
+	euo.mutation.RemovePromotionIDs(ids...)
+	return euo
+}
+
+// RemovePromotion removes promotion edges to Promotion.
+func (euo *EmployeeUpdateOne) RemovePromotion(p ...*Promotion) *EmployeeUpdateOne {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return euo.RemovePromotionIDs(ids...)
 }
 
 // Save executes the query and returns the updated entity.
@@ -1240,6 +1339,44 @@ func (euo *EmployeeUpdateOne) sqlSave(ctx context.Context) (e *Employee, err err
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
 					Column: equipmentrental.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if nodes := euo.mutation.RemovedPromotionIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   employee.PromotionTable,
+			Columns: []string{employee.PromotionColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: promotion.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := euo.mutation.PromotionIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   employee.PromotionTable,
+			Columns: []string{employee.PromotionColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: promotion.FieldID,
 				},
 			},
 		}

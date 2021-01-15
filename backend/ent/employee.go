@@ -50,9 +50,11 @@ type EmployeeEdges struct {
 	Bookcourse []*Bookcourse
 	// Equipmentrental holds the value of the equipmentrental edge.
 	Equipmentrental []*Equipmentrental
+	// Promotion holds the value of the promotion edge.
+	Promotion []*Promotion
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [7]bool
+	loadedTypes [8]bool
 }
 
 // AgeOrErr returns the Age value or an error if the edge
@@ -131,6 +133,15 @@ func (e EmployeeEdges) EquipmentrentalOrErr() ([]*Equipmentrental, error) {
 		return e.Equipmentrental, nil
 	}
 	return nil, &NotLoadedError{edge: "equipmentrental"}
+}
+
+// PromotionOrErr returns the Promotion value or an error if the edge
+// was not loaded in eager-loading.
+func (e EmployeeEdges) PromotionOrErr() ([]*Promotion, error) {
+	if e.loadedTypes[7] {
+		return e.Promotion, nil
+	}
+	return nil, &NotLoadedError{edge: "promotion"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -242,6 +253,11 @@ func (e *Employee) QueryBookcourse() *BookcourseQuery {
 // QueryEquipmentrental queries the equipmentrental edge of the Employee.
 func (e *Employee) QueryEquipmentrental() *EquipmentrentalQuery {
 	return (&EmployeeClient{config: e.config}).QueryEquipmentrental(e)
+}
+
+// QueryPromotion queries the promotion edge of the Employee.
+func (e *Employee) QueryPromotion() *PromotionQuery {
+	return (&EmployeeClient{config: e.config}).QueryPromotion(e)
 }
 
 // Update returns a builder for updating this Employee.
