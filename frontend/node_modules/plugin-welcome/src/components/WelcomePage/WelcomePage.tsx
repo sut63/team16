@@ -41,10 +41,10 @@ export function CardTeam({ name, id, system, linkto }: ProfileProps) {
           > 
           <CardMedia
             component="img"
-            alt="นาย สมชาย ใจดี"
+            //alt="นาย สมชาย ใจดี"
             height="140"
-            image="../../image/promotionimage.png"
-            title="นาย สมชาย ใจดี"
+            //image="../../image/promotionimage.png"
+            //title="นาย สมชาย ใจดี"
           />
           </Link>
           <CardContent>
@@ -68,7 +68,7 @@ const WelcomePage: FC<{}> = () => {
       <Content>
         <ContentHeader title="สมาชิกในกลุ่ม"></ContentHeader>
         <Grid container>
-          <CardTeam name={"นาย เชียโทน"} id={"B5012345"} system={"ระบบย่อยชำระเงิน"} linkto="/Payment" ></CardTeam>
+          <CardTeam name={"นายวิศรุต เทศารินทร์"} id={"B6011017"} system={"ระบบชำระเงิน"} linkto="/Payment" ></CardTeam>
           <CardTeam name={"นายสุธี สีสิงห์"} id={"B6025427"} system={"ระบบเพิ่มอุปกรณ์"} linkto="/Equipment" ></CardTeam>
           <CardTeam name={"นาย ชยากร พิลึกนา"} id={"B6005818"} system={"ระบบโปรโมชั่น"} linkto="/Promotion" ></CardTeam>
           <CardTeam name={"นาย กิตติศักดิ์ เพชรแหน"} id={"B6015909"} system={"ระบบจองสนามกีฬา"} linkto="/Bookcourse" ></CardTeam>

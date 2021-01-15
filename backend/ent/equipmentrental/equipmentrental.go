@@ -70,3 +70,8 @@ var ForeignKeys = []string{
 	"equipmenttype_equipmentrental",
 	"member_equipmentrental",
 }
+
+var (
+	// RENTALAMOUNTValidator is a validator for the "RENTALAMOUNT" field. It is called by the builders before save.
+	RENTALAMOUNTValidator func(int) error
+)

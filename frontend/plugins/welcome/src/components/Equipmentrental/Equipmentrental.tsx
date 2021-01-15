@@ -114,27 +114,12 @@ const Equipmentrental: FC<{}> = () => {
   function clear() {
     setEquipmentrental({});
   }
-// alert setting
-const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-});
+
   // function save data
   function save() {
-
-    if (equipmentrental.rentalamount <= 0){
-      Toast.fire({
-        icon: 'error',
-        title: 'บันทึกข้อมูลไม่สำเร็จ',
-      });
-      return 0;
-    }
     equipmentrental.rentaldate += ":00+07:00";
     equipmentrental.returndate += ":00+07:00";
-    equipmentrental.rentalamount = parseInt(equipmentrental.rentalamount);
+    equipmentrental.rentalamount = Number(equipmentrental.rentalamount);
     const apiUrl = 'http://localhost:8080/api/v1/equipmentrentals';
     const requestOptions = {
       method: 'POST',
@@ -142,7 +127,15 @@ const Toast = Swal.mixin({
       body: JSON.stringify(equipmentrental),
     };
 
-
+  
+    // alert setting
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    });
     
     console.log(equipmentrental); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
 
