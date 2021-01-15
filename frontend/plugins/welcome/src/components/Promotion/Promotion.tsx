@@ -18,6 +18,7 @@ import { DefaultApi } from '../../api/apis'; // Api Gennerate From Command
 import {
   EntPromotiontype,
   EntPromotionamount,
+  EntEmployee,
 } from '../../api/models';
 
 // header css
@@ -52,6 +53,7 @@ const useStyles = makeStyles(theme => ({
 interface promotion {
   promotiontype: Number,
   promotionamount: Number,
+  employee: Number,
   name: String,
 	desc: String,
   code: String,
@@ -65,6 +67,7 @@ const Promotion: FC<{}> = () => {
 
   const [promotiontype, setPromotiontype] = React.useState<EntPromotiontype[]>([]);
   const [promotionamount, setPromotionamount] = React.useState<EntPromotionamount[]>([]);
+  const [employee, setEmployee] = React.useState<EntEmployee[]>([]);
  
   const getPromotiontype = async () => {
     const res = await http.listPromotiontype({ limit: 10, offset: 0 });
@@ -75,11 +78,17 @@ const Promotion: FC<{}> = () => {
     const res = await http.listPromotionamount({ limit: 10, offset: 0 });
     setPromotionamount(res);
   };
+
+  const getEmployee = async () => {
+    const res = await http.listEmployee({ limit: 10, offset: 0 });
+    setEmployee(res);
+  };
   
   // Lifecycle Hooks
   useEffect(() => {
     getPromotiontype();
     getPromotionamount();
+    getEmployee();
   }, []);
 
   // set data to object promotion
@@ -264,6 +273,28 @@ const Promotion: FC<{}> = () => {
                   onChange={handleChange}
                 />
               </form>
+            </Grid>
+
+            <Grid item xs={3}>
+              <div className={classes.paper}>ผู้รับผิดชอบ</div>
+            </Grid>
+            <Grid item xs={9}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel>เลือกผู้รับผิดชอบ</InputLabel>
+                <Select
+                  name="employee"
+                  value={promotion.employee || ''} // (undefined || '') = ''
+                  onChange={handleChange}
+                >
+                  {employee.map(item => {
+                    return (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.eMPLOYEENAME}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
             </Grid>
 
             <Grid item xs={3}></Grid>
