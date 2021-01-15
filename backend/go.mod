@@ -5,7 +5,6 @@ go 1.14
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.0 // indirect
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
-	github.com/facebook/ent v0.5.4 // indirect
 	github.com/facebookincubator/ent v0.2.7
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.6.3
