@@ -318,6 +318,7 @@ var (
 		{Name: "desc", Type: field.TypeString},
 		{Name: "code", Type: field.TypeString},
 		{Name: "date", Type: field.TypeTime},
+		{Name: "employee_promotion", Type: field.TypeInt, Nullable: true},
 		{Name: "promotionamount_promotion", Type: field.TypeInt, Nullable: true},
 		{Name: "promotiontype_promotion", Type: field.TypeInt, Nullable: true},
 	}
@@ -328,15 +329,22 @@ var (
 		PrimaryKey: []*schema.Column{PromotionsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:  "promotions_promotionamounts_promotion",
+				Symbol:  "promotions_employees_promotion",
 				Columns: []*schema.Column{PromotionsColumns[5]},
+
+				RefColumns: []*schema.Column{EmployeesColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:  "promotions_promotionamounts_promotion",
+				Columns: []*schema.Column{PromotionsColumns[6]},
 
 				RefColumns: []*schema.Column{PromotionamountsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "promotions_promotiontypes_promotion",
-				Columns: []*schema.Column{PromotionsColumns[6]},
+				Columns: []*schema.Column{PromotionsColumns[7]},
 
 				RefColumns: []*schema.Column{PromotiontypesColumns[0]},
 				OnDelete:   schema.SetNull,
@@ -432,6 +440,7 @@ func init() {
 	PaymentsTable.ForeignKeys[1].RefTable = MembersTable
 	PaymentsTable.ForeignKeys[2].RefTable = PaymenttypesTable
 	PaymentsTable.ForeignKeys[3].RefTable = PromotionsTable
-	PromotionsTable.ForeignKeys[0].RefTable = PromotionamountsTable
-	PromotionsTable.ForeignKeys[1].RefTable = PromotiontypesTable
+	PromotionsTable.ForeignKeys[0].RefTable = EmployeesTable
+	PromotionsTable.ForeignKeys[1].RefTable = PromotionamountsTable
+	PromotionsTable.ForeignKeys[2].RefTable = PromotiontypesTable
 }

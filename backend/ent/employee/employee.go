@@ -30,6 +30,8 @@ const (
 	EdgeBookcourse = "bookcourse"
 	// EdgeEquipmentrental holds the string denoting the equipmentrental edge name in mutations.
 	EdgeEquipmentrental = "equipmentrental"
+	// EdgePromotion holds the string denoting the promotion edge name in mutations.
+	EdgePromotion = "promotion"
 
 	// Table holds the table name of the employee in the database.
 	Table = "employees"
@@ -82,6 +84,13 @@ const (
 	EquipmentrentalInverseTable = "equipmentrentals"
 	// EquipmentrentalColumn is the table column denoting the equipmentrental relation/edge.
 	EquipmentrentalColumn = "employee_equipmentrental"
+	// PromotionTable is the table the holds the promotion relation/edge.
+	PromotionTable = "promotions"
+	// PromotionInverseTable is the table name for the Promotion entity.
+	// It exists in this package in order to avoid circular dependency with the "promotion" package.
+	PromotionInverseTable = "promotions"
+	// PromotionColumn is the table column denoting the promotion relation/edge.
+	PromotionColumn = "employee_promotion"
 )
 
 // Columns holds all SQL columns for employee fields.

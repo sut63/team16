@@ -14,6 +14,7 @@ import (
 	"github.com/G16/app/ent/equipmentrental"
 	"github.com/G16/app/ent/payment"
 	"github.com/G16/app/ent/position"
+	"github.com/G16/app/ent/promotion"
 	"github.com/G16/app/ent/salary"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
@@ -165,6 +166,21 @@ func (ec *EmployeeCreate) AddEquipmentrental(e ...*Equipmentrental) *EmployeeCre
 		ids[i] = e[i].ID
 	}
 	return ec.AddEquipmentrentalIDs(ids...)
+}
+
+// AddPromotionIDs adds the promotion edge to Promotion by ids.
+func (ec *EmployeeCreate) AddPromotionIDs(ids ...int) *EmployeeCreate {
+	ec.mutation.AddPromotionIDs(ids...)
+	return ec
+}
+
+// AddPromotion adds the promotion edges to Promotion.
+func (ec *EmployeeCreate) AddPromotion(p ...*Promotion) *EmployeeCreate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return ec.AddPromotionIDs(ids...)
 }
 
 // Mutation returns the EmployeeMutation object of the builder.
@@ -423,6 +439,25 @@ func (ec *EmployeeCreate) createSpec() (*Employee, *sqlgraph.CreateSpec) {
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
 					Column: equipmentrental.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := ec.mutation.PromotionIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   employee.PromotionTable,
+			Columns: []string{employee.PromotionColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: promotion.FieldID,
 				},
 			},
 		}

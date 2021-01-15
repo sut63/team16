@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/G16/app/ent/employee"
 	"github.com/G16/app/ent/payment"
 	"github.com/G16/app/ent/predicate"
 	"github.com/G16/app/ent/promotion"
@@ -93,6 +94,25 @@ func (pu *PromotionUpdate) SetPromotionamount(p *Promotionamount) *PromotionUpda
 	return pu.SetPromotionamountID(p.ID)
 }
 
+// SetEmployeeID sets the employee edge to Employee by id.
+func (pu *PromotionUpdate) SetEmployeeID(id int) *PromotionUpdate {
+	pu.mutation.SetEmployeeID(id)
+	return pu
+}
+
+// SetNillableEmployeeID sets the employee edge to Employee by id if the given value is not nil.
+func (pu *PromotionUpdate) SetNillableEmployeeID(id *int) *PromotionUpdate {
+	if id != nil {
+		pu = pu.SetEmployeeID(*id)
+	}
+	return pu
+}
+
+// SetEmployee sets the employee edge to Employee.
+func (pu *PromotionUpdate) SetEmployee(e *Employee) *PromotionUpdate {
+	return pu.SetEmployeeID(e.ID)
+}
+
 // AddPaymentIDs adds the payment edge to Payment by ids.
 func (pu *PromotionUpdate) AddPaymentIDs(ids ...int) *PromotionUpdate {
 	pu.mutation.AddPaymentIDs(ids...)
@@ -122,6 +142,12 @@ func (pu *PromotionUpdate) ClearPromotiontype() *PromotionUpdate {
 // ClearPromotionamount clears the promotionamount edge to Promotionamount.
 func (pu *PromotionUpdate) ClearPromotionamount() *PromotionUpdate {
 	pu.mutation.ClearPromotionamount()
+	return pu
+}
+
+// ClearEmployee clears the employee edge to Employee.
+func (pu *PromotionUpdate) ClearEmployee() *PromotionUpdate {
+	pu.mutation.ClearEmployee()
 	return pu
 }
 
@@ -323,6 +349,41 @@ func (pu *PromotionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if pu.mutation.EmployeeCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   promotion.EmployeeTable,
+			Columns: []string{promotion.EmployeeColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: employee.FieldID,
+				},
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := pu.mutation.EmployeeIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   promotion.EmployeeTable,
+			Columns: []string{promotion.EmployeeColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: employee.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if nodes := pu.mutation.RemovedPaymentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
@@ -441,6 +502,25 @@ func (puo *PromotionUpdateOne) SetPromotionamount(p *Promotionamount) *Promotion
 	return puo.SetPromotionamountID(p.ID)
 }
 
+// SetEmployeeID sets the employee edge to Employee by id.
+func (puo *PromotionUpdateOne) SetEmployeeID(id int) *PromotionUpdateOne {
+	puo.mutation.SetEmployeeID(id)
+	return puo
+}
+
+// SetNillableEmployeeID sets the employee edge to Employee by id if the given value is not nil.
+func (puo *PromotionUpdateOne) SetNillableEmployeeID(id *int) *PromotionUpdateOne {
+	if id != nil {
+		puo = puo.SetEmployeeID(*id)
+	}
+	return puo
+}
+
+// SetEmployee sets the employee edge to Employee.
+func (puo *PromotionUpdateOne) SetEmployee(e *Employee) *PromotionUpdateOne {
+	return puo.SetEmployeeID(e.ID)
+}
+
 // AddPaymentIDs adds the payment edge to Payment by ids.
 func (puo *PromotionUpdateOne) AddPaymentIDs(ids ...int) *PromotionUpdateOne {
 	puo.mutation.AddPaymentIDs(ids...)
@@ -470,6 +550,12 @@ func (puo *PromotionUpdateOne) ClearPromotiontype() *PromotionUpdateOne {
 // ClearPromotionamount clears the promotionamount edge to Promotionamount.
 func (puo *PromotionUpdateOne) ClearPromotionamount() *PromotionUpdateOne {
 	puo.mutation.ClearPromotionamount()
+	return puo
+}
+
+// ClearEmployee clears the employee edge to Employee.
+func (puo *PromotionUpdateOne) ClearEmployee() *PromotionUpdateOne {
+	puo.mutation.ClearEmployee()
 	return puo
 }
 
@@ -661,6 +747,41 @@ func (puo *PromotionUpdateOne) sqlSave(ctx context.Context) (pr *Promotion, err 
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
 					Column: promotionamount.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if puo.mutation.EmployeeCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   promotion.EmployeeTable,
+			Columns: []string{promotion.EmployeeColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: employee.FieldID,
+				},
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := puo.mutation.EmployeeIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   promotion.EmployeeTable,
+			Columns: []string{promotion.EmployeeColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: employee.FieldID,
 				},
 			},
 		}

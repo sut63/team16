@@ -1703,6 +1703,8 @@ type EmployeeMutation struct {
 	removedbookcourse      map[int]struct{}
 	equipmentrental        map[int]struct{}
 	removedequipmentrental map[int]struct{}
+	promotion              map[int]struct{}
+	removedpromotion       map[int]struct{}
 	done                   bool
 	oldValue               func(context.Context) (*Employee, error)
 }
@@ -2219,6 +2221,48 @@ func (m *EmployeeMutation) ResetEquipmentrental() {
 	m.removedequipmentrental = nil
 }
 
+// AddPromotionIDs adds the promotion edge to Promotion by ids.
+func (m *EmployeeMutation) AddPromotionIDs(ids ...int) {
+	if m.promotion == nil {
+		m.promotion = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.promotion[ids[i]] = struct{}{}
+	}
+}
+
+// RemovePromotionIDs removes the promotion edge to Promotion by ids.
+func (m *EmployeeMutation) RemovePromotionIDs(ids ...int) {
+	if m.removedpromotion == nil {
+		m.removedpromotion = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.removedpromotion[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedPromotion returns the removed ids of promotion.
+func (m *EmployeeMutation) RemovedPromotionIDs() (ids []int) {
+	for id := range m.removedpromotion {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// PromotionIDs returns the promotion ids in the mutation.
+func (m *EmployeeMutation) PromotionIDs() (ids []int) {
+	for id := range m.promotion {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetPromotion reset all changes of the "promotion" edge.
+func (m *EmployeeMutation) ResetPromotion() {
+	m.promotion = nil
+	m.removedpromotion = nil
+}
+
 // Op returns the operation name.
 func (m *EmployeeMutation) Op() Op {
 	return m.op
@@ -2385,7 +2429,7 @@ func (m *EmployeeMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this
 // mutation.
 func (m *EmployeeMutation) AddedEdges() []string {
-	edges := make([]string, 0, 7)
+	edges := make([]string, 0, 8)
 	if m.age != nil {
 		edges = append(edges, employee.EdgeAge)
 	}
@@ -2406,6 +2450,9 @@ func (m *EmployeeMutation) AddedEdges() []string {
 	}
 	if m.equipmentrental != nil {
 		edges = append(edges, employee.EdgeEquipmentrental)
+	}
+	if m.promotion != nil {
+		edges = append(edges, employee.EdgePromotion)
 	}
 	return edges
 }
@@ -2450,6 +2497,12 @@ func (m *EmployeeMutation) AddedIDs(name string) []ent.Value {
 			ids = append(ids, id)
 		}
 		return ids
+	case employee.EdgePromotion:
+		ids := make([]ent.Value, 0, len(m.promotion))
+		for id := range m.promotion {
+			ids = append(ids, id)
+		}
+		return ids
 	}
 	return nil
 }
@@ -2457,7 +2510,7 @@ func (m *EmployeeMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this
 // mutation.
 func (m *EmployeeMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 7)
+	edges := make([]string, 0, 8)
 	if m.removedpayment != nil {
 		edges = append(edges, employee.EdgePayment)
 	}
@@ -2469,6 +2522,9 @@ func (m *EmployeeMutation) RemovedEdges() []string {
 	}
 	if m.removedequipmentrental != nil {
 		edges = append(edges, employee.EdgeEquipmentrental)
+	}
+	if m.removedpromotion != nil {
+		edges = append(edges, employee.EdgePromotion)
 	}
 	return edges
 }
@@ -2501,6 +2557,12 @@ func (m *EmployeeMutation) RemovedIDs(name string) []ent.Value {
 			ids = append(ids, id)
 		}
 		return ids
+	case employee.EdgePromotion:
+		ids := make([]ent.Value, 0, len(m.removedpromotion))
+		for id := range m.removedpromotion {
+			ids = append(ids, id)
+		}
+		return ids
 	}
 	return nil
 }
@@ -2508,7 +2570,7 @@ func (m *EmployeeMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this
 // mutation.
 func (m *EmployeeMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 7)
+	edges := make([]string, 0, 8)
 	if m.clearedage {
 		edges = append(edges, employee.EdgeAge)
 	}
@@ -2577,6 +2639,9 @@ func (m *EmployeeMutation) ResetEdge(name string) error {
 		return nil
 	case employee.EdgeEquipmentrental:
 		m.ResetEquipmentrental()
+		return nil
+	case employee.EdgePromotion:
+		m.ResetPromotion()
 		return nil
 	}
 	return fmt.Errorf("unknown Employee edge %s", name)
@@ -6404,6 +6469,8 @@ type PromotionMutation struct {
 	clearedpromotiontype   bool
 	promotionamount        *int
 	clearedpromotionamount bool
+	employee               *int
+	clearedemployee        bool
 	payment                map[int]struct{}
 	removedpayment         map[int]struct{}
 	done                   bool
@@ -6715,6 +6782,45 @@ func (m *PromotionMutation) ResetPromotionamount() {
 	m.clearedpromotionamount = false
 }
 
+// SetEmployeeID sets the employee edge to Employee by id.
+func (m *PromotionMutation) SetEmployeeID(id int) {
+	m.employee = &id
+}
+
+// ClearEmployee clears the employee edge to Employee.
+func (m *PromotionMutation) ClearEmployee() {
+	m.clearedemployee = true
+}
+
+// EmployeeCleared returns if the edge employee was cleared.
+func (m *PromotionMutation) EmployeeCleared() bool {
+	return m.clearedemployee
+}
+
+// EmployeeID returns the employee id in the mutation.
+func (m *PromotionMutation) EmployeeID() (id int, exists bool) {
+	if m.employee != nil {
+		return *m.employee, true
+	}
+	return
+}
+
+// EmployeeIDs returns the employee ids in the mutation.
+// Note that ids always returns len(ids) <= 1 for unique edges, and you should use
+// EmployeeID instead. It exists only for internal usage by the builders.
+func (m *PromotionMutation) EmployeeIDs() (ids []int) {
+	if id := m.employee; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetEmployee reset all changes of the "employee" edge.
+func (m *PromotionMutation) ResetEmployee() {
+	m.employee = nil
+	m.clearedemployee = false
+}
+
 // AddPaymentIDs adds the payment edge to Payment by ids.
 func (m *PromotionMutation) AddPaymentIDs(ids ...int) {
 	if m.payment == nil {
@@ -6923,12 +7029,15 @@ func (m *PromotionMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this
 // mutation.
 func (m *PromotionMutation) AddedEdges() []string {
-	edges := make([]string, 0, 3)
+	edges := make([]string, 0, 4)
 	if m.promotiontype != nil {
 		edges = append(edges, promotion.EdgePromotiontype)
 	}
 	if m.promotionamount != nil {
 		edges = append(edges, promotion.EdgePromotionamount)
+	}
+	if m.employee != nil {
+		edges = append(edges, promotion.EdgeEmployee)
 	}
 	if m.payment != nil {
 		edges = append(edges, promotion.EdgePayment)
@@ -6948,6 +7057,10 @@ func (m *PromotionMutation) AddedIDs(name string) []ent.Value {
 		if id := m.promotionamount; id != nil {
 			return []ent.Value{*id}
 		}
+	case promotion.EdgeEmployee:
+		if id := m.employee; id != nil {
+			return []ent.Value{*id}
+		}
 	case promotion.EdgePayment:
 		ids := make([]ent.Value, 0, len(m.payment))
 		for id := range m.payment {
@@ -6961,7 +7074,7 @@ func (m *PromotionMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this
 // mutation.
 func (m *PromotionMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 3)
+	edges := make([]string, 0, 4)
 	if m.removedpayment != nil {
 		edges = append(edges, promotion.EdgePayment)
 	}
@@ -6985,12 +7098,15 @@ func (m *PromotionMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this
 // mutation.
 func (m *PromotionMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 3)
+	edges := make([]string, 0, 4)
 	if m.clearedpromotiontype {
 		edges = append(edges, promotion.EdgePromotiontype)
 	}
 	if m.clearedpromotionamount {
 		edges = append(edges, promotion.EdgePromotionamount)
+	}
+	if m.clearedemployee {
+		edges = append(edges, promotion.EdgeEmployee)
 	}
 	return edges
 }
@@ -7003,6 +7119,8 @@ func (m *PromotionMutation) EdgeCleared(name string) bool {
 		return m.clearedpromotiontype
 	case promotion.EdgePromotionamount:
 		return m.clearedpromotionamount
+	case promotion.EdgeEmployee:
+		return m.clearedemployee
 	}
 	return false
 }
@@ -7016,6 +7134,9 @@ func (m *PromotionMutation) ClearEdge(name string) error {
 		return nil
 	case promotion.EdgePromotionamount:
 		m.ClearPromotionamount()
+		return nil
+	case promotion.EdgeEmployee:
+		m.ClearEmployee()
 		return nil
 	}
 	return fmt.Errorf("unknown Promotion unique edge %s", name)
@@ -7031,6 +7152,9 @@ func (m *PromotionMutation) ResetEdge(name string) error {
 		return nil
 	case promotion.EdgePromotionamount:
 		m.ResetPromotionamount()
+		return nil
+	case promotion.EdgeEmployee:
+		m.ResetEmployee()
 		return nil
 	case promotion.EdgePayment:
 		m.ResetPayment()

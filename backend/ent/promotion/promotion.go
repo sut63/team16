@@ -20,6 +20,8 @@ const (
 	EdgePromotiontype = "promotiontype"
 	// EdgePromotionamount holds the string denoting the promotionamount edge name in mutations.
 	EdgePromotionamount = "promotionamount"
+	// EdgeEmployee holds the string denoting the employee edge name in mutations.
+	EdgeEmployee = "employee"
 	// EdgePayment holds the string denoting the payment edge name in mutations.
 	EdgePayment = "payment"
 
@@ -39,6 +41,13 @@ const (
 	PromotionamountInverseTable = "promotionamounts"
 	// PromotionamountColumn is the table column denoting the promotionamount relation/edge.
 	PromotionamountColumn = "promotionamount_promotion"
+	// EmployeeTable is the table the holds the employee relation/edge.
+	EmployeeTable = "promotions"
+	// EmployeeInverseTable is the table name for the Employee entity.
+	// It exists in this package in order to avoid circular dependency with the "employee" package.
+	EmployeeInverseTable = "employees"
+	// EmployeeColumn is the table column denoting the employee relation/edge.
+	EmployeeColumn = "employee_promotion"
 	// PaymentTable is the table the holds the payment relation/edge.
 	PaymentTable = "payments"
 	// PaymentInverseTable is the table name for the Payment entity.
@@ -59,6 +68,7 @@ var Columns = []string{
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the Promotion type.
 var ForeignKeys = []string{
+	"employee_promotion",
 	"promotionamount_promotion",
 	"promotiontype_promotion",
 }

@@ -37,5 +37,6 @@ func (Employee) Edges() []ent.Edge {
 		edge.To("equipment", Equipment.Type),
 		edge.To("bookcourse", Bookcourse.Type),
 		edge.To("equipmentrental", Equipmentrental.Type),
+		edge.To("promotion", Promotion.Type),
 	}
 }

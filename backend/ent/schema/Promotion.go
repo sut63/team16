@@ -33,6 +33,9 @@ func (Promotion) Edges() []ent.Edge {
 		edge.From("promotionamount", Promotionamount.Type).
 			Ref("promotion").
 			Unique(),
+		edge.From("employee", Employee.Type).
+			Ref("promotion").
+			Unique(),
 		edge.To("payment", Payment.Type),
 	}
 }

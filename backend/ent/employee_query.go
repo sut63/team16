@@ -17,6 +17,7 @@ import (
 	"github.com/G16/app/ent/payment"
 	"github.com/G16/app/ent/position"
 	"github.com/G16/app/ent/predicate"
+	"github.com/G16/app/ent/promotion"
 	"github.com/G16/app/ent/salary"
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
@@ -39,6 +40,7 @@ type EmployeeQuery struct {
 	withEquipment       *EquipmentQuery
 	withBookcourse      *BookcourseQuery
 	withEquipmentrental *EquipmentrentalQuery
+	withPromotion       *PromotionQuery
 	withFKs             bool
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
@@ -188,6 +190,24 @@ func (eq *EmployeeQuery) QueryEquipmentrental() *EquipmentrentalQuery {
 			sqlgraph.From(employee.Table, employee.FieldID, eq.sqlQuery()),
 			sqlgraph.To(equipmentrental.Table, equipmentrental.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, employee.EquipmentrentalTable, employee.EquipmentrentalColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(eq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryPromotion chains the current query on the promotion edge.
+func (eq *EmployeeQuery) QueryPromotion() *PromotionQuery {
+	query := &PromotionQuery{config: eq.config}
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := eq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(employee.Table, employee.FieldID, eq.sqlQuery()),
+			sqlgraph.To(promotion.Table, promotion.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, employee.PromotionTable, employee.PromotionColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(eq.driver.Dialect(), step)
 		return fromU, nil
@@ -451,6 +471,17 @@ func (eq *EmployeeQuery) WithEquipmentrental(opts ...func(*EquipmentrentalQuery)
 	return eq
 }
 
+//  WithPromotion tells the query-builder to eager-loads the nodes that are connected to
+// the "promotion" edge. The optional arguments used to configure the query builder of the edge.
+func (eq *EmployeeQuery) WithPromotion(opts ...func(*PromotionQuery)) *EmployeeQuery {
+	query := &PromotionQuery{config: eq.config}
+	for _, opt := range opts {
+		opt(query)
+	}
+	eq.withPromotion = query
+	return eq
+}
+
 // GroupBy used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
 //
@@ -518,7 +549,7 @@ func (eq *EmployeeQuery) sqlAll(ctx context.Context) ([]*Employee, error) {
 		nodes       = []*Employee{}
 		withFKs     = eq.withFKs
 		_spec       = eq.querySpec()
-		loadedTypes = [7]bool{
+		loadedTypes = [8]bool{
 			eq.withAge != nil,
 			eq.withPosition != nil,
 			eq.withSalary != nil,
@@ -526,6 +557,7 @@ func (eq *EmployeeQuery) sqlAll(ctx context.Context) ([]*Employee, error) {
 			eq.withEquipment != nil,
 			eq.withBookcourse != nil,
 			eq.withEquipmentrental != nil,
+			eq.withPromotion != nil,
 		}
 	)
 	if eq.withAge != nil || eq.withPosition != nil || eq.withSalary != nil {
@@ -742,6 +774,34 @@ func (eq *EmployeeQuery) sqlAll(ctx context.Context) ([]*Employee, error) {
 				return nil, fmt.Errorf(`unexpected foreign-key "employee_equipmentrental" returned %v for node %v`, *fk, n.ID)
 			}
 			node.Edges.Equipmentrental = append(node.Edges.Equipmentrental, n)
+		}
+	}
+
+	if query := eq.withPromotion; query != nil {
+		fks := make([]driver.Value, 0, len(nodes))
+		nodeids := make(map[int]*Employee)
+		for i := range nodes {
+			fks = append(fks, nodes[i].ID)
+			nodeids[nodes[i].ID] = nodes[i]
+		}
+		query.withFKs = true
+		query.Where(predicate.Promotion(func(s *sql.Selector) {
+			s.Where(sql.InValues(employee.PromotionColumn, fks...))
+		}))
+		neighbors, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, n := range neighbors {
+			fk := n.employee_promotion
+			if fk == nil {
+				return nil, fmt.Errorf(`foreign-key "employee_promotion" is nil for node %v`, n.ID)
+			}
+			node, ok := nodeids[*fk]
+			if !ok {
+				return nil, fmt.Errorf(`unexpected foreign-key "employee_promotion" returned %v for node %v`, *fk, n.ID)
+			}
+			node.Edges.Promotion = append(node.Edges.Promotion, n)
 		}
 	}
 

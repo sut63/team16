@@ -586,6 +586,34 @@ func HasPromotionamountWith(preds ...predicate.Promotionamount) predicate.Promot
 	})
 }
 
+// HasEmployee applies the HasEdge predicate on the "employee" edge.
+func HasEmployee() predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.To(EmployeeTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, EmployeeTable, EmployeeColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasEmployeeWith applies the HasEdge predicate on the "employee" edge with a given conditions (other predicates).
+func HasEmployeeWith(preds ...predicate.Employee) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.To(EmployeeInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, EmployeeTable, EmployeeColumn),
+		)
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
 // HasPayment applies the HasEdge predicate on the "payment" edge.
 func HasPayment() predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
