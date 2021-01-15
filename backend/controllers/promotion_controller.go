@@ -5,11 +5,12 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/G16/app/ent/employee"
 	"github.com/G16/app/ent/promotion"
 
 	"github.com/G16/app/ent"
-	"github.com/G16/app/ent/promotiontype"
 	"github.com/G16/app/ent/promotionamount"
+	"github.com/G16/app/ent/promotiontype"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,12 +22,13 @@ type PromotionController struct {
 
 // Promotion defines the struct for the promotion controller
 type Promotion struct {
-	PROMOTIONTYPE 	int
+	PROMOTIONTYPE   int
 	PROMOTIONAMOUNT int
-	NAME 			string
-	DESC 			string
-	CODE 			string
-	DATE			string
+	EMPLOYEE        int
+	NAME            string
+	DESC            string
+	CODE            string
+	DATE            string
 }
 
 // CreatePromotion handles POST requests for adding promotion entities
@@ -73,11 +75,24 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 		return
 	}
 
+	em, err := ctl.client.Employee.
+		Query().
+		Where(employee.IDEQ(int(obj.EMPLOYEE))).
+		Only(context.Background())
+
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "employee not found",
+		})
+		return
+	}
+
 	time, err := time.Parse(time.RFC3339, obj.DATE)
 	pr, err := ctl.client.Promotion.
 		Create().
 		SetPromotiontype(prt).
 		SetPromotionamount(pa).
+		SetEmployee(em).
 		SetNAME(obj.NAME).
 		SetDESC(obj.DESC).
 		SetCODE(obj.CODE).
@@ -118,6 +133,7 @@ func (ctl *PromotionController) GetPromotion(c *gin.Context) {
 		Query().
 		WithPromotiontype().
 		WithPromotionamount().
+		WithEmployee().
 		Where(promotion.IDEQ(int(id))).
 		Only(context.Background())
 	if err != nil {
@@ -164,6 +180,7 @@ func (ctl *PromotionController) ListPromotion(c *gin.Context) {
 		Query().
 		WithPromotiontype().
 		WithPromotionamount().
+		WithEmployee().
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())
