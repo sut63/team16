@@ -2620,6 +2620,13 @@ var doc = `{
                     "type": "object",
                     "$ref": "#/definitions/ent.Position"
                 },
+                "promotion": {
+                    "description": "Promotion holds the value of the promotion edge.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ent.Promotion"
+                    }
+                },
                 "salary": {
                     "description": "Salary holds the value of the salary edge.",
                     "type": "object",
@@ -2965,6 +2972,11 @@ var doc = `{
         "ent.PromotionEdges": {
             "type": "object",
             "properties": {
+                "employee": {
+                    "description": "Employee holds the value of the employee edge.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.Employee"
+                },
                 "payment": {
                     "description": "Payment holds the value of the payment edge.",
                     "type": "array",

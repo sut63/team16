@@ -224,6 +224,11 @@ definitions:
         $ref: '#/definitions/ent.Position'
         description: Position holds the value of the position edge.
         type: object
+      promotion:
+        description: Promotion holds the value of the promotion edge.
+        items:
+          $ref: '#/definitions/ent.Promotion'
+        type: array
       salary:
         $ref: '#/definitions/ent.Salary'
         description: Salary holds the value of the salary edge.
@@ -490,6 +495,10 @@ definitions:
     type: object
   ent.PromotionEdges:
     properties:
+      employee:
+        $ref: '#/definitions/ent.Employee'
+        description: Employee holds the value of the employee edge.
+        type: object
       payment:
         description: Payment holds the value of the payment edge.
         items:
