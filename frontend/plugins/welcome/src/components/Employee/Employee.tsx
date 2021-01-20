@@ -84,6 +84,14 @@ const employee: FC<{}> = () => {
     setSalary(res);
   };
 
+    // alert setting
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    });
 
   // Lifecycle Hooks
   useEffect(() => {
@@ -107,6 +115,32 @@ const employee: FC<{}> = () => {
     setEmployee({});
   }
 
+  const alertMessage = (icon: any, title: any) => {
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+  }
+
+  const checkCaseSaveError = (field: string) => {
+    switch(field) {
+      case 'EMPLOYEEID':
+        alertMessage("error","รหัสพนักงานขึ้นต้นด้วย EM ตามด้วยเลข 2 ตัว");
+        return;
+      case 'EMPLOYEENAME':
+        alertMessage("error","กรุณากรอกชื่อ");
+        return;
+      case 'EMPLOYEEADDRESS':
+        alertMessage("error","กรุณากรอกที่อยู่");
+        return;
+      case 'IDCARDNUMBER':
+        alertMessage("error","เลขประจำตัวประชาชน 13 หลัก");
+        return;
+      default:
+        alertMessage("error","บันทึกข้อมูลไม่สำเร็จ");
+        return;
+    }
+  }
   // function save data
   function save() {
     
@@ -117,34 +151,22 @@ const employee: FC<{}> = () => {
       body: JSON.stringify(employee),
     };
 
-    // alert setting
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-    });
-
     console.log(employee); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
 
     fetch(apiUrl, requestOptions)
-      .then(response => {
-        console.log(response.json());
-        if (response.ok === true) {
-          clear();
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.status === true) {
           Toast.fire({
             icon: 'success',
             title: 'บันทึกข้อมูลสำเร็จ',
           });
         } else {
-          Toast.fire({
-            icon: 'error',
-            title: 'บันทึกข้อมูลไม่สำเร็จ',
-          });
+          checkCaseSaveError(data.error.Name)
         }
       });
-  }
+  };
 
   return (
     <Page theme={pageTheme.home}>
