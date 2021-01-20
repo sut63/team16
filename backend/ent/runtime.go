@@ -7,6 +7,7 @@ import (
 	"github.com/G16/app/ent/equipment"
 	"github.com/G16/app/ent/equipmentrental"
 	"github.com/G16/app/ent/member"
+	"github.com/G16/app/ent/payment"
 	"github.com/G16/app/ent/promotion"
 	"github.com/G16/app/ent/promotionamount"
 	"github.com/G16/app/ent/promotiontype"
@@ -57,6 +58,63 @@ func init() {
 	memberDescMEMBERNAME := memberFields[1].Descriptor()
 	// member.MEMBERNAMEValidator is a validator for the "MEMBERNAME" field. It is called by the builders before save.
 	member.MEMBERNAMEValidator = memberDescMEMBERNAME.Validators[0].(func(string) error)
+	paymentFields := schema.Payment{}.Fields()
+	_ = paymentFields
+	// paymentDescPAYMENTAMOUNT is the schema descriptor for PAYMENTAMOUNT field.
+	paymentDescPAYMENTAMOUNT := paymentFields[0].Descriptor()
+	// payment.PAYMENTAMOUNTValidator is a validator for the "PAYMENTAMOUNT" field. It is called by the builders before save.
+	payment.PAYMENTAMOUNTValidator = func() func(string) error {
+		validators := paymentDescPAYMENTAMOUNT.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(_PAYMENTAMOUNT string) error {
+			for _, fn := range fns {
+				if err := fn(_PAYMENTAMOUNT); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// paymentDescPHONENUMBER is the schema descriptor for PHONENUMBER field.
+	paymentDescPHONENUMBER := paymentFields[1].Descriptor()
+	// payment.PHONENUMBERValidator is a validator for the "PHONENUMBER" field. It is called by the builders before save.
+	payment.PHONENUMBERValidator = func() func(string) error {
+		validators := paymentDescPHONENUMBER.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+			validators[2].(func(string) error),
+		}
+		return func(_PHONENUMBER string) error {
+			for _, fn := range fns {
+				if err := fn(_PHONENUMBER); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// paymentDescEMAIL is the schema descriptor for EMAIL field.
+	paymentDescEMAIL := paymentFields[2].Descriptor()
+	// payment.EMAILValidator is a validator for the "EMAIL" field. It is called by the builders before save.
+	payment.EMAILValidator = func() func(string) error {
+		validators := paymentDescEMAIL.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(_EMAIL string) error {
+			for _, fn := range fns {
+				if err := fn(_EMAIL); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	promotionFields := schema.Promotion{}.Fields()
 	_ = promotionFields
 	// promotionDescNAME is the schema descriptor for NAME field.

@@ -245,6 +245,8 @@ var (
 	PaymentsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "paymentamount", Type: field.TypeString},
+		{Name: "phonenumber", Type: field.TypeString, Size: 10},
+		{Name: "email", Type: field.TypeString},
 		{Name: "paymentdate", Type: field.TypeTime},
 		{Name: "employee_payment", Type: field.TypeInt, Nullable: true},
 		{Name: "member_payment", Type: field.TypeInt, Nullable: true},
@@ -259,28 +261,28 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "payments_employees_payment",
-				Columns: []*schema.Column{PaymentsColumns[3]},
+				Columns: []*schema.Column{PaymentsColumns[5]},
 
 				RefColumns: []*schema.Column{EmployeesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "payments_members_payment",
-				Columns: []*schema.Column{PaymentsColumns[4]},
+				Columns: []*schema.Column{PaymentsColumns[6]},
 
 				RefColumns: []*schema.Column{MembersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "payments_paymenttypes_payment",
-				Columns: []*schema.Column{PaymentsColumns[5]},
+				Columns: []*schema.Column{PaymentsColumns[7]},
 
 				RefColumns: []*schema.Column{PaymenttypesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "payments_promotions_payment",
-				Columns: []*schema.Column{PaymentsColumns[6]},
+				Columns: []*schema.Column{PaymentsColumns[8]},
 
 				RefColumns: []*schema.Column{PromotionsColumns[0]},
 				OnDelete:   schema.SetNull,
@@ -315,7 +317,7 @@ var (
 	PromotionsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString},
-		{Name: "desc", Type: field.TypeString, Size: 5},
+		{Name: "desc", Type: field.TypeString, Size: 30},
 		{Name: "code", Type: field.TypeString},
 		{Name: "date", Type: field.TypeTime},
 		{Name: "employee_promotion", Type: field.TypeInt, Nullable: true},

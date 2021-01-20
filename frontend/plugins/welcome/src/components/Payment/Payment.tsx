@@ -57,6 +57,8 @@ interface payment {
   promotion: Number,
   paymenttype: Number,
   paymentamount: String,
+  phonenumber: String,
+  email: String, 
   paymentdate: String,
 }
 
@@ -69,6 +71,7 @@ const Payment: FC<{}> = () => {
   const [promotion, setPromotion] = React.useState<EntPromotion[]>([]);
   const [paymenttype, setPaymenttype] = React.useState<EntPaymenttype[]>([]);
   const [employee, setEmployee] = React.useState<EntEmployee[]>([]);
+  const [showInputError, setShowInputError] = React.useState(false); // for error input show
 
  
   const getEmployee = async () => {
@@ -112,6 +115,7 @@ const Payment: FC<{}> = () => {
   // clear input form
   function clear() {
     setPayment({});
+    setShowInputError(false);
   }
 
   // function save data
@@ -124,6 +128,8 @@ const Payment: FC<{}> = () => {
       body: JSON.stringify(payment),
     };
 
+    console.log(payment); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
+
     // alert setting
     const Toast = Swal.mixin({
       toast: true,
@@ -131,9 +137,23 @@ const Payment: FC<{}> = () => {
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,
+      didOpen: toast => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
     });
-    
-    console.log(payment); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
+
+    setShowInputError(true);
+    let { paymentamount } = payment;
+    let { phonenumber } = payment;
+    let { email } = payment;
+    if (!paymentamount || !phonenumber || !email) {
+      Toast.fire({
+        icon: 'error',
+        title: 'บันทึกข้อมูลไม่สำเร็จ',
+      });
+      return;
+    }
 
     fetch(apiUrl, requestOptions)
       .then(response => {
@@ -255,16 +275,60 @@ const Payment: FC<{}> = () => {
             </Grid>
             <Grid item xs={9}>
               <form className={classes.root} noValidate autoComplete="off">
-                <TextField label="ราคา" 
+                <TextField
+                  error={!payment.paymentamount && showInputError}
+                  label="ราคา" 
                   name = "paymentamount"
                   type="string"
                   defaultValue=" " 
                   value={payment.paymentamount || ''} // (undefined || '') = ''
-                  onChange={handleChange}
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true,
-                  }}
+                  }} 
+                  onChange={handleChange}
+                />
+              </form>
+            </Grid>
+
+            <Grid item xs={3}>
+              <div className={classes.paper}>เบอร์โทรศัพท์</div>
+            </Grid>
+            <Grid item xs={9}>
+              <form className={classes.root} noValidate autoComplete="off">
+                <TextField
+                  error={!payment.phonenumber && showInputError}
+                  label="เบอร์ติดต่อ" 
+                  name = "phonenumber"
+                  type="string"
+                  defaultValue=" " 
+                  value={payment.phonenumber || ''} // (undefined || '') = ''
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }} 
+                  onChange={handleChange}
+                />
+              </form>
+            </Grid>
+
+            <Grid item xs={3}>
+              <div className={classes.paper}>Email</div>
+            </Grid>
+            <Grid item xs={9}>
+              <form className={classes.root} noValidate autoComplete="off">
+                <TextField
+                  error={!payment.email && showInputError}
+                  label="กรอก email" 
+                  name = "email"
+                  type="string"
+                  defaultValue=" " 
+                  value={payment.email || ''} // (undefined || '') = ''
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }} 
+                  onChange={handleChange}
                 />
               </form>
             </Grid>

@@ -22,6 +22,10 @@ type Payment struct {
 	ID int `json:"id,omitempty"`
 	// PAYMENTAMOUNT holds the value of the "PAYMENTAMOUNT" field.
 	PAYMENTAMOUNT string `json:"PAYMENTAMOUNT,omitempty"`
+	// PHONENUMBER holds the value of the "PHONENUMBER" field.
+	PHONENUMBER string `json:"PHONENUMBER,omitempty"`
+	// EMAIL holds the value of the "EMAIL" field.
+	EMAIL string `json:"EMAIL,omitempty"`
 	// PAYMENTDATE holds the value of the "PAYMENTDATE" field.
 	PAYMENTDATE time.Time `json:"PAYMENTDATE,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
@@ -109,6 +113,8 @@ func (*Payment) scanValues() []interface{} {
 	return []interface{}{
 		&sql.NullInt64{},  // id
 		&sql.NullString{}, // PAYMENTAMOUNT
+		&sql.NullString{}, // PHONENUMBER
+		&sql.NullString{}, // EMAIL
 		&sql.NullTime{},   // PAYMENTDATE
 	}
 }
@@ -140,12 +146,22 @@ func (pa *Payment) assignValues(values ...interface{}) error {
 	} else if value.Valid {
 		pa.PAYMENTAMOUNT = value.String
 	}
-	if value, ok := values[1].(*sql.NullTime); !ok {
-		return fmt.Errorf("unexpected type %T for field PAYMENTDATE", values[1])
+	if value, ok := values[1].(*sql.NullString); !ok {
+		return fmt.Errorf("unexpected type %T for field PHONENUMBER", values[1])
+	} else if value.Valid {
+		pa.PHONENUMBER = value.String
+	}
+	if value, ok := values[2].(*sql.NullString); !ok {
+		return fmt.Errorf("unexpected type %T for field EMAIL", values[2])
+	} else if value.Valid {
+		pa.EMAIL = value.String
+	}
+	if value, ok := values[3].(*sql.NullTime); !ok {
+		return fmt.Errorf("unexpected type %T for field PAYMENTDATE", values[3])
 	} else if value.Valid {
 		pa.PAYMENTDATE = value.Time
 	}
-	values = values[2:]
+	values = values[4:]
 	if len(values) == len(payment.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field employee_payment", value)
@@ -220,6 +236,10 @@ func (pa *Payment) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v", pa.ID))
 	builder.WriteString(", PAYMENTAMOUNT=")
 	builder.WriteString(pa.PAYMENTAMOUNT)
+	builder.WriteString(", PHONENUMBER=")
+	builder.WriteString(pa.PHONENUMBER)
+	builder.WriteString(", EMAIL=")
+	builder.WriteString(pa.EMAIL)
 	builder.WriteString(", PAYMENTDATE=")
 	builder.WriteString(pa.PAYMENTDATE.Format(time.ANSIC))
 	builder.WriteByte(')')

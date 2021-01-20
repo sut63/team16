@@ -2385,6 +2385,9 @@ var doc = `{
         "controllers.Payment": {
             "type": "object",
             "properties": {
+                "email": {
+                    "type": "string"
+                },
                 "employee": {
                     "type": "integer"
                 },
@@ -2399,6 +2402,9 @@ var doc = `{
                 },
                 "paymenttype": {
                     "type": "integer"
+                },
+                "phonenumber": {
+                    "type": "string"
                 },
                 "promotion": {
                     "type": "integer"
@@ -2835,12 +2841,20 @@ var doc = `{
         "ent.Payment": {
             "type": "object",
             "properties": {
+                "EMAIL": {
+                    "description": "EMAIL holds the value of the \"EMAIL\" field.",
+                    "type": "string"
+                },
                 "PAYMENTAMOUNT": {
                     "description": "PAYMENTAMOUNT holds the value of the \"PAYMENTAMOUNT\" field.",
                     "type": "string"
                 },
                 "PAYMENTDATE": {
                     "description": "PAYMENTDATE holds the value of the \"PAYMENTDATE\" field.",
+                    "type": "string"
+                },
+                "PHONENUMBER": {
+                    "description": "PHONENUMBER holds the value of the \"PHONENUMBER\" field.",
                     "type": "string"
                 },
                 "edges": {

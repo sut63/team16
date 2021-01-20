@@ -38,6 +38,18 @@ func (pu *PaymentUpdate) SetPAYMENTAMOUNT(s string) *PaymentUpdate {
 	return pu
 }
 
+// SetPHONENUMBER sets the PHONENUMBER field.
+func (pu *PaymentUpdate) SetPHONENUMBER(s string) *PaymentUpdate {
+	pu.mutation.SetPHONENUMBER(s)
+	return pu
+}
+
+// SetEMAIL sets the EMAIL field.
+func (pu *PaymentUpdate) SetEMAIL(s string) *PaymentUpdate {
+	pu.mutation.SetEMAIL(s)
+	return pu
+}
+
 // SetPAYMENTDATE sets the PAYMENTDATE field.
 func (pu *PaymentUpdate) SetPAYMENTDATE(t time.Time) *PaymentUpdate {
 	pu.mutation.SetPAYMENTDATE(t)
@@ -151,6 +163,21 @@ func (pu *PaymentUpdate) ClearPromotion() *PaymentUpdate {
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
 func (pu *PaymentUpdate) Save(ctx context.Context) (int, error) {
+	if v, ok := pu.mutation.PAYMENTAMOUNT(); ok {
+		if err := payment.PAYMENTAMOUNTValidator(v); err != nil {
+			return 0, &ValidationError{Name: "PAYMENTAMOUNT", err: fmt.Errorf("ent: validator failed for field \"PAYMENTAMOUNT\": %w", err)}
+		}
+	}
+	if v, ok := pu.mutation.PHONENUMBER(); ok {
+		if err := payment.PHONENUMBERValidator(v); err != nil {
+			return 0, &ValidationError{Name: "PHONENUMBER", err: fmt.Errorf("ent: validator failed for field \"PHONENUMBER\": %w", err)}
+		}
+	}
+	if v, ok := pu.mutation.EMAIL(); ok {
+		if err := payment.EMAILValidator(v); err != nil {
+			return 0, &ValidationError{Name: "EMAIL", err: fmt.Errorf("ent: validator failed for field \"EMAIL\": %w", err)}
+		}
+	}
 
 	var (
 		err      error
@@ -224,6 +251,20 @@ func (pu *PaymentUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Type:   field.TypeString,
 			Value:  value,
 			Column: payment.FieldPAYMENTAMOUNT,
+		})
+	}
+	if value, ok := pu.mutation.PHONENUMBER(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: payment.FieldPHONENUMBER,
+		})
+	}
+	if value, ok := pu.mutation.EMAIL(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: payment.FieldEMAIL,
 		})
 	}
 	if value, ok := pu.mutation.PAYMENTDATE(); ok {
@@ -397,6 +438,18 @@ func (puo *PaymentUpdateOne) SetPAYMENTAMOUNT(s string) *PaymentUpdateOne {
 	return puo
 }
 
+// SetPHONENUMBER sets the PHONENUMBER field.
+func (puo *PaymentUpdateOne) SetPHONENUMBER(s string) *PaymentUpdateOne {
+	puo.mutation.SetPHONENUMBER(s)
+	return puo
+}
+
+// SetEMAIL sets the EMAIL field.
+func (puo *PaymentUpdateOne) SetEMAIL(s string) *PaymentUpdateOne {
+	puo.mutation.SetEMAIL(s)
+	return puo
+}
+
 // SetPAYMENTDATE sets the PAYMENTDATE field.
 func (puo *PaymentUpdateOne) SetPAYMENTDATE(t time.Time) *PaymentUpdateOne {
 	puo.mutation.SetPAYMENTDATE(t)
@@ -510,6 +563,21 @@ func (puo *PaymentUpdateOne) ClearPromotion() *PaymentUpdateOne {
 
 // Save executes the query and returns the updated entity.
 func (puo *PaymentUpdateOne) Save(ctx context.Context) (*Payment, error) {
+	if v, ok := puo.mutation.PAYMENTAMOUNT(); ok {
+		if err := payment.PAYMENTAMOUNTValidator(v); err != nil {
+			return nil, &ValidationError{Name: "PAYMENTAMOUNT", err: fmt.Errorf("ent: validator failed for field \"PAYMENTAMOUNT\": %w", err)}
+		}
+	}
+	if v, ok := puo.mutation.PHONENUMBER(); ok {
+		if err := payment.PHONENUMBERValidator(v); err != nil {
+			return nil, &ValidationError{Name: "PHONENUMBER", err: fmt.Errorf("ent: validator failed for field \"PHONENUMBER\": %w", err)}
+		}
+	}
+	if v, ok := puo.mutation.EMAIL(); ok {
+		if err := payment.EMAILValidator(v); err != nil {
+			return nil, &ValidationError{Name: "EMAIL", err: fmt.Errorf("ent: validator failed for field \"EMAIL\": %w", err)}
+		}
+	}
 
 	var (
 		err  error
@@ -581,6 +649,20 @@ func (puo *PaymentUpdateOne) sqlSave(ctx context.Context) (pa *Payment, err erro
 			Type:   field.TypeString,
 			Value:  value,
 			Column: payment.FieldPAYMENTAMOUNT,
+		})
+	}
+	if value, ok := puo.mutation.PHONENUMBER(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: payment.FieldPHONENUMBER,
+		})
+	}
+	if value, ok := puo.mutation.EMAIL(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: payment.FieldEMAIL,
 		})
 	}
 	if value, ok := puo.mutation.PAYMENTDATE(); ok {

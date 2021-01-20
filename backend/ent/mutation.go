@@ -5131,6 +5131,8 @@ type PaymentMutation struct {
 	typ                string
 	id                 *int
 	_PAYMENTAMOUNT     *string
+	_PHONENUMBER       *string
+	_EMAIL             *string
 	_PAYMENTDATE       *time.Time
 	clearedFields      map[string]struct{}
 	member             *int
@@ -5259,6 +5261,80 @@ func (m *PaymentMutation) OldPAYMENTAMOUNT(ctx context.Context) (v string, err e
 // ResetPAYMENTAMOUNT reset all changes of the "PAYMENTAMOUNT" field.
 func (m *PaymentMutation) ResetPAYMENTAMOUNT() {
 	m._PAYMENTAMOUNT = nil
+}
+
+// SetPHONENUMBER sets the PHONENUMBER field.
+func (m *PaymentMutation) SetPHONENUMBER(s string) {
+	m._PHONENUMBER = &s
+}
+
+// PHONENUMBER returns the PHONENUMBER value in the mutation.
+func (m *PaymentMutation) PHONENUMBER() (r string, exists bool) {
+	v := m._PHONENUMBER
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPHONENUMBER returns the old PHONENUMBER value of the Payment.
+// If the Payment object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *PaymentMutation) OldPHONENUMBER(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldPHONENUMBER is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldPHONENUMBER requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPHONENUMBER: %w", err)
+	}
+	return oldValue.PHONENUMBER, nil
+}
+
+// ResetPHONENUMBER reset all changes of the "PHONENUMBER" field.
+func (m *PaymentMutation) ResetPHONENUMBER() {
+	m._PHONENUMBER = nil
+}
+
+// SetEMAIL sets the EMAIL field.
+func (m *PaymentMutation) SetEMAIL(s string) {
+	m._EMAIL = &s
+}
+
+// EMAIL returns the EMAIL value in the mutation.
+func (m *PaymentMutation) EMAIL() (r string, exists bool) {
+	v := m._EMAIL
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEMAIL returns the old EMAIL value of the Payment.
+// If the Payment object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *PaymentMutation) OldEMAIL(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldEMAIL is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldEMAIL requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEMAIL: %w", err)
+	}
+	return oldValue.EMAIL, nil
+}
+
+// ResetEMAIL reset all changes of the "EMAIL" field.
+func (m *PaymentMutation) ResetEMAIL() {
+	m._EMAIL = nil
 }
 
 // SetPAYMENTDATE sets the PAYMENTDATE field.
@@ -5468,9 +5544,15 @@ func (m *PaymentMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *PaymentMutation) Fields() []string {
-	fields := make([]string, 0, 2)
+	fields := make([]string, 0, 4)
 	if m._PAYMENTAMOUNT != nil {
 		fields = append(fields, payment.FieldPAYMENTAMOUNT)
+	}
+	if m._PHONENUMBER != nil {
+		fields = append(fields, payment.FieldPHONENUMBER)
+	}
+	if m._EMAIL != nil {
+		fields = append(fields, payment.FieldEMAIL)
 	}
 	if m._PAYMENTDATE != nil {
 		fields = append(fields, payment.FieldPAYMENTDATE)
@@ -5485,6 +5567,10 @@ func (m *PaymentMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case payment.FieldPAYMENTAMOUNT:
 		return m.PAYMENTAMOUNT()
+	case payment.FieldPHONENUMBER:
+		return m.PHONENUMBER()
+	case payment.FieldEMAIL:
+		return m.EMAIL()
 	case payment.FieldPAYMENTDATE:
 		return m.PAYMENTDATE()
 	}
@@ -5498,6 +5584,10 @@ func (m *PaymentMutation) OldField(ctx context.Context, name string) (ent.Value,
 	switch name {
 	case payment.FieldPAYMENTAMOUNT:
 		return m.OldPAYMENTAMOUNT(ctx)
+	case payment.FieldPHONENUMBER:
+		return m.OldPHONENUMBER(ctx)
+	case payment.FieldEMAIL:
+		return m.OldEMAIL(ctx)
 	case payment.FieldPAYMENTDATE:
 		return m.OldPAYMENTDATE(ctx)
 	}
@@ -5515,6 +5605,20 @@ func (m *PaymentMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetPAYMENTAMOUNT(v)
+		return nil
+	case payment.FieldPHONENUMBER:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPHONENUMBER(v)
+		return nil
+	case payment.FieldEMAIL:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEMAIL(v)
 		return nil
 	case payment.FieldPAYMENTDATE:
 		v, ok := value.(time.Time)
@@ -5575,6 +5679,12 @@ func (m *PaymentMutation) ResetField(name string) error {
 	switch name {
 	case payment.FieldPAYMENTAMOUNT:
 		m.ResetPAYMENTAMOUNT()
+		return nil
+	case payment.FieldPHONENUMBER:
+		m.ResetPHONENUMBER()
+		return nil
+	case payment.FieldEMAIL:
+		m.ResetEMAIL()
 		return nil
 	case payment.FieldPAYMENTDATE:
 		m.ResetPAYMENTDATE()

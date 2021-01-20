@@ -21,6 +21,12 @@ import { exists, mapValues } from '../runtime';
 export interface ControllersPayment {
     /**
      * 
+     * @type {string}
+     * @memberof ControllersPayment
+     */
+    email?: string;
+    /**
+     * 
      * @type {number}
      * @memberof ControllersPayment
      */
@@ -51,6 +57,12 @@ export interface ControllersPayment {
     paymenttype?: number;
     /**
      * 
+     * @type {string}
+     * @memberof ControllersPayment
+     */
+    phonenumber?: string;
+    /**
+     * 
      * @type {number}
      * @memberof ControllersPayment
      */
@@ -67,11 +79,13 @@ export function ControllersPaymentFromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
+        'email': !exists(json, 'email') ? undefined : json['email'],
         'employee': !exists(json, 'employee') ? undefined : json['employee'],
         'member': !exists(json, 'member') ? undefined : json['member'],
         'paymentamount': !exists(json, 'paymentamount') ? undefined : json['paymentamount'],
         'paymentdate': !exists(json, 'paymentdate') ? undefined : json['paymentdate'],
         'paymenttype': !exists(json, 'paymenttype') ? undefined : json['paymenttype'],
+        'phonenumber': !exists(json, 'phonenumber') ? undefined : json['phonenumber'],
         'promotion': !exists(json, 'promotion') ? undefined : json['promotion'],
     };
 }
@@ -85,11 +99,13 @@ export function ControllersPaymentToJSON(value?: ControllersPayment | null): any
     }
     return {
         
+        'email': value.email,
         'employee': value.employee,
         'member': value.member,
         'paymentamount': value.paymentamount,
         'paymentdate': value.paymentdate,
         'paymenttype': value.paymenttype,
+        'phonenumber': value.phonenumber,
         'promotion': value.promotion,
     };
 }

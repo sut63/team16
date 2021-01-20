@@ -27,6 +27,12 @@ import {
  */
 export interface EntPayment {
     /**
+     * EMAIL holds the value of the "EMAIL" field.
+     * @type {string}
+     * @memberof EntPayment
+     */
+    eMAIL?: string;
+    /**
      * PAYMENTAMOUNT holds the value of the "PAYMENTAMOUNT" field.
      * @type {string}
      * @memberof EntPayment
@@ -38,6 +44,12 @@ export interface EntPayment {
      * @memberof EntPayment
      */
     pAYMENTDATE?: string;
+    /**
+     * PHONENUMBER holds the value of the "PHONENUMBER" field.
+     * @type {string}
+     * @memberof EntPayment
+     */
+    pHONENUMBER?: string;
     /**
      * 
      * @type {EntPaymentEdges}
@@ -62,8 +74,10 @@ export function EntPaymentFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
+        'eMAIL': !exists(json, 'EMAIL') ? undefined : json['EMAIL'],
         'pAYMENTAMOUNT': !exists(json, 'PAYMENTAMOUNT') ? undefined : json['PAYMENTAMOUNT'],
         'pAYMENTDATE': !exists(json, 'PAYMENTDATE') ? undefined : json['PAYMENTDATE'],
+        'pHONENUMBER': !exists(json, 'PHONENUMBER') ? undefined : json['PHONENUMBER'],
         'edges': !exists(json, 'edges') ? undefined : EntPaymentEdgesFromJSON(json['edges']),
         'id': !exists(json, 'id') ? undefined : json['id'],
     };
@@ -78,8 +92,10 @@ export function EntPaymentToJSON(value?: EntPayment | null): any {
     }
     return {
         
+        'EMAIL': value.eMAIL,
         'PAYMENTAMOUNT': value.pAYMENTAMOUNT,
         'PAYMENTDATE': value.pAYMENTDATE,
+        'PHONENUMBER': value.pHONENUMBER,
         'edges': EntPaymentEdgesToJSON(value.edges),
         'id': value.id,
     };
