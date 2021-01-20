@@ -62,15 +62,57 @@ func init() {
 	// promotionDescNAME is the schema descriptor for NAME field.
 	promotionDescNAME := promotionFields[0].Descriptor()
 	// promotion.NAMEValidator is a validator for the "NAME" field. It is called by the builders before save.
-	promotion.NAMEValidator = promotionDescNAME.Validators[0].(func(string) error)
+	promotion.NAMEValidator = func() func(string) error {
+		validators := promotionDescNAME.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(_NAME string) error {
+			for _, fn := range fns {
+				if err := fn(_NAME); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	// promotionDescDESC is the schema descriptor for DESC field.
 	promotionDescDESC := promotionFields[1].Descriptor()
 	// promotion.DESCValidator is a validator for the "DESC" field. It is called by the builders before save.
-	promotion.DESCValidator = promotionDescDESC.Validators[0].(func(string) error)
+	promotion.DESCValidator = func() func(string) error {
+		validators := promotionDescDESC.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(_DESC string) error {
+			for _, fn := range fns {
+				if err := fn(_DESC); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	// promotionDescCODE is the schema descriptor for CODE field.
 	promotionDescCODE := promotionFields[2].Descriptor()
 	// promotion.CODEValidator is a validator for the "CODE" field. It is called by the builders before save.
-	promotion.CODEValidator = promotionDescCODE.Validators[0].(func(string) error)
+	promotion.CODEValidator = func() func(string) error {
+		validators := promotionDescCODE.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(_CODE string) error {
+			for _, fn := range fns {
+				if err := fn(_CODE); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	promotionamountFields := schema.Promotionamount{}.Fields()
 	_ = promotionamountFields
 	// promotionamountDescAMOUNT is the schema descriptor for AMOUNT field.

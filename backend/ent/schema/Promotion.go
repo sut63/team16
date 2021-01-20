@@ -1,6 +1,9 @@
 package schema
 
 import (
+	"regexp"
+	"errors"
+
 	"github.com/facebookincubator/ent"
 	"github.com/facebookincubator/ent/schema/edge"
 	"github.com/facebookincubator/ent/schema/field"
@@ -15,10 +18,19 @@ type Promotion struct {
 func (Promotion) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("NAME").
+			Validate(func(s string) error {
+				match, _ := regexp.Match("[0-9?+=-_!@#$%^&*<>:;]", []byte(s))
+					if match {
+						return errors.New("มีตัวเลชหรืออักษรพิเศษ")
+					}
+				return nil
+			}).
 			NotEmpty(),
 		field.String("DESC").
+			MaxLen(30).
 			NotEmpty(),
 		field.String("CODE").
+			Match(regexp.MustCompile("[A-Z]+[A-Z]+[0-9]+[0-9]+[0-9]")).
 			NotEmpty(),
 		field.Time("DATE"),
 	}

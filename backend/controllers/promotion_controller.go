@@ -4,6 +4,7 @@ import (
 	"context"
 	"strconv"
 	"time"
+	"fmt"
 
 	"github.com/G16/app/ent/employee"
 	"github.com/G16/app/ent/promotion"
@@ -100,13 +101,18 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 		Save(context.Background())
 
 	if err != nil {
+		fmt.Println(err)
 		c.JSON(400, gin.H{
-			"error": "saving failed",
+			"status": false,
+			"error": err,
 		})
 		return
 	}
 
-	c.JSON(200, pr)
+	c.JSON(200, gin.H{
+		"status": true,
+		"error": pr,
+	})
 }
 
 // GetPromotion handles GET requests to retrieve a promotion entity
