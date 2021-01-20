@@ -87,7 +87,7 @@ var (
 		{Name: "employeeid", Type: field.TypeString, Unique: true},
 		{Name: "employeename", Type: field.TypeString},
 		{Name: "employeeaddress", Type: field.TypeString},
-		{Name: "idcardnumber", Type: field.TypeString, Unique: true},
+		{Name: "idcardnumber", Type: field.TypeString, Unique: true, Size: 13},
 		{Name: "age_employee", Type: field.TypeInt, Nullable: true},
 		{Name: "position_employee", Type: field.TypeInt, Nullable: true},
 		{Name: "salary_employee", Type: field.TypeInt, Nullable: true},

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 
 	"github.com/G16/app/ent"
@@ -97,13 +98,18 @@ func (ctl *EmployeeController) CreateEmployee(c *gin.Context) {
 		Save(context.Background())
 
 	if err != nil {
+		fmt.Println(err)
 		c.JSON(400, gin.H{
-			"error": "saving failed",
+			"status": false,
+			"error":  err,
 		})
 		return
 	}
 
-	c.JSON(200, em)
+	c.JSON(200, gin.H{
+		"status": true,
+		"data":   em,
+	})
 }
 
 // GetEmployee handles GET requests to retrieve a employee entity

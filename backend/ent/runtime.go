@@ -23,7 +23,21 @@ func init() {
 	// employeeDescEMPLOYEEID is the schema descriptor for EMPLOYEEID field.
 	employeeDescEMPLOYEEID := employeeFields[0].Descriptor()
 	// employee.EMPLOYEEIDValidator is a validator for the "EMPLOYEEID" field. It is called by the builders before save.
-	employee.EMPLOYEEIDValidator = employeeDescEMPLOYEEID.Validators[0].(func(string) error)
+	employee.EMPLOYEEIDValidator = func() func(string) error {
+		validators := employeeDescEMPLOYEEID.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(_EMPLOYEEID string) error {
+			for _, fn := range fns {
+				if err := fn(_EMPLOYEEID); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	// employeeDescEMPLOYEENAME is the schema descriptor for EMPLOYEENAME field.
 	employeeDescEMPLOYEENAME := employeeFields[1].Descriptor()
 	// employee.EMPLOYEENAMEValidator is a validator for the "EMPLOYEENAME" field. It is called by the builders before save.
@@ -35,7 +49,22 @@ func init() {
 	// employeeDescIDCARDNUMBER is the schema descriptor for IDCARDNUMBER field.
 	employeeDescIDCARDNUMBER := employeeFields[3].Descriptor()
 	// employee.IDCARDNUMBERValidator is a validator for the "IDCARDNUMBER" field. It is called by the builders before save.
-	employee.IDCARDNUMBERValidator = employeeDescIDCARDNUMBER.Validators[0].(func(string) error)
+	employee.IDCARDNUMBERValidator = func() func(string) error {
+		validators := employeeDescIDCARDNUMBER.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+			validators[2].(func(string) error),
+		}
+		return func(_IDCARDNUMBER string) error {
+			for _, fn := range fns {
+				if err := fn(_IDCARDNUMBER); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	equipmentFields := schema.Equipment{}.Fields()
 	_ = equipmentFields
 	// equipmentDescEQUIPMENTAMOUNT is the schema descriptor for EQUIPMENTAMOUNT field.

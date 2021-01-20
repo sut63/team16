@@ -1,6 +1,8 @@
 package schema
 
 import (
+	"errors"
+	"regexp"
 	"github.com/facebookincubator/ent"
 	"github.com/facebookincubator/ent/schema/edge"
 	"github.com/facebookincubator/ent/schema/field"
@@ -14,10 +16,16 @@ type Employee struct {
 // Fields of the Employee.
 func (Employee) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("EMPLOYEEID").NotEmpty().Unique(),
+		field.String("EMPLOYEEID").NotEmpty().Unique().Validate(func(s string) error {
+			match, _ := regexp.MatchString("[E][M]\\d{2}", s)
+			if !match {
+				return errors.New("รูปแบบรหัสของพนักงานไม่ถูกต้อง")
+			}
+			return nil
+		}),
 		field.String("EMPLOYEENAME").NotEmpty(),
 		field.String("EMPLOYEEADDRESS").NotEmpty(),
-		field.String("IDCARDNUMBER").NotEmpty().Unique(),
+		field.String("IDCARDNUMBER").NotEmpty().Unique().MaxLen(13).MinLen(13),
 	}
 }
 
