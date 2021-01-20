@@ -1,6 +1,9 @@
 package schema
 
 import (
+	"errors"
+	"regexp"
+
 	"github.com/facebookincubator/ent"
 	"github.com/facebookincubator/ent/schema/edge"
 	"github.com/facebookincubator/ent/schema/field"
@@ -14,10 +17,20 @@ type Equipment struct {
 // Fields of the Equipment.
 func (Equipment) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("EQUIPMENTNAME"),
+		field.String("EQUIPMENTNAME").
+			Validate(func(s string) error {
+				match, _ := regexp.Match("[0-9?+=-_!@#$%^&*<>:;]", []byte(s))
+				if match {
+					return errors.New("มีตัวเลชหรืออักษรพิเศษ")
+				}
+				return nil
+			}).
+			NotEmpty(),
 		field.Int("EQUIPMENTAMOUNT").
 			Positive(),
-		field.String("EQUIPMENTDETAIL"),
+		field.String("EQUIPMENTDETAIL").
+			MaxLen(30).
+			NotEmpty(),
 		field.Time("EQUIPMENTDATE"),
 	}
 }

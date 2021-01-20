@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 	"time"
 
@@ -28,6 +29,7 @@ type Equipment struct {
 	EQUIPMENTTYPE       int
 	EQUIPMENTZONE       int
 	EMPLOYEE            int
+	EQUIPMENTNO         int
 	EQUIPMENTNAME       string
 	EQUIPMENTAMOUNT     int
 	EQUIPMENTDATE       string
@@ -116,13 +118,18 @@ func (ctl *EquipmentController) CreateEquipment(c *gin.Context) {
 		Save(context.Background())
 
 	if err != nil {
+		fmt.Println(err)
 		c.JSON(400, gin.H{
-			"error": "saving failed",
+			"status": false,
+			"error":  err,
 		})
 		return
 	}
 
-	c.JSON(200, eq)
+	c.JSON(200, gin.H{
+		"status": true,
+		"error":  eq,
+	})
 }
 
 // GetEquipment handles GET requests to retrieve a equipment entity

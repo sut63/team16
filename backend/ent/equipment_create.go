@@ -150,6 +150,11 @@ func (ec *EquipmentCreate) Save(ctx context.Context) (*Equipment, error) {
 	if _, ok := ec.mutation.EQUIPMENTNAME(); !ok {
 		return nil, &ValidationError{Name: "EQUIPMENTNAME", err: errors.New("ent: missing required field \"EQUIPMENTNAME\"")}
 	}
+	if v, ok := ec.mutation.EQUIPMENTNAME(); ok {
+		if err := equipment.EQUIPMENTNAMEValidator(v); err != nil {
+			return nil, &ValidationError{Name: "EQUIPMENTNAME", err: fmt.Errorf("ent: validator failed for field \"EQUIPMENTNAME\": %w", err)}
+		}
+	}
 	if _, ok := ec.mutation.EQUIPMENTAMOUNT(); !ok {
 		return nil, &ValidationError{Name: "EQUIPMENTAMOUNT", err: errors.New("ent: missing required field \"EQUIPMENTAMOUNT\"")}
 	}
@@ -160,6 +165,11 @@ func (ec *EquipmentCreate) Save(ctx context.Context) (*Equipment, error) {
 	}
 	if _, ok := ec.mutation.EQUIPMENTDETAIL(); !ok {
 		return nil, &ValidationError{Name: "EQUIPMENTDETAIL", err: errors.New("ent: missing required field \"EQUIPMENTDETAIL\"")}
+	}
+	if v, ok := ec.mutation.EQUIPMENTDETAIL(); ok {
+		if err := equipment.EQUIPMENTDETAILValidator(v); err != nil {
+			return nil, &ValidationError{Name: "EQUIPMENTDETAIL", err: fmt.Errorf("ent: validator failed for field \"EQUIPMENTDETAIL\": %w", err)}
+		}
 	}
 	if _, ok := ec.mutation.EQUIPMENTDATE(); !ok {
 		return nil, &ValidationError{Name: "EQUIPMENTDATE", err: errors.New("ent: missing required field \"EQUIPMENTDATE\"")}

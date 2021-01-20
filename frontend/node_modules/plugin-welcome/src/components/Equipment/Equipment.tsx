@@ -90,7 +90,16 @@ const Equipment: FC<{}> = () => {
     const res = await http.listZone({ limit: 10, offset: 0 });
     setZone(res);
   };
-  
+
+  // alert setting
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
+
   // Lifecycle Hooks
   useEffect(() => {
     getClassifier();
@@ -114,6 +123,27 @@ const Equipment: FC<{}> = () => {
     setEquipment({});
   }
   
+  const alertMessage = (icon: any, title: any) => {
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+  }
+
+  const checkCaseSaveError = (field: string) => {
+    switch(field) {
+      case 'EQUIPMENTNAME':
+        alertMessage("error","กรุณากรอกชื่อ (ชื่ออุปกรณ์ห้ามมีตัวเลข หรือตัวอักษรพิเศษ)");
+        return;
+      case 'EQUIPMENTAMOUNT':
+        alertMessage("error","กรุณากรอกจำนวน (ห้ามติด - หรือเป็น 0)");
+        return;
+      case 'EQUIPMENTDETAIL':
+        alertMessage("error","กรุณากรอกรายละเอียด (ห้ามเกิน 30 ตัวอักษร)");
+        return;
+    }
+  }
+
   // function save data
   function save() {
     equipment.EQUIPMENTDATE += ":00+07:00";
@@ -125,33 +155,27 @@ const Equipment: FC<{}> = () => {
       body: JSON.stringify(equipment),
     };
 
-    // alert setting
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-    });
+    
 
     console.log(equipment); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
 
     fetch(apiUrl, requestOptions)
-      .then(response => {
-        console.log(response.json());
-        if (response.ok === true) {
-          clear();
-          Toast.fire({
-            icon: 'success',
-            title: 'บันทึกข้อมูลสำเร็จ',
-          });
-        } else {
-          Toast.fire({
-            icon: 'error',
-            title: 'บันทึกข้อมูลไม่สำเร็จ',
-          });
-        }
-      });
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if (data.status === true) {
+        Toast.fire({
+          icon: 'success',
+          title: 'บันทึกข้อมูลสำเร็จ',
+        });
+      } else {
+        Toast.fire({
+          icon: 'error',
+          title: 'บันทึกข้อมูลไม่สำเร็จ',
+        });
+        checkCaseSaveError(data.error.Name)
+      }
+    });
   }
 
   return (
