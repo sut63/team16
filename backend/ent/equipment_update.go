@@ -201,9 +201,19 @@ func (eu *EquipmentUpdate) RemoveEquipmentrental(e ...*Equipmentrental) *Equipme
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
 func (eu *EquipmentUpdate) Save(ctx context.Context) (int, error) {
+	if v, ok := eu.mutation.EQUIPMENTNAME(); ok {
+		if err := equipment.EQUIPMENTNAMEValidator(v); err != nil {
+			return 0, &ValidationError{Name: "EQUIPMENTNAME", err: fmt.Errorf("ent: validator failed for field \"EQUIPMENTNAME\": %w", err)}
+		}
+	}
 	if v, ok := eu.mutation.EQUIPMENTAMOUNT(); ok {
 		if err := equipment.EQUIPMENTAMOUNTValidator(v); err != nil {
 			return 0, &ValidationError{Name: "EQUIPMENTAMOUNT", err: fmt.Errorf("ent: validator failed for field \"EQUIPMENTAMOUNT\": %w", err)}
+		}
+	}
+	if v, ok := eu.mutation.EQUIPMENTDETAIL(); ok {
+		if err := equipment.EQUIPMENTDETAILValidator(v); err != nil {
+			return 0, &ValidationError{Name: "EQUIPMENTDETAIL", err: fmt.Errorf("ent: validator failed for field \"EQUIPMENTDETAIL\": %w", err)}
 		}
 	}
 
@@ -673,9 +683,19 @@ func (euo *EquipmentUpdateOne) RemoveEquipmentrental(e ...*Equipmentrental) *Equ
 
 // Save executes the query and returns the updated entity.
 func (euo *EquipmentUpdateOne) Save(ctx context.Context) (*Equipment, error) {
+	if v, ok := euo.mutation.EQUIPMENTNAME(); ok {
+		if err := equipment.EQUIPMENTNAMEValidator(v); err != nil {
+			return nil, &ValidationError{Name: "EQUIPMENTNAME", err: fmt.Errorf("ent: validator failed for field \"EQUIPMENTNAME\": %w", err)}
+		}
+	}
 	if v, ok := euo.mutation.EQUIPMENTAMOUNT(); ok {
 		if err := equipment.EQUIPMENTAMOUNTValidator(v); err != nil {
 			return nil, &ValidationError{Name: "EQUIPMENTAMOUNT", err: fmt.Errorf("ent: validator failed for field \"EQUIPMENTAMOUNT\": %w", err)}
+		}
+	}
+	if v, ok := euo.mutation.EQUIPMENTDETAIL(); ok {
+		if err := equipment.EQUIPMENTDETAILValidator(v); err != nil {
+			return nil, &ValidationError{Name: "EQUIPMENTDETAIL", err: fmt.Errorf("ent: validator failed for field \"EQUIPMENTDETAIL\": %w", err)}
 		}
 	}
 

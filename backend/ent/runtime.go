@@ -38,10 +38,46 @@ func init() {
 	employee.IDCARDNUMBERValidator = employeeDescIDCARDNUMBER.Validators[0].(func(string) error)
 	equipmentFields := schema.Equipment{}.Fields()
 	_ = equipmentFields
+	// equipmentDescEQUIPMENTNAME is the schema descriptor for EQUIPMENTNAME field.
+	equipmentDescEQUIPMENTNAME := equipmentFields[0].Descriptor()
+	// equipment.EQUIPMENTNAMEValidator is a validator for the "EQUIPMENTNAME" field. It is called by the builders before save.
+	equipment.EQUIPMENTNAMEValidator = func() func(string) error {
+		validators := equipmentDescEQUIPMENTNAME.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(_EQUIPMENTNAME string) error {
+			for _, fn := range fns {
+				if err := fn(_EQUIPMENTNAME); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	// equipmentDescEQUIPMENTAMOUNT is the schema descriptor for EQUIPMENTAMOUNT field.
 	equipmentDescEQUIPMENTAMOUNT := equipmentFields[1].Descriptor()
 	// equipment.EQUIPMENTAMOUNTValidator is a validator for the "EQUIPMENTAMOUNT" field. It is called by the builders before save.
 	equipment.EQUIPMENTAMOUNTValidator = equipmentDescEQUIPMENTAMOUNT.Validators[0].(func(int) error)
+	// equipmentDescEQUIPMENTDETAIL is the schema descriptor for EQUIPMENTDETAIL field.
+	equipmentDescEQUIPMENTDETAIL := equipmentFields[2].Descriptor()
+	// equipment.EQUIPMENTDETAILValidator is a validator for the "EQUIPMENTDETAIL" field. It is called by the builders before save.
+	equipment.EQUIPMENTDETAILValidator = func() func(string) error {
+		validators := equipmentDescEQUIPMENTDETAIL.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(_EQUIPMENTDETAIL string) error {
+			for _, fn := range fns {
+				if err := fn(_EQUIPMENTDETAIL); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	equipmentrentalFields := schema.Equipmentrental{}.Fields()
 	_ = equipmentrentalFields
 	// equipmentrentalDescRENTALAMOUNT is the schema descriptor for RENTALAMOUNT field.
