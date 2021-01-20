@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 	"time"
 
@@ -28,6 +29,8 @@ type Payment struct {
 	PAYMENTTYPE   int
 	EMPLOYEE      int
 	PAYMENTAMOUNT string
+	PHONENUMBER   string
+	EMAIL         string
 	PAYMENTDATE   string
 }
 
@@ -107,17 +110,24 @@ func (ctl *PaymentController) CreatePayment(c *gin.Context) {
 		SetPaymenttype(pt).
 		SetEmployee(em).
 		SetPAYMENTAMOUNT(obj.PAYMENTAMOUNT).
+		SetPHONENUMBER(obj.PHONENUMBER).
+		SetEMAIL(obj.EMAIL).
 		SetPAYMENTDATE(time).
 		Save(context.Background())
 
 	if err != nil {
+		fmt.Println(err)
 		c.JSON(400, gin.H{
-			"error": "saving failed",
+			"status": false,
+			"error":  err,
 		})
 		return
 	}
 
-	c.JSON(200, pm)
+	c.JSON(200, gin.H{
+		"status": true,
+		"error":  pm,
+	})
 }
 
 // GetPayment handles GET requests to retrieve a payment entity

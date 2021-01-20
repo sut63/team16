@@ -9,6 +9,10 @@ const (
 	FieldID = "id"
 	// FieldPAYMENTAMOUNT holds the string denoting the paymentamount field in the database.
 	FieldPAYMENTAMOUNT = "paymentamount"
+	// FieldPHONENUMBER holds the string denoting the phonenumber field in the database.
+	FieldPHONENUMBER = "phonenumber"
+	// FieldEMAIL holds the string denoting the email field in the database.
+	FieldEMAIL = "email"
 	// FieldPAYMENTDATE holds the string denoting the paymentdate field in the database.
 	FieldPAYMENTDATE = "paymentdate"
 
@@ -57,6 +61,8 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldPAYMENTAMOUNT,
+	FieldPHONENUMBER,
+	FieldEMAIL,
 	FieldPAYMENTDATE,
 }
 
@@ -67,3 +73,12 @@ var ForeignKeys = []string{
 	"paymenttype_payment",
 	"promotion_payment",
 }
+
+var (
+	// PAYMENTAMOUNTValidator is a validator for the "PAYMENTAMOUNT" field. It is called by the builders before save.
+	PAYMENTAMOUNTValidator func(string) error
+	// PHONENUMBERValidator is a validator for the "PHONENUMBER" field. It is called by the builders before save.
+	PHONENUMBERValidator func(string) error
+	// EMAILValidator is a validator for the "EMAIL" field. It is called by the builders before save.
+	EMAILValidator func(string) error
+)

@@ -30,6 +30,18 @@ func (pc *PaymentCreate) SetPAYMENTAMOUNT(s string) *PaymentCreate {
 	return pc
 }
 
+// SetPHONENUMBER sets the PHONENUMBER field.
+func (pc *PaymentCreate) SetPHONENUMBER(s string) *PaymentCreate {
+	pc.mutation.SetPHONENUMBER(s)
+	return pc
+}
+
+// SetEMAIL sets the EMAIL field.
+func (pc *PaymentCreate) SetEMAIL(s string) *PaymentCreate {
+	pc.mutation.SetEMAIL(s)
+	return pc
+}
+
 // SetPAYMENTDATE sets the PAYMENTDATE field.
 func (pc *PaymentCreate) SetPAYMENTDATE(t time.Time) *PaymentCreate {
 	pc.mutation.SetPAYMENTDATE(t)
@@ -122,6 +134,27 @@ func (pc *PaymentCreate) Save(ctx context.Context) (*Payment, error) {
 	if _, ok := pc.mutation.PAYMENTAMOUNT(); !ok {
 		return nil, &ValidationError{Name: "PAYMENTAMOUNT", err: errors.New("ent: missing required field \"PAYMENTAMOUNT\"")}
 	}
+	if v, ok := pc.mutation.PAYMENTAMOUNT(); ok {
+		if err := payment.PAYMENTAMOUNTValidator(v); err != nil {
+			return nil, &ValidationError{Name: "PAYMENTAMOUNT", err: fmt.Errorf("ent: validator failed for field \"PAYMENTAMOUNT\": %w", err)}
+		}
+	}
+	if _, ok := pc.mutation.PHONENUMBER(); !ok {
+		return nil, &ValidationError{Name: "PHONENUMBER", err: errors.New("ent: missing required field \"PHONENUMBER\"")}
+	}
+	if v, ok := pc.mutation.PHONENUMBER(); ok {
+		if err := payment.PHONENUMBERValidator(v); err != nil {
+			return nil, &ValidationError{Name: "PHONENUMBER", err: fmt.Errorf("ent: validator failed for field \"PHONENUMBER\": %w", err)}
+		}
+	}
+	if _, ok := pc.mutation.EMAIL(); !ok {
+		return nil, &ValidationError{Name: "EMAIL", err: errors.New("ent: missing required field \"EMAIL\"")}
+	}
+	if v, ok := pc.mutation.EMAIL(); ok {
+		if err := payment.EMAILValidator(v); err != nil {
+			return nil, &ValidationError{Name: "EMAIL", err: fmt.Errorf("ent: validator failed for field \"EMAIL\": %w", err)}
+		}
+	}
 	if _, ok := pc.mutation.PAYMENTDATE(); !ok {
 		return nil, &ValidationError{Name: "PAYMENTDATE", err: errors.New("ent: missing required field \"PAYMENTDATE\"")}
 	}
@@ -192,6 +225,22 @@ func (pc *PaymentCreate) createSpec() (*Payment, *sqlgraph.CreateSpec) {
 			Column: payment.FieldPAYMENTAMOUNT,
 		})
 		pa.PAYMENTAMOUNT = value
+	}
+	if value, ok := pc.mutation.PHONENUMBER(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: payment.FieldPHONENUMBER,
+		})
+		pa.PHONENUMBER = value
+	}
+	if value, ok := pc.mutation.EMAIL(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: payment.FieldEMAIL,
+		})
+		pa.EMAIL = value
 	}
 	if value, ok := pc.mutation.PAYMENTDATE(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{

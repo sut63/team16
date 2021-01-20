@@ -100,6 +100,20 @@ func PAYMENTAMOUNT(v string) predicate.Payment {
 	})
 }
 
+// PHONENUMBER applies equality check predicate on the "PHONENUMBER" field. It's identical to PHONENUMBEREQ.
+func PHONENUMBER(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPHONENUMBER), v))
+	})
+}
+
+// EMAIL applies equality check predicate on the "EMAIL" field. It's identical to EMAILEQ.
+func EMAIL(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldEMAIL), v))
+	})
+}
+
 // PAYMENTDATE applies equality check predicate on the "PAYMENTDATE" field. It's identical to PAYMENTDATEEQ.
 func PAYMENTDATE(v time.Time) predicate.Payment {
 	return predicate.Payment(func(s *sql.Selector) {
@@ -215,6 +229,228 @@ func PAYMENTAMOUNTEqualFold(v string) predicate.Payment {
 func PAYMENTAMOUNTContainsFold(v string) predicate.Payment {
 	return predicate.Payment(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldPAYMENTAMOUNT), v))
+	})
+}
+
+// PHONENUMBEREQ applies the EQ predicate on the "PHONENUMBER" field.
+func PHONENUMBEREQ(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPHONENUMBER), v))
+	})
+}
+
+// PHONENUMBERNEQ applies the NEQ predicate on the "PHONENUMBER" field.
+func PHONENUMBERNEQ(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldPHONENUMBER), v))
+	})
+}
+
+// PHONENUMBERIn applies the In predicate on the "PHONENUMBER" field.
+func PHONENUMBERIn(vs ...string) predicate.Payment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Payment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldPHONENUMBER), v...))
+	})
+}
+
+// PHONENUMBERNotIn applies the NotIn predicate on the "PHONENUMBER" field.
+func PHONENUMBERNotIn(vs ...string) predicate.Payment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Payment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldPHONENUMBER), v...))
+	})
+}
+
+// PHONENUMBERGT applies the GT predicate on the "PHONENUMBER" field.
+func PHONENUMBERGT(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldPHONENUMBER), v))
+	})
+}
+
+// PHONENUMBERGTE applies the GTE predicate on the "PHONENUMBER" field.
+func PHONENUMBERGTE(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldPHONENUMBER), v))
+	})
+}
+
+// PHONENUMBERLT applies the LT predicate on the "PHONENUMBER" field.
+func PHONENUMBERLT(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldPHONENUMBER), v))
+	})
+}
+
+// PHONENUMBERLTE applies the LTE predicate on the "PHONENUMBER" field.
+func PHONENUMBERLTE(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldPHONENUMBER), v))
+	})
+}
+
+// PHONENUMBERContains applies the Contains predicate on the "PHONENUMBER" field.
+func PHONENUMBERContains(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldPHONENUMBER), v))
+	})
+}
+
+// PHONENUMBERHasPrefix applies the HasPrefix predicate on the "PHONENUMBER" field.
+func PHONENUMBERHasPrefix(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldPHONENUMBER), v))
+	})
+}
+
+// PHONENUMBERHasSuffix applies the HasSuffix predicate on the "PHONENUMBER" field.
+func PHONENUMBERHasSuffix(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldPHONENUMBER), v))
+	})
+}
+
+// PHONENUMBEREqualFold applies the EqualFold predicate on the "PHONENUMBER" field.
+func PHONENUMBEREqualFold(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldPHONENUMBER), v))
+	})
+}
+
+// PHONENUMBERContainsFold applies the ContainsFold predicate on the "PHONENUMBER" field.
+func PHONENUMBERContainsFold(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldPHONENUMBER), v))
+	})
+}
+
+// EMAILEQ applies the EQ predicate on the "EMAIL" field.
+func EMAILEQ(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldEMAIL), v))
+	})
+}
+
+// EMAILNEQ applies the NEQ predicate on the "EMAIL" field.
+func EMAILNEQ(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldEMAIL), v))
+	})
+}
+
+// EMAILIn applies the In predicate on the "EMAIL" field.
+func EMAILIn(vs ...string) predicate.Payment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Payment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldEMAIL), v...))
+	})
+}
+
+// EMAILNotIn applies the NotIn predicate on the "EMAIL" field.
+func EMAILNotIn(vs ...string) predicate.Payment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Payment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldEMAIL), v...))
+	})
+}
+
+// EMAILGT applies the GT predicate on the "EMAIL" field.
+func EMAILGT(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldEMAIL), v))
+	})
+}
+
+// EMAILGTE applies the GTE predicate on the "EMAIL" field.
+func EMAILGTE(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldEMAIL), v))
+	})
+}
+
+// EMAILLT applies the LT predicate on the "EMAIL" field.
+func EMAILLT(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldEMAIL), v))
+	})
+}
+
+// EMAILLTE applies the LTE predicate on the "EMAIL" field.
+func EMAILLTE(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldEMAIL), v))
+	})
+}
+
+// EMAILContains applies the Contains predicate on the "EMAIL" field.
+func EMAILContains(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldEMAIL), v))
+	})
+}
+
+// EMAILHasPrefix applies the HasPrefix predicate on the "EMAIL" field.
+func EMAILHasPrefix(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldEMAIL), v))
+	})
+}
+
+// EMAILHasSuffix applies the HasSuffix predicate on the "EMAIL" field.
+func EMAILHasSuffix(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldEMAIL), v))
+	})
+}
+
+// EMAILEqualFold applies the EqualFold predicate on the "EMAIL" field.
+func EMAILEqualFold(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldEMAIL), v))
+	})
+}
+
+// EMAILContainsFold applies the ContainsFold predicate on the "EMAIL" field.
+func EMAILContainsFold(v string) predicate.Payment {
+	return predicate.Payment(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldEMAIL), v))
 	})
 }
 
