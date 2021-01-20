@@ -84,6 +84,10 @@ var ForeignKeys = []string{
 }
 
 var (
+	// EQUIPMENTNAMEValidator is a validator for the "EQUIPMENTNAME" field. It is called by the builders before save.
+	EQUIPMENTNAMEValidator func(string) error
 	// EQUIPMENTAMOUNTValidator is a validator for the "EQUIPMENTAMOUNT" field. It is called by the builders before save.
 	EQUIPMENTAMOUNTValidator func(int) error
+	// EQUIPMENTDETAILValidator is a validator for the "EQUIPMENTDETAIL" field. It is called by the builders before save.
+	EQUIPMENTDETAILValidator func(string) error
 )
