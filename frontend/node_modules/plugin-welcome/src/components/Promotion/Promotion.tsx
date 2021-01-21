@@ -83,6 +83,15 @@ const Promotion: FC<{}> = () => {
     const res = await http.listEmployee({ limit: 10, offset: 0 });
     setEmployee(res);
   };
+
+  // alert setting
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
   
   // Lifecycle Hooks
   useEffect(() => {
@@ -106,6 +115,30 @@ const Promotion: FC<{}> = () => {
     setPromotion({});
   }
 
+  const alertMessage = (icon: any, title: any) => {
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+  }
+
+  const checkCaseSaveError = (field: string) => {
+    switch(field) {
+      case 'NAME':
+        alertMessage("error","ชื่อโปรโมชั่น ห้ามมีตัวอีกษรพิเศษ");
+        return;
+      case 'DESC':
+        alertMessage("error","เงื่อนไขต้องกรอกไม่เกิน 30 ตัวอักษร");
+        return;
+      case 'CODE':
+        alertMessage("error","รหัสต้องขึ้นต้น A-Z 2 ตัวและตามด้วย ตัวเลข 3 หลัก");
+        return;
+      default:
+        alertMessage("error","บันทึกข้อมูลไม่สำเร็จ");
+        return;
+    }
+  }
+
   // function save data
   function save() {
     promotion.date += ":00+07:00";
@@ -115,32 +148,21 @@ const Promotion: FC<{}> = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(promotion),
     };
-
-    // alert setting
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-    });
     
     console.log(promotion); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
 
     fetch(apiUrl, requestOptions)
-      .then(response => {
-        console.log(response.json());
-        if (response.ok === true) {
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.status === true) {
           clear();
           Toast.fire({
             icon: 'success',
             title: 'บันทึกข้อมูลสำเร็จ',
           });
         } else {
-          Toast.fire({
-            icon: 'error',
-            title: 'บันทึกข้อมูลไม่สำเร็จ',
-          });
+          checkCaseSaveError(data.error.Name)
         }
       });
   }

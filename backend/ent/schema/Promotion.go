@@ -19,9 +19,9 @@ func (Promotion) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("NAME").
 			Validate(func(s string) error {
-				match, _ := regexp.Match("[0-9?+=-_!@#$%^&*<>:;]", []byte(s))
+				match, _ := regexp.Match("[-_=@#$%?]", []byte(s))
 					if match {
-						return errors.New("มีตัวเลชหรืออักษรพิเศษ")
+						return errors.New("มีตัวเลชหรืออักษรพิเศษ")	
 					}
 				return nil
 			}).
@@ -31,6 +31,7 @@ func (Promotion) Fields() []ent.Field {
 			NotEmpty(),
 		field.String("CODE").
 			Match(regexp.MustCompile("[A-Z]+[A-Z]+[0-9]+[0-9]+[0-9]")).
+			MaxLen(5).
 			NotEmpty(),
 		field.Time("DATE"),
 	}
