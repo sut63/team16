@@ -94,6 +94,19 @@ const Payment: FC<{}> = () => {
     setPaymenttype(res);
   };
   
+  // alert setting
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: toast => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    },
+  });
+
   // Lifecycle Hooks
   useEffect(() => {
     getEmployee();
@@ -118,6 +131,30 @@ const Payment: FC<{}> = () => {
     setShowInputError(false);
   }
 
+  const alertMessage = (icon: any, title: any) => {
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+  }
+
+  const checkCaseSaveError = (field: string) => {
+    switch(field) {
+      case 'PAYMENTAMOUNT':
+        alertMessage("error","กรอกรูปแบบราคาไม่ถูกต้อง");
+        return;
+      case 'PHONENUMBER':
+        alertMessage("error","กรุณากรอกเบอร์โทรศัพท์ 10 หลัก");
+        return;
+      case 'EMAIL':
+        alertMessage("error","กรอกรูปแบบ EMAIL ไม่ถูกต้อง");
+        return;
+      default:
+        alertMessage("error","บันทึกข้อมูลไม่สำเร็จ");
+        return;
+    }
+  }
+
   // function save data
   function save() {
     payment.paymentdate += ":00+07:00";
@@ -129,19 +166,6 @@ const Payment: FC<{}> = () => {
     };
 
     console.log(payment); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
-
-    // alert setting
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: toast => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      },
-    });
 
     setShowInputError(true);
     let { paymentamount } = payment;
@@ -156,19 +180,17 @@ const Payment: FC<{}> = () => {
     }
 
     fetch(apiUrl, requestOptions)
-      .then(response => {
-        console.log(response.json());
-        if (response.ok === true) {
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.status === true) {
           clear();
           Toast.fire({
             icon: 'success',
             title: 'บันทึกข้อมูลสำเร็จ',
           });
         } else {
-          Toast.fire({
-            icon: 'error',
-            title: 'บันทึกข้อมูลไม่สำเร็จ',
-          });
+          checkCaseSaveError(data.error.Name)
         }
       });
   }
