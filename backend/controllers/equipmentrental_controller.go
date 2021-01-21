@@ -99,8 +99,30 @@ func (ctl *EquipmentrentalController) CreateEquipmentrental(c *gin.Context) {
 		return
 	}
 
+	
 	time1, err := time.Parse(time.RFC3339, obj.RENTALDATE)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "วันที่ยืมอุปกรณ์ไม่ถูกต้อง",
+		})
+		return
+	}
+
 	timere, err := time.Parse(time.RFC3339, obj.RETURNDATE)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "วันที่ครบกำหนดยืมอุปกรณ์ไม่ถูกต้อง",
+		})
+		return
+	}
+
+	if obj.RENTALAMOUNT <=0 {
+		c.JSON(400, gin.H{
+			"error": "จำนวนยืมอุปกรณ์ไม่ถูกต้อง",
+		})
+		return
+	}
+
 	er, err := ctl.client.Equipmentrental.
 		Create().
 		SetMember(mb).
