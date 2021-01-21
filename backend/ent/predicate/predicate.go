@@ -54,5 +54,8 @@ type Promotiontype func(*sql.Selector)
 // Salary is the predicate function for salary builders.
 type Salary func(*sql.Selector)
 
+// User is the predicate function for user builders.
+type User func(*sql.Selector)
+
 // Zone is the predicate function for zone builders.
 type Zone func(*sql.Selector)
