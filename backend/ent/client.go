@@ -25,6 +25,7 @@ import (
 	"github.com/G16/app/ent/promotionamount"
 	"github.com/G16/app/ent/promotiontype"
 	"github.com/G16/app/ent/salary"
+	"github.com/G16/app/ent/user"
 	"github.com/G16/app/ent/zone"
 
 	"github.com/facebookincubator/ent/dialect"
@@ -69,6 +70,8 @@ type Client struct {
 	Promotiontype *PromotiontypeClient
 	// Salary is the client for interacting with the Salary builders.
 	Salary *SalaryClient
+	// User is the client for interacting with the User builders.
+	User *UserClient
 	// Zone is the client for interacting with the Zone builders.
 	Zone *ZoneClient
 }
@@ -100,6 +103,7 @@ func (c *Client) init() {
 	c.Promotionamount = NewPromotionamountClient(c.config)
 	c.Promotiontype = NewPromotiontypeClient(c.config)
 	c.Salary = NewSalaryClient(c.config)
+	c.User = NewUserClient(c.config)
 	c.Zone = NewZoneClient(c.config)
 }
 
@@ -149,6 +153,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		Promotionamount: NewPromotionamountClient(cfg),
 		Promotiontype:   NewPromotiontypeClient(cfg),
 		Salary:          NewSalaryClient(cfg),
+		User:            NewUserClient(cfg),
 		Zone:            NewZoneClient(cfg),
 	}, nil
 }
@@ -181,6 +186,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		Promotionamount: NewPromotionamountClient(cfg),
 		Promotiontype:   NewPromotiontypeClient(cfg),
 		Salary:          NewSalaryClient(cfg),
+		User:            NewUserClient(cfg),
 		Zone:            NewZoneClient(cfg),
 	}, nil
 }
@@ -226,6 +232,7 @@ func (c *Client) Use(hooks ...Hook) {
 	c.Promotionamount.Use(hooks...)
 	c.Promotiontype.Use(hooks...)
 	c.Salary.Use(hooks...)
+	c.User.Use(hooks...)
 	c.Zone.Use(hooks...)
 }
 
@@ -2211,6 +2218,89 @@ func (c *SalaryClient) QueryEmployee(s *Salary) *EmployeeQuery {
 // Hooks returns the client hooks.
 func (c *SalaryClient) Hooks() []Hook {
 	return c.hooks.Salary
+}
+
+// UserClient is a client for the User schema.
+type UserClient struct {
+	config
+}
+
+// NewUserClient returns a client for the User from the given config.
+func NewUserClient(c config) *UserClient {
+	return &UserClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `user.Hooks(f(g(h())))`.
+func (c *UserClient) Use(hooks ...Hook) {
+	c.hooks.User = append(c.hooks.User, hooks...)
+}
+
+// Create returns a create builder for User.
+func (c *UserClient) Create() *UserCreate {
+	mutation := newUserMutation(c.config, OpCreate)
+	return &UserCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Update returns an update builder for User.
+func (c *UserClient) Update() *UserUpdate {
+	mutation := newUserMutation(c.config, OpUpdate)
+	return &UserUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *UserClient) UpdateOne(u *User) *UserUpdateOne {
+	mutation := newUserMutation(c.config, OpUpdateOne, withUser(u))
+	return &UserUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *UserClient) UpdateOneID(id int) *UserUpdateOne {
+	mutation := newUserMutation(c.config, OpUpdateOne, withUserID(id))
+	return &UserUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for User.
+func (c *UserClient) Delete() *UserDelete {
+	mutation := newUserMutation(c.config, OpDelete)
+	return &UserDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *UserClient) DeleteOne(u *User) *UserDeleteOne {
+	return c.DeleteOneID(u.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *UserClient) DeleteOneID(id int) *UserDeleteOne {
+	builder := c.Delete().Where(user.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &UserDeleteOne{builder}
+}
+
+// Create returns a query builder for User.
+func (c *UserClient) Query() *UserQuery {
+	return &UserQuery{config: c.config}
+}
+
+// Get returns a User entity by its id.
+func (c *UserClient) Get(ctx context.Context, id int) (*User, error) {
+	return c.Query().Where(user.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *UserClient) GetX(ctx context.Context, id int) *User {
+	u, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return u
+}
+
+// Hooks returns the client hooks.
+func (c *UserClient) Hooks() []Hook {
+	return c.hooks.User
 }
 
 // ZoneClient is a client for the Zone schema.

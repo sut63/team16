@@ -40,6 +40,7 @@ type hooks struct {
 	Promotionamount []ent.Hook
 	Promotiontype   []ent.Hook
 	Salary          []ent.Hook
+	User            []ent.Hook
 	Zone            []ent.Hook
 }
 
