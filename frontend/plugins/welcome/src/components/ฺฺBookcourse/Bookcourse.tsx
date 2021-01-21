@@ -50,11 +50,23 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+// alert setting
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+});
+
 interface bookcourse {
   member: Number,
   employee: Number,
   course: Number,
   booktime: String,
+  phone : String,
+  access : Number,
+  detail : String,
 }
 
 const Bookcourse: FC<{}> = () => {
@@ -64,6 +76,9 @@ const Bookcourse: FC<{}> = () => {
   const [course, setCourse] = React.useState<EntCourse[]>([]);
   const [member, setMember] = React.useState<EntMember[]>([]);
   const [employee, setEmployee] = React.useState<EntEmployee[]>([]);
+  const [phoneError, setphoneError] = React.useState('');
+  const [detailError, setdetailError] = React.useState('');
+  const [accessError, setaccessError] = React.useState('');
 
   const getEmployee = async () => {
     const res = await http.listEmployee({ limit: 10, offset: 0 });
@@ -89,13 +104,73 @@ const Bookcourse: FC<{}> = () => {
 
   // set data to object bookcourse
   const handleChange = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>,
+    event: React.ChangeEvent<{ name?: string; value: any }>,
   ) => {
     const name = event.target.name as keyof typeof Bookcourse;
     const { value } = event.target;
+    const validateValue = value.toString()
+    checkPattern(name, validateValue)
     setBookcourse({ ...bookcourse, [name]: value });
     console.log(bookcourse);
   };
+
+// ฟังก์ชั่นสำหรับ validate รายละเอียดการจอง
+const validateldetail = (val: string) => {
+  return val.charCodeAt(0) >= 65 && val.charCodeAt(0) <= 90 ? true : false;
+}
+
+// ฟังก์ชั่นสำหรับ validate จำนวณผู้เข้าจอง
+const validatelaccess = (val: string) => {
+  return val.length == 1 ? true : false;
+}
+
+// ฟังก์ชั่นสำหรับ validate เลขโทรศัพท์
+const validatetelphone = (val: string) => {
+  return val.length == 10 ? true : false;
+}
+
+
+// สำหรับตรวจสอบรูปแบบข้อมูลที่กรอก ว่าเป็นไปตามที่กำหนดหรือไม่
+const checkPattern  = (id: string, value: string) => {
+  switch(id) {
+    case 'detail':
+      validateldetail(value) ? setdetailError('') : setdetailError('รายละเอียดการจอง30ตัวอักษร');
+      return;
+    case 'access':
+      validatelaccess(value) ? setaccessError('') : setaccessError('จำนวณผู้เข้าใช้สนามไม่ถูกต้อง');
+      return;
+    case 'phone':
+      validatetelphone(value) ? setphoneError('') : setphoneError('หมายเลขโทรศัพท์ตัวเลข 10 หลัก')
+      return;
+      
+    default:
+      return;
+  }
+}
+
+const alertMessage = (icon: any, title: any) => {
+  Toast.fire({
+    icon: icon,
+    title: title,
+  });
+}
+
+const checkCaseSaveError = (field: string) => {
+  switch(field) {
+    case 'DETAIL':
+      alertMessage("error","รายละเอียดการจอง30ตัวอักษร");
+      return;
+    case 'ACCESS':
+      alertMessage("error","จำนวณผู้เข้าใช้ไม่ถูกต้อง");
+      return;
+    case 'PHONE':
+      alertMessage("error","หมายเลขโทรศัพท์ตัวเลข 10 หลัก");
+      return;
+    default:
+      alertMessage("error","บันทึกข้อมูลไม่สำเร็จ");
+      return;
+  }
+}
 
   // clear input form
   function clear() {
@@ -105,6 +180,7 @@ const Bookcourse: FC<{}> = () => {
   // function save data
   function save() {
     bookcourse.booktime += ":00+07:00";
+    bookcourse.access = Number(bookcourse.access);
     const apiUrl = 'http://localhost:8080/api/v1/bookcourses';
     const requestOptions = {
       method: 'POST',
@@ -112,33 +188,22 @@ const Bookcourse: FC<{}> = () => {
       body: JSON.stringify(bookcourse),
     };
 
-    // alert setting
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-    });
-    
     console.log(bookcourse); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
 
     fetch(apiUrl, requestOptions)
-      .then(response => {
-        console.log(response.json());
-        if (response.ok === true) {
-          clear();
-          Toast.fire({
-            icon: 'success',
-            title: 'บันทึกข้อมูลสำเร็จ',
-          });
-        } else {
-          Toast.fire({
-            icon: 'error',
-            title: 'บันทึกข้อมูลไม่สำเร็จ',
-          });
-        }
-      });
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if (data.status === true) {
+        clear();
+        Toast.fire({
+          icon: 'success',
+          title: 'บันทึกข้อมูลสำเร็จ',
+        });
+      } else {
+        checkCaseSaveError(data.error.Name)
+      }
+    });
   }
 
   return (
@@ -196,6 +261,44 @@ const Bookcourse: FC<{}> = () => {
             </Grid>
 
             <Grid item xs={3}>
+              <div className={classes.paper}>เบอร์ติดต่อ</div>
+            </Grid>
+            <Grid item xs={9}>
+              <form className={classes.container} noValidate>
+                <TextField
+                  label="เพิ่มเบอร์ติดต่อ"
+                  name="phone"
+                  type="string"
+                  value={bookcourse.phone || ''} // (undefined || '') = ''
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleChange}
+                />
+              </form>
+            </Grid>
+
+            <Grid item xs={3}>
+              <div className={classes.paper}>จำนวณผู้เข้าใช้</div>
+            </Grid>
+            <Grid item xs={9}>
+              <form className={classes.container} noValidate>
+                <TextField
+                  label="เพิ่มจำนวณผู้เข้าใช้"
+                  name="access"
+                  type="number"
+                  value={bookcourse.access || ''} // (undefined || '') = ''
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleChange}
+                />
+              </form>
+            </Grid>
+
+            <Grid item xs={3}>
               <div className={classes.paper}>ชื่อพนักงานที่บันทึก</div>
             </Grid>
             <Grid item xs={9}>
@@ -215,6 +318,25 @@ const Bookcourse: FC<{}> = () => {
                   })}
                 </Select>
               </FormControl>
+            </Grid>
+
+            <Grid item xs={3}>
+              <div className={classes.paper}>รายละเอียดการเข้าใช้</div>
+            </Grid>
+            <Grid item xs={9}>
+              <form className={classes.container} noValidate>
+                <TextField
+                  label="เพิ่มรายละเอียดการเข้าใช้"
+                  name="detail"
+                  type="string"
+                  value={bookcourse.detail || ''} // (undefined || '') = ''
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleChange}
+                />
+              </form>
             </Grid>
 
             <Grid item xs={3}>

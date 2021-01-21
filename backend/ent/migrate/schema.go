@@ -23,6 +23,9 @@ var (
 	// BookcoursesColumns holds the columns for the "bookcourses" table.
 	BookcoursesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "access", Type: field.TypeInt},
+		{Name: "phone", Type: field.TypeString, Size: 10},
+		{Name: "detail", Type: field.TypeString, Size: 30},
 		{Name: "booktime", Type: field.TypeTime},
 		{Name: "course_bookcourse", Type: field.TypeInt, Nullable: true},
 		{Name: "employee_bookcourse", Type: field.TypeInt, Nullable: true},
@@ -36,21 +39,21 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "bookcourses_courses_bookcourse",
-				Columns: []*schema.Column{BookcoursesColumns[2]},
+				Columns: []*schema.Column{BookcoursesColumns[5]},
 
 				RefColumns: []*schema.Column{CoursesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "bookcourses_employees_bookcourse",
-				Columns: []*schema.Column{BookcoursesColumns[3]},
+				Columns: []*schema.Column{BookcoursesColumns[6]},
 
 				RefColumns: []*schema.Column{EmployeesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "bookcourses_members_bookcourse",
-				Columns: []*schema.Column{BookcoursesColumns[4]},
+				Columns: []*schema.Column{BookcoursesColumns[7]},
 
 				RefColumns: []*schema.Column{MembersColumns[0]},
 				OnDelete:   schema.SetNull,

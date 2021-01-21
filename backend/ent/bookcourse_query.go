@@ -332,12 +332,12 @@ func (bq *BookcourseQuery) WithMember(opts ...func(*MemberQuery)) *BookcourseQue
 // Example:
 //
 //	var v []struct {
-//		BOOKTIME time.Time `json:"BOOKTIME,omitempty"`
+//		ACCESS int `json:"ACCESS,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Bookcourse.Query().
-//		GroupBy(bookcourse.FieldBOOKTIME).
+//		GroupBy(bookcourse.FieldACCESS).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -358,11 +358,11 @@ func (bq *BookcourseQuery) GroupBy(field string, fields ...string) *BookcourseGr
 // Example:
 //
 //	var v []struct {
-//		BOOKTIME time.Time `json:"BOOKTIME,omitempty"`
+//		ACCESS int `json:"ACCESS,omitempty"`
 //	}
 //
 //	client.Bookcourse.Query().
-//		Select(bookcourse.FieldBOOKTIME).
+//		Select(bookcourse.FieldACCESS).
 //		Scan(ctx, &v)
 //
 func (bq *BookcourseQuery) Select(field string, fields ...string) *BookcourseSelect {

@@ -19,6 +19,12 @@ type Bookcourse struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// ACCESS holds the value of the "ACCESS" field.
+	ACCESS int `json:"ACCESS,omitempty"`
+	// PHONE holds the value of the "PHONE" field.
+	PHONE string `json:"PHONE,omitempty"`
+	// DETAIL holds the value of the "DETAIL" field.
+	DETAIL string `json:"DETAIL,omitempty"`
 	// BOOKTIME holds the value of the "BOOKTIME" field.
 	BOOKTIME time.Time `json:"BOOKTIME,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
@@ -87,8 +93,11 @@ func (e BookcourseEdges) MemberOrErr() (*Member, error) {
 // scanValues returns the types for scanning values from sql.Rows.
 func (*Bookcourse) scanValues() []interface{} {
 	return []interface{}{
-		&sql.NullInt64{}, // id
-		&sql.NullTime{},  // BOOKTIME
+		&sql.NullInt64{},  // id
+		&sql.NullInt64{},  // ACCESS
+		&sql.NullString{}, // PHONE
+		&sql.NullString{}, // DETAIL
+		&sql.NullTime{},   // BOOKTIME
 	}
 }
 
@@ -113,12 +122,27 @@ func (b *Bookcourse) assignValues(values ...interface{}) error {
 	}
 	b.ID = int(value.Int64)
 	values = values[1:]
-	if value, ok := values[0].(*sql.NullTime); !ok {
-		return fmt.Errorf("unexpected type %T for field BOOKTIME", values[0])
+	if value, ok := values[0].(*sql.NullInt64); !ok {
+		return fmt.Errorf("unexpected type %T for field ACCESS", values[0])
+	} else if value.Valid {
+		b.ACCESS = int(value.Int64)
+	}
+	if value, ok := values[1].(*sql.NullString); !ok {
+		return fmt.Errorf("unexpected type %T for field PHONE", values[1])
+	} else if value.Valid {
+		b.PHONE = value.String
+	}
+	if value, ok := values[2].(*sql.NullString); !ok {
+		return fmt.Errorf("unexpected type %T for field DETAIL", values[2])
+	} else if value.Valid {
+		b.DETAIL = value.String
+	}
+	if value, ok := values[3].(*sql.NullTime); !ok {
+		return fmt.Errorf("unexpected type %T for field BOOKTIME", values[3])
 	} else if value.Valid {
 		b.BOOKTIME = value.Time
 	}
-	values = values[1:]
+	values = values[4:]
 	if len(values) == len(bookcourse.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field course_bookcourse", value)
@@ -180,6 +204,12 @@ func (b *Bookcourse) String() string {
 	var builder strings.Builder
 	builder.WriteString("Bookcourse(")
 	builder.WriteString(fmt.Sprintf("id=%v", b.ID))
+	builder.WriteString(", ACCESS=")
+	builder.WriteString(fmt.Sprintf("%v", b.ACCESS))
+	builder.WriteString(", PHONE=")
+	builder.WriteString(b.PHONE)
+	builder.WriteString(", DETAIL=")
+	builder.WriteString(b.DETAIL)
 	builder.WriteString(", BOOKTIME=")
 	builder.WriteString(b.BOOKTIME.Format(time.ANSIC))
 	builder.WriteByte(')')

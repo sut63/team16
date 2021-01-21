@@ -469,6 +469,10 @@ type BookcourseMutation struct {
 	op              Op
 	typ             string
 	id              *int
+	_ACCESS         *int
+	add_ACCESS      *int
+	_PHONE          *string
+	_DETAIL         *string
 	_BOOKTIME       *time.Time
 	clearedFields   map[string]struct{}
 	course          *int
@@ -558,6 +562,137 @@ func (m *BookcourseMutation) ID() (id int, exists bool) {
 		return
 	}
 	return *m.id, true
+}
+
+// SetACCESS sets the ACCESS field.
+func (m *BookcourseMutation) SetACCESS(i int) {
+	m._ACCESS = &i
+	m.add_ACCESS = nil
+}
+
+// ACCESS returns the ACCESS value in the mutation.
+func (m *BookcourseMutation) ACCESS() (r int, exists bool) {
+	v := m._ACCESS
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldACCESS returns the old ACCESS value of the Bookcourse.
+// If the Bookcourse object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *BookcourseMutation) OldACCESS(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldACCESS is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldACCESS requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldACCESS: %w", err)
+	}
+	return oldValue.ACCESS, nil
+}
+
+// AddACCESS adds i to ACCESS.
+func (m *BookcourseMutation) AddACCESS(i int) {
+	if m.add_ACCESS != nil {
+		*m.add_ACCESS += i
+	} else {
+		m.add_ACCESS = &i
+	}
+}
+
+// AddedACCESS returns the value that was added to the ACCESS field in this mutation.
+func (m *BookcourseMutation) AddedACCESS() (r int, exists bool) {
+	v := m.add_ACCESS
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetACCESS reset all changes of the "ACCESS" field.
+func (m *BookcourseMutation) ResetACCESS() {
+	m._ACCESS = nil
+	m.add_ACCESS = nil
+}
+
+// SetPHONE sets the PHONE field.
+func (m *BookcourseMutation) SetPHONE(s string) {
+	m._PHONE = &s
+}
+
+// PHONE returns the PHONE value in the mutation.
+func (m *BookcourseMutation) PHONE() (r string, exists bool) {
+	v := m._PHONE
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPHONE returns the old PHONE value of the Bookcourse.
+// If the Bookcourse object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *BookcourseMutation) OldPHONE(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldPHONE is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldPHONE requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPHONE: %w", err)
+	}
+	return oldValue.PHONE, nil
+}
+
+// ResetPHONE reset all changes of the "PHONE" field.
+func (m *BookcourseMutation) ResetPHONE() {
+	m._PHONE = nil
+}
+
+// SetDETAIL sets the DETAIL field.
+func (m *BookcourseMutation) SetDETAIL(s string) {
+	m._DETAIL = &s
+}
+
+// DETAIL returns the DETAIL value in the mutation.
+func (m *BookcourseMutation) DETAIL() (r string, exists bool) {
+	v := m._DETAIL
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDETAIL returns the old DETAIL value of the Bookcourse.
+// If the Bookcourse object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *BookcourseMutation) OldDETAIL(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldDETAIL is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldDETAIL requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDETAIL: %w", err)
+	}
+	return oldValue.DETAIL, nil
+}
+
+// ResetDETAIL reset all changes of the "DETAIL" field.
+func (m *BookcourseMutation) ResetDETAIL() {
+	m._DETAIL = nil
 }
 
 // SetBOOKTIME sets the BOOKTIME field.
@@ -728,7 +863,16 @@ func (m *BookcourseMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *BookcourseMutation) Fields() []string {
-	fields := make([]string, 0, 1)
+	fields := make([]string, 0, 4)
+	if m._ACCESS != nil {
+		fields = append(fields, bookcourse.FieldACCESS)
+	}
+	if m._PHONE != nil {
+		fields = append(fields, bookcourse.FieldPHONE)
+	}
+	if m._DETAIL != nil {
+		fields = append(fields, bookcourse.FieldDETAIL)
+	}
 	if m._BOOKTIME != nil {
 		fields = append(fields, bookcourse.FieldBOOKTIME)
 	}
@@ -740,6 +884,12 @@ func (m *BookcourseMutation) Fields() []string {
 // not set, or was not define in the schema.
 func (m *BookcourseMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case bookcourse.FieldACCESS:
+		return m.ACCESS()
+	case bookcourse.FieldPHONE:
+		return m.PHONE()
+	case bookcourse.FieldDETAIL:
+		return m.DETAIL()
 	case bookcourse.FieldBOOKTIME:
 		return m.BOOKTIME()
 	}
@@ -751,6 +901,12 @@ func (m *BookcourseMutation) Field(name string) (ent.Value, bool) {
 // or the query to the database was failed.
 func (m *BookcourseMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case bookcourse.FieldACCESS:
+		return m.OldACCESS(ctx)
+	case bookcourse.FieldPHONE:
+		return m.OldPHONE(ctx)
+	case bookcourse.FieldDETAIL:
+		return m.OldDETAIL(ctx)
 	case bookcourse.FieldBOOKTIME:
 		return m.OldBOOKTIME(ctx)
 	}
@@ -762,6 +918,27 @@ func (m *BookcourseMutation) OldField(ctx context.Context, name string) (ent.Val
 // type mismatch the field type.
 func (m *BookcourseMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case bookcourse.FieldACCESS:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetACCESS(v)
+		return nil
+	case bookcourse.FieldPHONE:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPHONE(v)
+		return nil
+	case bookcourse.FieldDETAIL:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDETAIL(v)
+		return nil
 	case bookcourse.FieldBOOKTIME:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -776,13 +953,21 @@ func (m *BookcourseMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented
 // or decremented during this mutation.
 func (m *BookcourseMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.add_ACCESS != nil {
+		fields = append(fields, bookcourse.FieldACCESS)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was in/decremented
 // from a field with the given name. The second value indicates
 // that this field was not set, or was not define in the schema.
 func (m *BookcourseMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case bookcourse.FieldACCESS:
+		return m.AddedACCESS()
+	}
 	return nil, false
 }
 
@@ -791,6 +976,13 @@ func (m *BookcourseMutation) AddedField(name string) (ent.Value, bool) {
 // type mismatch the field type.
 func (m *BookcourseMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case bookcourse.FieldACCESS:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddACCESS(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Bookcourse numeric field %s", name)
 }
@@ -819,6 +1011,15 @@ func (m *BookcourseMutation) ClearField(name string) error {
 // defined in the schema.
 func (m *BookcourseMutation) ResetField(name string) error {
 	switch name {
+	case bookcourse.FieldACCESS:
+		m.ResetACCESS()
+		return nil
+	case bookcourse.FieldPHONE:
+		m.ResetPHONE()
+		return nil
+	case bookcourse.FieldDETAIL:
+		m.ResetDETAIL()
+		return nil
 	case bookcourse.FieldBOOKTIME:
 		m.ResetBOOKTIME()
 		return nil

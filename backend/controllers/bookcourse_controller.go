@@ -4,6 +4,7 @@ import (
 	"context"
 	"strconv"
 	"time"
+	"fmt"
 
 	"github.com/G16/app/ent/bookcourse"
 
@@ -26,6 +27,9 @@ type Bookcourse struct {
 	MEMBER   int
 	EMPLOYEE int
 	COURSE   int
+	ACCESS	 int
+	PHONE	 string
+	DETAIL	 string
 	BOOKTIME string
 }
 
@@ -92,16 +96,24 @@ func (ctl *BookcourseController) CreateBookcourse(c *gin.Context) {
 		SetCourse(co).
 		SetEmployee(em).
 		SetBOOKTIME(time).
+		SetACCESS(obj.ACCESS).
+		SetDETAIL(obj.DETAIL).
+		SetPHONE(obj.PHONE).
 		Save(context.Background())
 
 	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "saving failed",
+			fmt.Println(err)
+			c.JSON(400, gin.H{
+				"status": false,
+				"error": err,
+			})
+			return
+		}
+	
+	c.JSON(200, gin.H{
+			"status": true,
+			"error":bc,
 		})
-		return
-	}
-
-	c.JSON(200, bc)
 }
 
 // GetBookcourse handles GET requests to retrieve a bookcourse entity

@@ -27,11 +27,29 @@ import {
  */
 export interface EntBookcourse {
     /**
+     * ACCESS holds the value of the "ACCESS" field.
+     * @type {number}
+     * @memberof EntBookcourse
+     */
+    aCCESS?: number;
+    /**
      * BOOKTIME holds the value of the "BOOKTIME" field.
      * @type {string}
      * @memberof EntBookcourse
      */
     bOOKTIME?: string;
+    /**
+     * DETAIL holds the value of the "DETAIL" field.
+     * @type {string}
+     * @memberof EntBookcourse
+     */
+    dETAIL?: string;
+    /**
+     * PHONE holds the value of the "PHONE" field.
+     * @type {string}
+     * @memberof EntBookcourse
+     */
+    pHONE?: string;
     /**
      * 
      * @type {EntBookcourseEdges}
@@ -56,7 +74,10 @@ export function EntBookcourseFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
+        'aCCESS': !exists(json, 'ACCESS') ? undefined : json['ACCESS'],
         'bOOKTIME': !exists(json, 'BOOKTIME') ? undefined : json['BOOKTIME'],
+        'dETAIL': !exists(json, 'DETAIL') ? undefined : json['DETAIL'],
+        'pHONE': !exists(json, 'PHONE') ? undefined : json['PHONE'],
         'edges': !exists(json, 'edges') ? undefined : EntBookcourseEdgesFromJSON(json['edges']),
         'id': !exists(json, 'id') ? undefined : json['id'],
     };
@@ -71,7 +92,10 @@ export function EntBookcourseToJSON(value?: EntBookcourse | null): any {
     }
     return {
         
+        'ACCESS': value.aCCESS,
         'BOOKTIME': value.bOOKTIME,
+        'DETAIL': value.dETAIL,
+        'PHONE': value.pHONE,
         'edges': EntBookcourseEdgesToJSON(value.edges),
         'id': value.id,
     };

@@ -23,6 +23,24 @@ type BookcourseCreate struct {
 	hooks    []Hook
 }
 
+// SetACCESS sets the ACCESS field.
+func (bc *BookcourseCreate) SetACCESS(i int) *BookcourseCreate {
+	bc.mutation.SetACCESS(i)
+	return bc
+}
+
+// SetPHONE sets the PHONE field.
+func (bc *BookcourseCreate) SetPHONE(s string) *BookcourseCreate {
+	bc.mutation.SetPHONE(s)
+	return bc
+}
+
+// SetDETAIL sets the DETAIL field.
+func (bc *BookcourseCreate) SetDETAIL(s string) *BookcourseCreate {
+	bc.mutation.SetDETAIL(s)
+	return bc
+}
+
 // SetBOOKTIME sets the BOOKTIME field.
 func (bc *BookcourseCreate) SetBOOKTIME(t time.Time) *BookcourseCreate {
 	bc.mutation.SetBOOKTIME(t)
@@ -93,6 +111,30 @@ func (bc *BookcourseCreate) Mutation() *BookcourseMutation {
 
 // Save creates the Bookcourse in the database.
 func (bc *BookcourseCreate) Save(ctx context.Context) (*Bookcourse, error) {
+	if _, ok := bc.mutation.ACCESS(); !ok {
+		return nil, &ValidationError{Name: "ACCESS", err: errors.New("ent: missing required field \"ACCESS\"")}
+	}
+	if v, ok := bc.mutation.ACCESS(); ok {
+		if err := bookcourse.ACCESSValidator(v); err != nil {
+			return nil, &ValidationError{Name: "ACCESS", err: fmt.Errorf("ent: validator failed for field \"ACCESS\": %w", err)}
+		}
+	}
+	if _, ok := bc.mutation.PHONE(); !ok {
+		return nil, &ValidationError{Name: "PHONE", err: errors.New("ent: missing required field \"PHONE\"")}
+	}
+	if v, ok := bc.mutation.PHONE(); ok {
+		if err := bookcourse.PHONEValidator(v); err != nil {
+			return nil, &ValidationError{Name: "PHONE", err: fmt.Errorf("ent: validator failed for field \"PHONE\": %w", err)}
+		}
+	}
+	if _, ok := bc.mutation.DETAIL(); !ok {
+		return nil, &ValidationError{Name: "DETAIL", err: errors.New("ent: missing required field \"DETAIL\"")}
+	}
+	if v, ok := bc.mutation.DETAIL(); ok {
+		if err := bookcourse.DETAILValidator(v); err != nil {
+			return nil, &ValidationError{Name: "DETAIL", err: fmt.Errorf("ent: validator failed for field \"DETAIL\": %w", err)}
+		}
+	}
 	if _, ok := bc.mutation.BOOKTIME(); !ok {
 		return nil, &ValidationError{Name: "BOOKTIME", err: errors.New("ent: missing required field \"BOOKTIME\"")}
 	}
@@ -156,6 +198,30 @@ func (bc *BookcourseCreate) createSpec() (*Bookcourse, *sqlgraph.CreateSpec) {
 			},
 		}
 	)
+	if value, ok := bc.mutation.ACCESS(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: bookcourse.FieldACCESS,
+		})
+		b.ACCESS = value
+	}
+	if value, ok := bc.mutation.PHONE(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: bookcourse.FieldPHONE,
+		})
+		b.PHONE = value
+	}
+	if value, ok := bc.mutation.DETAIL(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: bookcourse.FieldDETAIL,
+		})
+		b.DETAIL = value
+	}
 	if value, ok := bc.mutation.BOOKTIME(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
