@@ -2,15 +2,16 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 	"time"
 
-	"github.com/G16/app/ent/equipmentrental"
 	"github.com/G16/app/ent"
 	"github.com/G16/app/ent/employee"
-	"github.com/G16/app/ent/member"
 	"github.com/G16/app/ent/equipment"
+	"github.com/G16/app/ent/equipmentrental"
 	"github.com/G16/app/ent/equipmenttype"
+	"github.com/G16/app/ent/member"
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,13 +23,13 @@ type EquipmentrentalController struct {
 
 // Equipmentrental defines the struct for the equipmentrental controller
 type Equipmentrental struct {
-	MEMBER          int
-	EQUIPMENT       int
-	EQUIPMENTTYPE   int
-	EMPLOYEE        int
-	RENTALAMOUNT    int
-	RENTALDATE      string
-	RETURNDATE      string
+	MEMBER        int
+	EQUIPMENT     int
+	EQUIPMENTTYPE int
+	EMPLOYEE      int
+	RENTALAMOUNT  int
+	RENTALDATE    string
+	RETURNDATE    string
 }
 
 // CreateEquipmentrental handles POST requests for adding equipmentrental entities
@@ -99,7 +100,6 @@ func (ctl *EquipmentrentalController) CreateEquipmentrental(c *gin.Context) {
 		return
 	}
 
-	
 	time1, err := time.Parse(time.RFC3339, obj.RENTALDATE)
 	if err != nil {
 		c.JSON(400, gin.H{
@@ -116,7 +116,7 @@ func (ctl *EquipmentrentalController) CreateEquipmentrental(c *gin.Context) {
 		return
 	}
 
-	if obj.RENTALAMOUNT <=0 {
+	if obj.RENTALAMOUNT <= 0 {
 		c.JSON(400, gin.H{
 			"error": "จำนวนยืมอุปกรณ์ไม่ถูกต้อง",
 		})
@@ -135,13 +135,18 @@ func (ctl *EquipmentrentalController) CreateEquipmentrental(c *gin.Context) {
 		Save(context.Background())
 
 	if err != nil {
+		fmt.Println(err)
 		c.JSON(400, gin.H{
-			"error": "saving failed",
+			"status": false,
+			"error":  err,
 		})
 		return
 	}
 
-	c.JSON(200, er)
+	c.JSON(200, gin.H{
+		"status": true,
+		"error":  er,
+	})
 }
 
 // GetEquipmentrental handles GET requests to retrieve a equipmentrental entity

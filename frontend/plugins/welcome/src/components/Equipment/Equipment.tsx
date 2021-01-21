@@ -164,15 +164,12 @@ const Equipment: FC<{}> = () => {
     .then(data => {
       console.log(data);
       if (data.status === true) {
+        clear();
         Toast.fire({
           icon: 'success',
           title: 'บันทึกข้อมูลสำเร็จ',
         });
       } else {
-        Toast.fire({
-          icon: 'error',
-          title: 'บันทึกข้อมูลไม่สำเร็จ',
-        });
         checkCaseSaveError(data.error.Name)
       }
     });
