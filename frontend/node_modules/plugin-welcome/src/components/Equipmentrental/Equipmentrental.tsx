@@ -115,6 +115,22 @@ const Equipmentrental: FC<{}> = () => {
     setEquipmentrental({});
   }
 
+ // alert setting
+ const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+});
+
+const alertMessage = (icon: any, title: any) => {
+  Toast.fire({
+    icon: icon,
+    title: title,
+  });
+}
+
   // function save data
   function save() {
     equipmentrental.rentaldate += ":00+07:00";
@@ -127,36 +143,22 @@ const Equipmentrental: FC<{}> = () => {
       body: JSON.stringify(equipmentrental),
     };
 
-  
-    // alert setting
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-    });
-    
-    console.log(equipmentrental); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
-
-    fetch(apiUrl, requestOptions)
-      .then(response => {
-        console.log(response.json());
-        if (response.ok === true) {
-          clear();
+  fetch(apiUrl, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.status === true) {
           Toast.fire({
             icon: 'success',
             title: 'บันทึกข้อมูลสำเร็จ',
           });
         } else {
-          Toast.fire({
-            icon: 'error',
-            title: 'บันทึกข้อมูลไม่สำเร็จ',
-          });
+          alertMessage("error", data.error);
         }
       });
-  }
-
+  };
+   
+    
   return (
     <Page theme={pageTheme.home}>
       <Header style={HeaderCustom} title={`ระบบยืมอุปกรณ์กีฬา`}>
