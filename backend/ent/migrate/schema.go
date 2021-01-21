@@ -318,7 +318,7 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString},
 		{Name: "desc", Type: field.TypeString, Size: 30},
-		{Name: "code", Type: field.TypeString},
+		{Name: "code", Type: field.TypeString, Size: 5},
 		{Name: "date", Type: field.TypeTime},
 		{Name: "employee_promotion", Type: field.TypeInt, Nullable: true},
 		{Name: "promotionamount_promotion", Type: field.TypeInt, Nullable: true},
