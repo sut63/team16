@@ -31,6 +31,31 @@ func (bu *BookcourseUpdate) Where(ps ...predicate.Bookcourse) *BookcourseUpdate 
 	return bu
 }
 
+// SetACCESS sets the ACCESS field.
+func (bu *BookcourseUpdate) SetACCESS(i int) *BookcourseUpdate {
+	bu.mutation.ResetACCESS()
+	bu.mutation.SetACCESS(i)
+	return bu
+}
+
+// AddACCESS adds i to ACCESS.
+func (bu *BookcourseUpdate) AddACCESS(i int) *BookcourseUpdate {
+	bu.mutation.AddACCESS(i)
+	return bu
+}
+
+// SetPHONE sets the PHONE field.
+func (bu *BookcourseUpdate) SetPHONE(s string) *BookcourseUpdate {
+	bu.mutation.SetPHONE(s)
+	return bu
+}
+
+// SetDETAIL sets the DETAIL field.
+func (bu *BookcourseUpdate) SetDETAIL(s string) *BookcourseUpdate {
+	bu.mutation.SetDETAIL(s)
+	return bu
+}
+
 // SetBOOKTIME sets the BOOKTIME field.
 func (bu *BookcourseUpdate) SetBOOKTIME(t time.Time) *BookcourseUpdate {
 	bu.mutation.SetBOOKTIME(t)
@@ -119,6 +144,21 @@ func (bu *BookcourseUpdate) ClearMember() *BookcourseUpdate {
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
 func (bu *BookcourseUpdate) Save(ctx context.Context) (int, error) {
+	if v, ok := bu.mutation.ACCESS(); ok {
+		if err := bookcourse.ACCESSValidator(v); err != nil {
+			return 0, &ValidationError{Name: "ACCESS", err: fmt.Errorf("ent: validator failed for field \"ACCESS\": %w", err)}
+		}
+	}
+	if v, ok := bu.mutation.PHONE(); ok {
+		if err := bookcourse.PHONEValidator(v); err != nil {
+			return 0, &ValidationError{Name: "PHONE", err: fmt.Errorf("ent: validator failed for field \"PHONE\": %w", err)}
+		}
+	}
+	if v, ok := bu.mutation.DETAIL(); ok {
+		if err := bookcourse.DETAILValidator(v); err != nil {
+			return 0, &ValidationError{Name: "DETAIL", err: fmt.Errorf("ent: validator failed for field \"DETAIL\": %w", err)}
+		}
+	}
 
 	var (
 		err      error
@@ -186,6 +226,34 @@ func (bu *BookcourseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := bu.mutation.ACCESS(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: bookcourse.FieldACCESS,
+		})
+	}
+	if value, ok := bu.mutation.AddedACCESS(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: bookcourse.FieldACCESS,
+		})
+	}
+	if value, ok := bu.mutation.PHONE(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: bookcourse.FieldPHONE,
+		})
+	}
+	if value, ok := bu.mutation.DETAIL(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: bookcourse.FieldDETAIL,
+		})
 	}
 	if value, ok := bu.mutation.BOOKTIME(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
@@ -317,6 +385,31 @@ type BookcourseUpdateOne struct {
 	mutation *BookcourseMutation
 }
 
+// SetACCESS sets the ACCESS field.
+func (buo *BookcourseUpdateOne) SetACCESS(i int) *BookcourseUpdateOne {
+	buo.mutation.ResetACCESS()
+	buo.mutation.SetACCESS(i)
+	return buo
+}
+
+// AddACCESS adds i to ACCESS.
+func (buo *BookcourseUpdateOne) AddACCESS(i int) *BookcourseUpdateOne {
+	buo.mutation.AddACCESS(i)
+	return buo
+}
+
+// SetPHONE sets the PHONE field.
+func (buo *BookcourseUpdateOne) SetPHONE(s string) *BookcourseUpdateOne {
+	buo.mutation.SetPHONE(s)
+	return buo
+}
+
+// SetDETAIL sets the DETAIL field.
+func (buo *BookcourseUpdateOne) SetDETAIL(s string) *BookcourseUpdateOne {
+	buo.mutation.SetDETAIL(s)
+	return buo
+}
+
 // SetBOOKTIME sets the BOOKTIME field.
 func (buo *BookcourseUpdateOne) SetBOOKTIME(t time.Time) *BookcourseUpdateOne {
 	buo.mutation.SetBOOKTIME(t)
@@ -405,6 +498,21 @@ func (buo *BookcourseUpdateOne) ClearMember() *BookcourseUpdateOne {
 
 // Save executes the query and returns the updated entity.
 func (buo *BookcourseUpdateOne) Save(ctx context.Context) (*Bookcourse, error) {
+	if v, ok := buo.mutation.ACCESS(); ok {
+		if err := bookcourse.ACCESSValidator(v); err != nil {
+			return nil, &ValidationError{Name: "ACCESS", err: fmt.Errorf("ent: validator failed for field \"ACCESS\": %w", err)}
+		}
+	}
+	if v, ok := buo.mutation.PHONE(); ok {
+		if err := bookcourse.PHONEValidator(v); err != nil {
+			return nil, &ValidationError{Name: "PHONE", err: fmt.Errorf("ent: validator failed for field \"PHONE\": %w", err)}
+		}
+	}
+	if v, ok := buo.mutation.DETAIL(); ok {
+		if err := bookcourse.DETAILValidator(v); err != nil {
+			return nil, &ValidationError{Name: "DETAIL", err: fmt.Errorf("ent: validator failed for field \"DETAIL\": %w", err)}
+		}
+	}
 
 	var (
 		err  error
@@ -471,6 +579,34 @@ func (buo *BookcourseUpdateOne) sqlSave(ctx context.Context) (b *Bookcourse, err
 		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing Bookcourse.ID for update")}
 	}
 	_spec.Node.ID.Value = id
+	if value, ok := buo.mutation.ACCESS(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: bookcourse.FieldACCESS,
+		})
+	}
+	if value, ok := buo.mutation.AddedACCESS(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: bookcourse.FieldACCESS,
+		})
+	}
+	if value, ok := buo.mutation.PHONE(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: bookcourse.FieldPHONE,
+		})
+	}
+	if value, ok := buo.mutation.DETAIL(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: bookcourse.FieldDETAIL,
+		})
+	}
 	if value, ok := buo.mutation.BOOKTIME(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,

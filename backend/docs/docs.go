@@ -2316,17 +2316,26 @@ var doc = `{
         "controllers.Bookcourse": {
             "type": "object",
             "properties": {
+                "access": {
+                    "type": "integer"
+                },
                 "booktime": {
                     "type": "string"
                 },
                 "course": {
                     "type": "integer"
                 },
+                "detail": {
+                    "type": "string"
+                },
                 "employee": {
                     "type": "integer"
                 },
                 "member": {
                     "type": "integer"
+                },
+                "phone": {
+                    "type": "string"
                 }
             }
         },
@@ -2454,8 +2463,20 @@ var doc = `{
         "ent.Bookcourse": {
             "type": "object",
             "properties": {
+                "ACCESS": {
+                    "description": "ACCESS holds the value of the \"ACCESS\" field.",
+                    "type": "integer"
+                },
                 "BOOKTIME": {
                     "description": "BOOKTIME holds the value of the \"BOOKTIME\" field.",
+                    "type": "string"
+                },
+                "DETAIL": {
+                    "description": "DETAIL holds the value of the \"DETAIL\" field.",
+                    "type": "string"
+                },
+                "PHONE": {
+                    "description": "PHONE holds the value of the \"PHONE\" field.",
                     "type": "string"
                 },
                 "edges": {

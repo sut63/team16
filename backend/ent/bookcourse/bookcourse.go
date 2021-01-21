@@ -7,6 +7,12 @@ const (
 	Label = "bookcourse"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldACCESS holds the string denoting the access field in the database.
+	FieldACCESS = "access"
+	// FieldPHONE holds the string denoting the phone field in the database.
+	FieldPHONE = "phone"
+	// FieldDETAIL holds the string denoting the detail field in the database.
+	FieldDETAIL = "detail"
 	// FieldBOOKTIME holds the string denoting the booktime field in the database.
 	FieldBOOKTIME = "booktime"
 
@@ -45,6 +51,9 @@ const (
 // Columns holds all SQL columns for bookcourse fields.
 var Columns = []string{
 	FieldID,
+	FieldACCESS,
+	FieldPHONE,
+	FieldDETAIL,
 	FieldBOOKTIME,
 }
 
@@ -54,3 +63,12 @@ var ForeignKeys = []string{
 	"employee_bookcourse",
 	"member_bookcourse",
 }
+
+var (
+	// ACCESSValidator is a validator for the "ACCESS" field. It is called by the builders before save.
+	ACCESSValidator func(int) error
+	// PHONEValidator is a validator for the "PHONE" field. It is called by the builders before save.
+	PHONEValidator func(string) error
+	// DETAILValidator is a validator for the "DETAIL" field. It is called by the builders before save.
+	DETAILValidator func(string) error
+)

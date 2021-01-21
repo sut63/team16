@@ -93,10 +93,329 @@ func IDLTE(id int) predicate.Bookcourse {
 	})
 }
 
+// ACCESS applies equality check predicate on the "ACCESS" field. It's identical to ACCESSEQ.
+func ACCESS(v int) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldACCESS), v))
+	})
+}
+
+// PHONE applies equality check predicate on the "PHONE" field. It's identical to PHONEEQ.
+func PHONE(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPHONE), v))
+	})
+}
+
+// DETAIL applies equality check predicate on the "DETAIL" field. It's identical to DETAILEQ.
+func DETAIL(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldDETAIL), v))
+	})
+}
+
 // BOOKTIME applies equality check predicate on the "BOOKTIME" field. It's identical to BOOKTIMEEQ.
 func BOOKTIME(v time.Time) predicate.Bookcourse {
 	return predicate.Bookcourse(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldBOOKTIME), v))
+	})
+}
+
+// ACCESSEQ applies the EQ predicate on the "ACCESS" field.
+func ACCESSEQ(v int) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldACCESS), v))
+	})
+}
+
+// ACCESSNEQ applies the NEQ predicate on the "ACCESS" field.
+func ACCESSNEQ(v int) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldACCESS), v))
+	})
+}
+
+// ACCESSIn applies the In predicate on the "ACCESS" field.
+func ACCESSIn(vs ...int) predicate.Bookcourse {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldACCESS), v...))
+	})
+}
+
+// ACCESSNotIn applies the NotIn predicate on the "ACCESS" field.
+func ACCESSNotIn(vs ...int) predicate.Bookcourse {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldACCESS), v...))
+	})
+}
+
+// ACCESSGT applies the GT predicate on the "ACCESS" field.
+func ACCESSGT(v int) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldACCESS), v))
+	})
+}
+
+// ACCESSGTE applies the GTE predicate on the "ACCESS" field.
+func ACCESSGTE(v int) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldACCESS), v))
+	})
+}
+
+// ACCESSLT applies the LT predicate on the "ACCESS" field.
+func ACCESSLT(v int) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldACCESS), v))
+	})
+}
+
+// ACCESSLTE applies the LTE predicate on the "ACCESS" field.
+func ACCESSLTE(v int) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldACCESS), v))
+	})
+}
+
+// PHONEEQ applies the EQ predicate on the "PHONE" field.
+func PHONEEQ(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPHONE), v))
+	})
+}
+
+// PHONENEQ applies the NEQ predicate on the "PHONE" field.
+func PHONENEQ(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldPHONE), v))
+	})
+}
+
+// PHONEIn applies the In predicate on the "PHONE" field.
+func PHONEIn(vs ...string) predicate.Bookcourse {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldPHONE), v...))
+	})
+}
+
+// PHONENotIn applies the NotIn predicate on the "PHONE" field.
+func PHONENotIn(vs ...string) predicate.Bookcourse {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldPHONE), v...))
+	})
+}
+
+// PHONEGT applies the GT predicate on the "PHONE" field.
+func PHONEGT(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldPHONE), v))
+	})
+}
+
+// PHONEGTE applies the GTE predicate on the "PHONE" field.
+func PHONEGTE(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldPHONE), v))
+	})
+}
+
+// PHONELT applies the LT predicate on the "PHONE" field.
+func PHONELT(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldPHONE), v))
+	})
+}
+
+// PHONELTE applies the LTE predicate on the "PHONE" field.
+func PHONELTE(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldPHONE), v))
+	})
+}
+
+// PHONEContains applies the Contains predicate on the "PHONE" field.
+func PHONEContains(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldPHONE), v))
+	})
+}
+
+// PHONEHasPrefix applies the HasPrefix predicate on the "PHONE" field.
+func PHONEHasPrefix(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldPHONE), v))
+	})
+}
+
+// PHONEHasSuffix applies the HasSuffix predicate on the "PHONE" field.
+func PHONEHasSuffix(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldPHONE), v))
+	})
+}
+
+// PHONEEqualFold applies the EqualFold predicate on the "PHONE" field.
+func PHONEEqualFold(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldPHONE), v))
+	})
+}
+
+// PHONEContainsFold applies the ContainsFold predicate on the "PHONE" field.
+func PHONEContainsFold(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldPHONE), v))
+	})
+}
+
+// DETAILEQ applies the EQ predicate on the "DETAIL" field.
+func DETAILEQ(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldDETAIL), v))
+	})
+}
+
+// DETAILNEQ applies the NEQ predicate on the "DETAIL" field.
+func DETAILNEQ(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldDETAIL), v))
+	})
+}
+
+// DETAILIn applies the In predicate on the "DETAIL" field.
+func DETAILIn(vs ...string) predicate.Bookcourse {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldDETAIL), v...))
+	})
+}
+
+// DETAILNotIn applies the NotIn predicate on the "DETAIL" field.
+func DETAILNotIn(vs ...string) predicate.Bookcourse {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldDETAIL), v...))
+	})
+}
+
+// DETAILGT applies the GT predicate on the "DETAIL" field.
+func DETAILGT(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldDETAIL), v))
+	})
+}
+
+// DETAILGTE applies the GTE predicate on the "DETAIL" field.
+func DETAILGTE(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldDETAIL), v))
+	})
+}
+
+// DETAILLT applies the LT predicate on the "DETAIL" field.
+func DETAILLT(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldDETAIL), v))
+	})
+}
+
+// DETAILLTE applies the LTE predicate on the "DETAIL" field.
+func DETAILLTE(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldDETAIL), v))
+	})
+}
+
+// DETAILContains applies the Contains predicate on the "DETAIL" field.
+func DETAILContains(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldDETAIL), v))
+	})
+}
+
+// DETAILHasPrefix applies the HasPrefix predicate on the "DETAIL" field.
+func DETAILHasPrefix(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldDETAIL), v))
+	})
+}
+
+// DETAILHasSuffix applies the HasSuffix predicate on the "DETAIL" field.
+func DETAILHasSuffix(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldDETAIL), v))
+	})
+}
+
+// DETAILEqualFold applies the EqualFold predicate on the "DETAIL" field.
+func DETAILEqualFold(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldDETAIL), v))
+	})
+}
+
+// DETAILContainsFold applies the ContainsFold predicate on the "DETAIL" field.
+func DETAILContainsFold(v string) predicate.Bookcourse {
+	return predicate.Bookcourse(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldDETAIL), v))
 	})
 }
 

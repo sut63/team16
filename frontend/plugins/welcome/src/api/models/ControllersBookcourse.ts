@@ -21,6 +21,12 @@ import { exists, mapValues } from '../runtime';
 export interface ControllersBookcourse {
     /**
      * 
+     * @type {number}
+     * @memberof ControllersBookcourse
+     */
+    access?: number;
+    /**
+     * 
      * @type {string}
      * @memberof ControllersBookcourse
      */
@@ -33,6 +39,12 @@ export interface ControllersBookcourse {
     course?: number;
     /**
      * 
+     * @type {string}
+     * @memberof ControllersBookcourse
+     */
+    detail?: string;
+    /**
+     * 
      * @type {number}
      * @memberof ControllersBookcourse
      */
@@ -43,6 +55,12 @@ export interface ControllersBookcourse {
      * @memberof ControllersBookcourse
      */
     member?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ControllersBookcourse
+     */
+    phone?: number;
 }
 
 export function ControllersBookcourseFromJSON(json: any): ControllersBookcourse {
@@ -55,10 +73,13 @@ export function ControllersBookcourseFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
+        'access': !exists(json, 'access') ? undefined : json['access'],
         'booktime': !exists(json, 'booktime') ? undefined : json['booktime'],
         'course': !exists(json, 'course') ? undefined : json['course'],
+        'detail': !exists(json, 'detail') ? undefined : json['detail'],
         'employee': !exists(json, 'employee') ? undefined : json['employee'],
         'member': !exists(json, 'member') ? undefined : json['member'],
+        'phone': !exists(json, 'phone') ? undefined : json['phone'],
     };
 }
 
@@ -71,10 +92,13 @@ export function ControllersBookcourseToJSON(value?: ControllersBookcourse | null
     }
     return {
         
+        'access': value.access,
         'booktime': value.booktime,
         'course': value.course,
+        'detail': value.detail,
         'employee': value.employee,
         'member': value.member,
+        'phone': value.phone,
     };
 }
 

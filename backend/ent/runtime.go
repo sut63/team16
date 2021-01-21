@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"github.com/G16/app/ent/bookcourse"
 	"github.com/G16/app/ent/employee"
 	"github.com/G16/app/ent/equipment"
 	"github.com/G16/app/ent/equipmentrental"
@@ -17,6 +18,35 @@ import (
 // code (default values, validators or hooks) and stitches it
 // to their package variables.
 func init() {
+	bookcourseFields := schema.Bookcourse{}.Fields()
+	_ = bookcourseFields
+	// bookcourseDescACCESS is the schema descriptor for ACCESS field.
+	bookcourseDescACCESS := bookcourseFields[0].Descriptor()
+	// bookcourse.ACCESSValidator is a validator for the "ACCESS" field. It is called by the builders before save.
+	bookcourse.ACCESSValidator = bookcourseDescACCESS.Validators[0].(func(int) error)
+	// bookcourseDescPHONE is the schema descriptor for PHONE field.
+	bookcourseDescPHONE := bookcourseFields[1].Descriptor()
+	// bookcourse.PHONEValidator is a validator for the "PHONE" field. It is called by the builders before save.
+	bookcourse.PHONEValidator = func() func(string) error {
+		validators := bookcourseDescPHONE.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+			validators[2].(func(string) error),
+		}
+		return func(_PHONE string) error {
+			for _, fn := range fns {
+				if err := fn(_PHONE); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// bookcourseDescDETAIL is the schema descriptor for DETAIL field.
+	bookcourseDescDETAIL := bookcourseFields[2].Descriptor()
+	// bookcourse.DETAILValidator is a validator for the "DETAIL" field. It is called by the builders before save.
+	bookcourse.DETAILValidator = bookcourseDescDETAIL.Validators[0].(func(string) error)
 	employeeFields := schema.Employee{}.Fields()
 	_ = employeeFields
 	// employeeDescEMPLOYEEID is the schema descriptor for EMPLOYEEID field.
