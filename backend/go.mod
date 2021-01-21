@@ -9,13 +9,7 @@ require (
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-openapi/spec v0.20.1 // indirect
 	github.com/go-openapi/swag v0.19.13 // indirect
-<<<<<<< HEAD
 	github.com/mattn/go-sqlite3 v1.13.0
-=======
-	github.com/google/uuid v1.1.4 // indirect
-	github.com/json-iterator/go v1.1.10 // indirect
-	github.com/mattn/go-sqlite3 v1.14.6
->>>>>>> 78bf6e9f... แก้ validator ของระบบเพิ่มอุปกรณ์ + เพิ่ม test case 3 case - close #121
 	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
 	github.com/swaggo/gin-swagger v1.3.0
 	github.com/swaggo/swag v1.6.7
