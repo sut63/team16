@@ -152,6 +152,43 @@ func (ctl *BookcourseController) GetBookcourse(c *gin.Context) {
 	c.JSON(200, bc)
 }
 
+// GetBookcoursebyMember handles GET requests to retrieve a GetBookcoursebyMember entity
+// @Summary Get a GetBookcoursebyMember entity by ID
+// @Description get GetBookcoursebyMember by ID
+// @ID get-GetBookcoursebyMember
+// @Produce  json
+// @Param id path int true "GetBookcoursebyMember ID"
+// @Success 200 {array} ent.DataRoom
+// @Failure 400 {object} gin.H
+// @Failure 404 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /dataroombypromos/{id} [get]
+func (ctl *BookcourseController) GetBookcoursebyMember(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	s, err := ctl.client.Bookcourse.
+		Query().
+		WithCourse().
+		WithEmployee().
+		WithMember().
+		Where(bookcourse.HasMemberWith(member.IDEQ(int(id)))).
+		All(context.Background())
+	if err != nil {
+		c.JSON(404, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, s)
+}
+
 // ListBookcourse handles request to get a list of bookcourse entities
 // @Summary List bookcourse entities
 // @Description list bookcourse entities
