@@ -5,7 +5,10 @@ import Payment from './components/Payment';
 import Equipment from './components/Equipment';
 import Bookcourse from './components/ฺฺBookcourse';
 import Employee from './components/Employee';
+
 import Promotion from './components/Promotion';
+import Promotionsearch from './components/Promotion/Promotionsearch';
+
 import Equipmentrental from './components/Equipmentrental';
 
 export const plugin = createPlugin({
@@ -17,7 +20,10 @@ export const plugin = createPlugin({
     router.registerRoute('/Equipment', Equipment);
     router.registerRoute('/Bookcourse', Bookcourse);
     router.registerRoute('/Employee', Employee);
+
     router.registerRoute('/Promotion', Promotion);
+    router.registerRoute('/Promotionsearch', Promotionsearch);
+
     router.registerRoute('/Equipmentrental', Equipmentrental);
   },
 });
