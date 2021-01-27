@@ -9,6 +9,7 @@ import Employee from './components/Employee';
 import Promotion from './components/Promotion';
 import Promotionsearch from './components/Promotion/Promotionsearch';
 import Bookcoursesearch from './components/ฺฺBookcourse/Bookcoursesearch';
+import Equipmentsearch from './components/Equipment/Equipmentsearch';
 
 
 import Equipmentrental from './components/Equipmentrental';
@@ -26,6 +27,7 @@ export const plugin = createPlugin({
     router.registerRoute('/Promotion', Promotion);
     router.registerRoute('/Promotionsearch', Promotionsearch);
     router.registerRoute('/Bookcoursesearch', Bookcoursesearch);
+    router.registerRoute('/Equipmentsearch', Equipmentsearch);
 
     router.registerRoute('/Equipmentrental', Equipmentrental);
   },

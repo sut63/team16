@@ -167,6 +167,54 @@ var doc = `{
                 }
             }
         },
+        "/bookcoursebymembers/{id}": {
+            "get": {
+                "description": "get GetBookcoursebyMember by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a GetBookcoursebyMember entity by ID",
+                "operationId": "get-GetBookcoursebyMember",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "GetBookcoursebyMember ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.Bookcourse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
         "/bookcourses": {
             "get": {
                 "description": "list bookcourse entities",
@@ -680,6 +728,54 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/ent.Employee"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/equipmentbyemployees/{id}": {
+            "get": {
+                "description": "get GetEquipmentbyEmployee by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a GetEquipmentbyEmployee entity by ID",
+                "operationId": "get-GetEquipmentbyEmployee",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "GetEquipmentbyEmployee ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.Equipment"
+                            }
                         }
                     },
                     "400": {
