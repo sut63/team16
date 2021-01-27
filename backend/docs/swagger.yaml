@@ -736,6 +736,38 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Get a age entity by ID
+  /bookcoursebymembers/{id}:
+    get:
+      description: get GetBookcoursebyMember by ID
+      operationId: get-GetBookcoursebyMember
+      parameters:
+      - description: GetBookcoursebyMember ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Bookcourse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a GetBookcoursebyMember entity by ID
   /bookcourses:
     get:
       description: list bookcourse entities
@@ -1092,6 +1124,38 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Get a employee entity by ID
+  /equipmentbyemployees/{id}:
+    get:
+      description: get GetEquipmentbyEmployee by ID
+      operationId: get-GetEquipmentbyEmployee
+      parameters:
+      - description: GetEquipmentbyEmployee ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Equipment'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a GetEquipmentbyEmployee entity by ID
   /equipmentrentals:
     get:
       description: list equipmentrental entities

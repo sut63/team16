@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 	"time"
-	"fmt"
 
 	"github.com/G16/app/ent/bookcourse"
 
@@ -27,9 +27,9 @@ type Bookcourse struct {
 	MEMBER   int
 	EMPLOYEE int
 	COURSE   int
-	ACCESS	 int
-	PHONE	 string
-	DETAIL	 string
+	ACCESS   int
+	PHONE    string
+	DETAIL   string
 	BOOKTIME string
 }
 
@@ -102,18 +102,18 @@ func (ctl *BookcourseController) CreateBookcourse(c *gin.Context) {
 		Save(context.Background())
 
 	if err != nil {
-			fmt.Println(err)
-			c.JSON(400, gin.H{
-				"status": false,
-				"error": err,
-			})
-			return
-		}
-	
-	c.JSON(200, gin.H{
-			"status": true,
-			"error":bc,
+		fmt.Println(err)
+		c.JSON(400, gin.H{
+			"status": false,
+			"error":  err,
 		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"status": true,
+		"error":  bc,
+	})
 }
 
 // GetBookcourse handles GET requests to retrieve a bookcourse entity
@@ -158,11 +158,11 @@ func (ctl *BookcourseController) GetBookcourse(c *gin.Context) {
 // @ID get-GetBookcoursebyMember
 // @Produce  json
 // @Param id path int true "GetBookcoursebyMember ID"
-// @Success 200 {array} ent.DataRoom
+// @Success 200 {array} ent.Bookcourse
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /dataroombypromos/{id} [get]
+// @Router /bookcoursebymembers/{id} [get]
 func (ctl *BookcourseController) GetBookcoursebyMember(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
