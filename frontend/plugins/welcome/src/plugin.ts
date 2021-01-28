@@ -11,6 +11,7 @@ import Promotionsearch from './components/Promotion/Promotionsearch';
 import Bookcoursesearch from './components/ฺฺBookcourse/Bookcoursesearch';
 import Equipmentsearch from './components/Equipment/Equipmentsearch';
 import Equipmentrentalsearch from './components/Equipmentrental/Equipmentrentalsearch';
+import Paymentsearch from './components/Payment/Paymentsearch';
 
 
 import Equipmentrental from './components/Equipmentrental';
@@ -32,5 +33,6 @@ export const plugin = createPlugin({
     router.registerRoute('/Equipmentrentalsearch', Equipmentrentalsearch);
 
     router.registerRoute('/Equipmentrental', Equipmentrental);
+    router.registerRoute('/Paymentsearch', Paymentsearch);
   },
 });

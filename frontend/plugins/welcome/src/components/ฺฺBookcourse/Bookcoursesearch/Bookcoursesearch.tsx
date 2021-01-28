@@ -6,7 +6,6 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack'; // back icon
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'; // log off icon
-import Swal from 'sweetalert2'; // alert
 
 import {
   Container,
@@ -15,7 +14,6 @@ import {
   Select,
   InputLabel,
   MenuItem,
-  TextField,
   Button,
   Table,
   TableBody,
