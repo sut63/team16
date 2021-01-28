@@ -2,6 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Content, Header, Page, pageTheme } from '@backstage/core';
 import SaveIcon from '@material-ui/icons/Save'; // icon save
+import SearchIcon from '@material-ui/icons/Search'; //search icon
 import Swal from 'sweetalert2'; // alert
 
 import {
@@ -386,6 +387,20 @@ const Payment: FC<{}> = () => {
                 บันทึกการชำระเงิน
               </Button>
             </Grid>
+
+            <Grid item xs={3}></Grid>
+            <Grid item xs={9}>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                startIcon={<SearchIcon />}
+                href="./Paymentsearch"
+              >
+                ค้นหาการชำระเงิน
+              </Button>
+            </Grid>
+
           </Grid>
         </Container>
       </Content>

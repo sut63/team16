@@ -1,7 +1,6 @@
 export * from './ControllersBookcourse';
 export * from './ControllersEmployee';
 export * from './ControllersEquipmentrental';
-export * from './ControllersPayment';
 export * from './ControllersPromotionamount';
 export * from './ControllersPromotiontype';
 export * from './EntAge';

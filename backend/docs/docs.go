@@ -1493,7 +1493,55 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.Payment"
+                            "$ref": "#/definitions/ent.Payment"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/paymentsbymembers/{id}": {
+            "get": {
+                "description": "get GetPaymentbyMember by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a GetPaymentbyMember entity by ID",
+                "operationId": "get-GetPaymentbyMember",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "GetPaymentbyMember ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.Payment"
+                            }
                         }
                     },
                     "400": {
@@ -2532,35 +2580,6 @@ var doc = `{
                 },
                 "returndate": {
                     "type": "string"
-                }
-            }
-        },
-        "controllers.Payment": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "employee": {
-                    "type": "integer"
-                },
-                "member": {
-                    "type": "integer"
-                },
-                "paymentamount": {
-                    "type": "string"
-                },
-                "paymentdate": {
-                    "type": "string"
-                },
-                "paymenttype": {
-                    "type": "integer"
-                },
-                "phonenumber": {
-                    "type": "string"
-                },
-                "promotion": {
-                    "type": "integer"
                 }
             }
         },

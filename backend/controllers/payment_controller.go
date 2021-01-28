@@ -136,7 +136,7 @@ func (ctl *PaymentController) CreatePayment(c *gin.Context) {
 // @ID get-payment
 // @Produce  json
 // @Param id path int true "Payment ID"
-// @Success 200 {object} Payment
+// @Success 200 {object} ent.Payment
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -153,9 +153,6 @@ func (ctl *PaymentController) GetPayment(c *gin.Context) {
 	pm, err := ctl.client.Payment.
 		Query().
 		WithMember().
-		WithPromotion().
-		WithPaymenttype().
-		WithEmployee().
 		Where(payment.IDEQ(int(id))).
 		Only(context.Background())
 	if err != nil {
@@ -166,6 +163,44 @@ func (ctl *PaymentController) GetPayment(c *gin.Context) {
 	}
 
 	c.JSON(200, pm)
+}
+
+// GetPaymentbyMember handles GET requests to retrieve a GetPaymentbyMember entity
+// @Summary Get a GetPaymentbyMember entity by ID
+// @Description get GetPaymentbyMember by ID
+// @ID get-GetPaymentbyMember
+// @Produce  json
+// @Param id path int true "GetPaymentbyMember ID"
+// @Success 200 {array} ent.Payment
+// @Failure 400 {object} gin.H
+// @Failure 404 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /paymentsbymembers/{id} [get]
+func (ctl *PaymentController) GetPaymentbyMember(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	s, err := ctl.client.Payment.
+		Query().
+		WithMember().
+		WithPromotion().
+		WithPaymenttype().
+		WithEmployee().
+		Where(payment.HasMemberWith(member.IDEQ(int(id)))).
+		All(context.Background())
+	if err != nil {
+		c.JSON(404, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, s)
 }
 
 // ListPayment handles request to get a list of payment entities
@@ -232,8 +267,10 @@ func NewPaymentController(router gin.IRouter, client *ent.Client) *PaymentContro
 // InitPaymentController registers routes to the main engine
 func (ctl *PaymentController) register() {
 	payments := ctl.router.Group("/payments")
+	paymentss := ctl.router.Group("/paymentsbymembers")
 
 	payments.GET("", ctl.ListPayment)
+	paymentss.GET("id", ctl.GetPaymentbyMember)
 
 	// CRUD
 	payments.POST("", ctl.CreatePayment)

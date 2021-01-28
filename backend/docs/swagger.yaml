@@ -51,25 +51,6 @@ definitions:
       returndate:
         type: string
     type: object
-  controllers.Payment:
-    properties:
-      email:
-        type: string
-      employee:
-        type: integer
-      member:
-        type: integer
-      paymentamount:
-        type: string
-      paymentdate:
-        type: string
-      paymenttype:
-        type: integer
-      phonenumber:
-        type: string
-      promotion:
-        type: integer
-    type: object
   controllers.Promotionamount:
     properties:
       amount:
@@ -1619,7 +1600,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controllers.Payment'
+            $ref: '#/definitions/ent.Payment'
         "400":
           description: Bad Request
           schema:
@@ -1633,6 +1614,38 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Get a payment entity by ID
+  /paymentsbymembers/{id}:
+    get:
+      description: get GetPaymentbyMember by ID
+      operationId: get-GetPaymentbyMember
+      parameters:
+      - description: GetPaymentbyMember ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Payment'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a GetPaymentbyMember entity by ID
   /paymenttypes:
     get:
       description: list paymenttype entities
