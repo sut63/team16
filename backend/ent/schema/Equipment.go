@@ -29,7 +29,7 @@ func (Equipment) Fields() []ent.Field {
 		field.Int("EQUIPMENTAMOUNT").
 			Positive(),
 		field.String("EQUIPMENTDETAIL").
-			MaxLen(30).
+			MaxLen(100).
 			NotEmpty(),
 		field.Time("EQUIPMENTDATE"),
 	}

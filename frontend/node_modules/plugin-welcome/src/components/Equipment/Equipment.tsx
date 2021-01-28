@@ -141,7 +141,7 @@ const Equipment: FC<{}> = () => {
         alertMessage("error","กรุณากรอกจำนวน (ห้ามติด - หรือเป็น 0)");
         return;
       case 'EQUIPMENTDETAIL':
-        alertMessage("error","กรุณากรอกรายละเอียด (ห้ามเกิน 30 ตัวอักษร)");
+        alertMessage("error","กรุณากรอกรายละเอียด (ห้ามเกิน 100 ตัวอักษร)");
         return;
     }
   }

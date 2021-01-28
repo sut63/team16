@@ -109,7 +109,7 @@ const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
  var lencheckin : number
  const [equipment, setEquipment] = React.useState<EntEquipment[]>([])
  const getEquipment = async () => {
-     const res = await http.GetEquipmentbyEmployee({ id:idEmployee})
+     const res = await http.getGetEquipmentbyEmployee({ id:idEmployee})
      setEquipment(res)
      lencheckin = res.length
      if (lencheckin > 0){
@@ -263,7 +263,7 @@ function seach() {
                 color="primary"
                 size="large"
                 startIcon={<ArrowBackIcon />}
-                href="./Bookcourse"
+                href="./Equipment"
               >
                 ย้อนกลับ
               </Button>

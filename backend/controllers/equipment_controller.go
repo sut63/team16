@@ -189,7 +189,10 @@ func (ctl *EquipmentController) GetEquipmentbyEmployee(c *gin.Context) {
 
 	s, err := ctl.client.Equipment.
 		Query().
+		WithClassifier().
+		WithEquipmenttype().
 		WithEmployee().
+		WithZone().
 		Where(equipment.HasEmployeeWith(employee.IDEQ(int(id)))).
 		All(context.Background())
 	if err != nil {
@@ -266,8 +269,10 @@ func NewEquipmentController(router gin.IRouter, client *ent.Client) *EquipmentCo
 // InitEquipmentController registers routes to the main engine
 func (ctl *EquipmentController) register() {
 	equipments := ctl.router.Group("/equipments")
+	equipmentss := ctl.router.Group("/equipmentbyemployees")
 
 	equipments.GET("", ctl.ListEquipment)
+	equipmentss.GET(":id", ctl.GetEquipmentbyEmployee)
 
 	// CRUD
 	equipments.POST("", ctl.CreateEquipment)

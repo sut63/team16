@@ -129,7 +129,7 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "equipmentname", Type: field.TypeString},
 		{Name: "equipmentamount", Type: field.TypeInt},
-		{Name: "equipmentdetail", Type: field.TypeString, Size: 30},
+		{Name: "equipmentdetail", Type: field.TypeString, Size: 100},
 		{Name: "equipmentdate", Type: field.TypeTime},
 		{Name: "classifier_equipment", Type: field.TypeInt, Nullable: true},
 		{Name: "employee_equipment", Type: field.TypeInt, Nullable: true},
