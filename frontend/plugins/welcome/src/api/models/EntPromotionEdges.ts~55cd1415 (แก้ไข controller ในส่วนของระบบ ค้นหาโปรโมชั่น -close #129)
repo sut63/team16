@@ -74,10 +74,10 @@ export function EntPromotionEdgesFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'employee': !exists(json, 'employee') ? undefined : EntEmployeeFromJSON(json['employee']),
-        'payment': !exists(json, 'payment') ? undefined : ((json['payment'] as Array<any>).map(EntPaymentFromJSON)),
-        'promotionamount': !exists(json, 'promotionamount') ? undefined : EntPromotionamountFromJSON(json['promotionamount']),
-        'promotiontype': !exists(json, 'promotiontype') ? undefined : EntPromotiontypeFromJSON(json['promotiontype']),
+        'employee': !exists(json, 'Employee') ? undefined : EntEmployeeFromJSON(json['Employee']),
+        'payment': !exists(json, 'Payment') ? undefined : ((json['Payment'] as Array<any>).map(EntPaymentFromJSON)),
+        'promotionamount': !exists(json, 'Promotionamount') ? undefined : EntPromotionamountFromJSON(json['Promotionamount']),
+        'promotiontype': !exists(json, 'Promotiontype') ? undefined : EntPromotiontypeFromJSON(json['Promotiontype']),
     };
 }
 

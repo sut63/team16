@@ -62,6 +62,42 @@
 </tbody></table>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
+<tr><td rowspan="1" colspan="3">Search Fail</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/Promotionsearch<datalist><option>http://localhost:3000/Promotionsearch</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=code<datalist><option>id=code</option><option>//input[@id='code']</option><option>//div[@id='root']/div/article/div/div[2]/div/div[2]/div/input</option><option>//input</option><option>css=#code</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=code<datalist><option>id=code</option><option>//input[@id='code']</option><option>//div[@id='root']/div/article/div/div[2]/div/div[2]/div/input</option><option>//input</option><option>css=#code</option></datalist></td><td></td>
+</tr>
+<tr><td>doubleClick</td><td>id=code<datalist><option>id=code</option><option>//input[@id='code']</option><option>//div[@id='root']/div/article/div/div[2]/div/div[2]/div/input</option><option>//input</option><option>css=#code</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=code<datalist><option>id=code</option><option>//input[@id='code']</option><option>//div[@id='root']/div/article/div/div[2]/div/div[2]/div/input</option><option>//input</option><option>css=#code</option></datalist></td><td>asdasd</td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div[2]/button/span<datalist><option>//div[@id='root']/div/article/div/div[2]/button/span</option><option>//button/span</option><option>css=span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>//div[@id='root']/div/article/div/div[2]/div[4]/div/div/div[2]<datalist><option>//div[@id='root']/div/article/div/div[2]/div[4]/div/div/div[2]</option><option>//div[4]/div/div/div[2]</option><option>css=div.MuiAlert-message</option></datalist></td><td>ไม่พบข้อมูลที่ค้นหา</td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Search Success</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/Promotionsearch<datalist><option>http://localhost:3000/Promotionsearch</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=code<datalist><option>id=code</option><option>//input[@id='code']</option><option>//div[@id='root']/div/article/div/div[2]/div/div[2]/div/input</option><option>//input</option><option>css=#code</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=code<datalist><option>id=code</option><option>//input[@id='code']</option><option>//div[@id='root']/div/article/div/div[2]/div/div[2]/div/input</option><option>//input</option><option>css=#code</option></datalist></td><td>TT111</td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div[2]/button/span<datalist><option>//div[@id='root']/div/article/div/div[2]/button/span</option><option>//button/span</option><option>css=span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>//div[@id='root']/div/article/div/div[2]/div[4]/div/div/div[2]<datalist><option>//div[@id='root']/div/article/div/div[2]/div[4]/div/div/div[2]</option><option>//div[4]/div/div/div[2]</option><option>css=div.MuiAlert-message</option></datalist></td><td>พบข้อมูลที่ค้นหา</td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
 <tr><td rowspan="1" colspan="3">fail Test Case</td></tr>
 </thead>
 <tbody>
