@@ -24,6 +24,9 @@ import {
     ControllersEquipmentrental,
     ControllersEquipmentrentalFromJSON,
     ControllersEquipmentrentalToJSON,
+    ControllersPayment,
+    ControllersPaymentFromJSON,
+    ControllersPaymentToJSON,
     ControllersPromotionamount,
     ControllersPromotionamountFromJSON,
     ControllersPromotionamountToJSON,
@@ -188,14 +191,6 @@ export interface GetGetBookcoursebyMemberRequest {
 }
 
 export interface GetGetEquipmentbyEmployeeRequest {
-    id: number;
-}
-
-export interface GetGetEquipmentrentalbyMemberRequest {
-    id: number;
-}
-
-export interface GetGetPaymentbyMemberRequest {
     id: number;
 }
 
@@ -1241,70 +1236,6 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * get GetEquipmentrentalbyMember by ID
-     * Get a GetEquipmentrentalbyMember entity by ID
-     */
-    async getGetEquipmentrentalbyMemberRaw(requestParameters: GetGetEquipmentrentalbyMemberRequest): Promise<runtime.ApiResponse<Array<EntEquipmentrental>>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getGetEquipmentrentalbyMember.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/equipmentrentalbymembers/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntEquipmentrentalFromJSON));
-    }
-
-    /**
-     * get GetEquipmentrentalbyMember by ID
-     * Get a GetEquipmentrentalbyMember entity by ID
-     */
-    async getGetEquipmentrentalbyMember(requestParameters: GetGetEquipmentrentalbyMemberRequest): Promise<Array<EntEquipmentrental>> {
-        const response = await this.getGetEquipmentrentalbyMemberRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
-     * get GetPaymentbyMember by ID
-     * Get a GetPaymentbyMember entity by ID
-     */
-    async getGetPaymentbyMemberRaw(requestParameters: GetGetPaymentbyMemberRequest): Promise<runtime.ApiResponse<Array<EntPayment>>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getGetPaymentbyMember.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/paymentsbymembers/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntPaymentFromJSON));
-    }
-
-    /**
-     * get GetPaymentbyMember by ID
-     * Get a GetPaymentbyMember entity by ID
-     */
-    async getGetPaymentbyMember(requestParameters: GetGetPaymentbyMemberRequest): Promise<Array<EntPayment>> {
-        const response = await this.getGetPaymentbyMemberRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
      * get member by ID
      * Get a member entity by ID
      */
@@ -1340,7 +1271,7 @@ export class DefaultApi extends runtime.BaseAPI {
      * get payment by ID
      * Get a payment entity by ID
      */
-    async getPaymentRaw(requestParameters: GetPaymentRequest): Promise<runtime.ApiResponse<EntPayment>> {
+    async getPaymentRaw(requestParameters: GetPaymentRequest): Promise<runtime.ApiResponse<ControllersPayment>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getPayment.');
         }
@@ -1356,14 +1287,14 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntPaymentFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ControllersPaymentFromJSON(jsonValue));
     }
 
     /**
      * get payment by ID
      * Get a payment entity by ID
      */
-    async getPayment(requestParameters: GetPaymentRequest): Promise<EntPayment> {
+    async getPayment(requestParameters: GetPaymentRequest): Promise<ControllersPayment> {
         const response = await this.getPaymentRaw(requestParameters);
         return await response.value();
     }
@@ -1740,16 +1671,10 @@ export class DefaultApi extends runtime.BaseAPI {
      * list employee entities
      * List employee entities
      */
-    async listEmployeeRaw(requestParameters: ListEmployeeRequest): Promise<runtime.ApiResponse<Array<EntEmployee>>> {
+    async listEmployeeRaw(): Promise<runtime.ApiResponse<Array<EntEmployee>>> {
         const queryParameters: runtime.HTTPQuery = {};
 
-        if (requestParameters.limit !== undefined) {
-            queryParameters['limit'] = requestParameters.limit;
-        }
-
-        if (requestParameters.offset !== undefined) {
-            queryParameters['offset'] = requestParameters.offset;
-        }
+        
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -1767,8 +1692,8 @@ export class DefaultApi extends runtime.BaseAPI {
      * list employee entities
      * List employee entities
      */
-    async listEmployee(requestParameters: ListEmployeeRequest): Promise<Array<EntEmployee>> {
-        const response = await this.listEmployeeRaw(requestParameters);
+    async listEmployee(): Promise<Array<EntEmployee>> {
+        const response = await this.listEmployeeRaw();
         return await response.value();
     }
 

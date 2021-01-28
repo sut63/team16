@@ -5,6 +5,7 @@ import Payment from './components/Payment';
 import Equipment from './components/Equipment';
 import Bookcourse from './components/ฺฺBookcourse';
 import Employee from './components/Employee';
+import Employeesearch from './components/Employeesearch';
 
 import Promotion from './components/Promotion';
 import Promotionsearch from './components/Promotion/Promotionsearch';
@@ -25,6 +26,7 @@ export const plugin = createPlugin({
     router.registerRoute('/Equipment', Equipment);
     router.registerRoute('/Bookcourse', Bookcourse);
     router.registerRoute('/Employee', Employee);
+    router.registerRoute('/Employeesearch', Employeesearch)
 
     router.registerRoute('/Promotion', Promotion);
     router.registerRoute('/Promotionsearch', Promotionsearch);
