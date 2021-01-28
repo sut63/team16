@@ -64,9 +64,9 @@ export function EntBookcourseEdgesFromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
-        'course': !exists(json, 'Course') ? undefined : EntCourseFromJSON(json['Course']),
-        'employee': !exists(json, 'Employee') ? undefined : EntEmployeeFromJSON(json['Employee']),
-        'member': !exists(json, 'Member') ? undefined : EntMemberFromJSON(json['Member']),
+        'course': !exists(json, 'course') ? undefined : EntCourseFromJSON(json['course']),
+        'employee': !exists(json, 'employee') ? undefined : EntEmployeeFromJSON(json['employee']),
+        'member': !exists(json, 'member') ? undefined : EntMemberFromJSON(json['member']),
     };
 }
 

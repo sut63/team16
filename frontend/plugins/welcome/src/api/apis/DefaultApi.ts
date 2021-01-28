@@ -194,6 +194,10 @@ export interface GetGetEquipmentbyEmployeeRequest {
     id: number;
 }
 
+export interface GetGetEquipmentrentalbyMemberRequest {
+    id: number;
+}
+
 export interface GetMemberRequest {
     id: number;
 }
@@ -1232,6 +1236,38 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async getGetEquipmentbyEmployee(requestParameters: GetGetEquipmentbyEmployeeRequest): Promise<Array<EntEquipment>> {
         const response = await this.getGetEquipmentbyEmployeeRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * get GetEquipmentrentalbyMember by ID
+     * Get a GetEquipmentrentalbyMember entity by ID
+     */
+    async getGetEquipmentrentalbyMemberRaw(requestParameters: GetGetEquipmentrentalbyMemberRequest): Promise<runtime.ApiResponse<Array<EntEquipmentrental>>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getGetEquipmentrentalbyMember.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/equipmentrentalbymembers/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntEquipmentrentalFromJSON));
+    }
+
+    /**
+     * get GetEquipmentrentalbyMember by ID
+     * Get a GetEquipmentrentalbyMember entity by ID
+     */
+    async getGetEquipmentrentalbyMember(requestParameters: GetGetEquipmentrentalbyMemberRequest): Promise<Array<EntEquipmentrental>> {
+        const response = await this.getGetEquipmentrentalbyMemberRaw(requestParameters);
         return await response.value();
     }
 

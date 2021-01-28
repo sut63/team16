@@ -84,11 +84,11 @@ export function EntEquipmentEdgesFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'classifier': !exists(json, 'Classifier') ? undefined : EntClassifierFromJSON(json['Classifier']),
-        'employee': !exists(json, 'Employee') ? undefined : EntEmployeeFromJSON(json['Employee']),
-        'equipmentrental': !exists(json, 'Equipmentrental') ? undefined : ((json['Equipmentrental'] as Array<any>).map(EntEquipmentrentalFromJSON)),
-        'equipmenttype': !exists(json, 'Equipmenttype') ? undefined : EntEquipmenttypeFromJSON(json['Equipmenttype']),
-        'zone': !exists(json, 'Zone') ? undefined : EntZoneFromJSON(json['Zone']),
+        'classifier': !exists(json, 'classifier') ? undefined : EntClassifierFromJSON(json['classifier']),
+        'employee': !exists(json, 'employee') ? undefined : EntEmployeeFromJSON(json['employee']),
+        'equipmentrental': !exists(json, 'equipmentrental') ? undefined : ((json['equipmentrental'] as Array<any>).map(EntEquipmentrentalFromJSON)),
+        'equipmenttype': !exists(json, 'equipmenttype') ? undefined : EntEquipmenttypeFromJSON(json['equipmenttype']),
+        'zone': !exists(json, 'zone') ? undefined : EntZoneFromJSON(json['zone']),
     };
 }
 
