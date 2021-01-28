@@ -86,7 +86,7 @@ const searchcheck = {
    
 }
 
-export default function SearchRoom() {
+export default function Paymentsearch() {
     const classes = useStyles();
     const api = new DefaultApi();
     const [status, setStatus] = useState(false);
