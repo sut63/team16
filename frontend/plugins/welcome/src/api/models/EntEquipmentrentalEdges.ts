@@ -74,10 +74,10 @@ export function EntEquipmentrentalEdgesFromJSONTyped(json: any, ignoreDiscrimina
     }
     return {
         
-        'employee': !exists(json, 'employee') ? undefined : EntEmployeeFromJSON(json['employee']),
-        'equipment': !exists(json, 'equipment') ? undefined : EntEquipmentFromJSON(json['equipment']),
-        'equipmenttype': !exists(json, 'equipmenttype') ? undefined : EntEquipmenttypeFromJSON(json['equipmenttype']),
-        'member': !exists(json, 'member') ? undefined : EntMemberFromJSON(json['member']),
+        'employee': !exists(json, 'Employee') ? undefined : EntEmployeeFromJSON(json['Employee']),
+        'equipment': !exists(json, 'Equipment') ? undefined : EntEquipmentFromJSON(json['Equipment']),
+        'equipmenttype': !exists(json, 'Equipmenttype') ? undefined : EntEquipmenttypeFromJSON(json['Equipmenttype']),
+        'member': !exists(json, 'Member') ? undefined : EntMemberFromJSON(json['Member']),
     };
 }
 

@@ -10,6 +10,7 @@ import Promotion from './components/Promotion';
 import Promotionsearch from './components/Promotion/Promotionsearch';
 import Bookcoursesearch from './components/ฺฺBookcourse/Bookcoursesearch';
 import Equipmentsearch from './components/Equipment/Equipmentsearch';
+import Equipmentrentalsearch from './components/Equipmentrental/Equipmentrentalsearch';
 
 
 import Equipmentrental from './components/Equipmentrental';
@@ -28,6 +29,7 @@ export const plugin = createPlugin({
     router.registerRoute('/Promotionsearch', Promotionsearch);
     router.registerRoute('/Bookcoursesearch', Bookcoursesearch);
     router.registerRoute('/Equipmentsearch', Equipmentsearch);
+    router.registerRoute('/Equipmentrentalsearch', Equipmentrentalsearch);
 
     router.registerRoute('/Equipmentrental', Equipmentrental);
   },

@@ -2,6 +2,8 @@ import React, { FC, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Content, Header, Page, pageTheme } from '@backstage/core';
 import SaveIcon from '@material-ui/icons/Save'; // icon save
+import SearchIcon from '@material-ui/icons/Search'; //search icon
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'; //log off icon
 import Swal from 'sweetalert2'; // alert
 
 import {
@@ -163,6 +165,17 @@ const alertMessage = (icon: any, title: any) => {
   return (
     <Page theme={pageTheme.home}>
       <Header style={HeaderCustom} title={`ระบบยืมอุปกรณ์กีฬา`}>
+      <Grid item xs>
+          <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            startIcon={<PowerSettingsNewIcon />}
+            href="/"
+          >
+            sign out
+          </Button>
+        </Grid>
       </Header>
 
       <Content>
@@ -315,8 +328,7 @@ const alertMessage = (icon: any, title: any) => {
               </form>
             </Grid>
 
-            <Grid item xs={3}></Grid>
-            <Grid item xs={9}>
+            <Grid item xs={5}>
               <Button
                 variant="contained"
                 color="primary"
@@ -327,6 +339,20 @@ const alertMessage = (icon: any, title: any) => {
                 บันทึกการยืมอุปกรณ์
               </Button>
             </Grid>
+
+            <Grid item xs={4}>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                startIcon={<SearchIcon />}
+                href="./Equipmentrentalsearch"
+              >
+                ค้นหาโปรโมชั่น
+              </Button>
+            </Grid>
+
+
           </Grid>
         </Container>
       </Content>

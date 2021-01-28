@@ -237,6 +237,45 @@ func (ctl *EquipmentrentalController) ListEquipmentrental(c *gin.Context) {
 	c.JSON(200, Eqrentals)
 }
 
+// GetEquipmentrentalbyMember handles GET requests to retrieve a GetEquipmentrentalbyMember entity
+// @Summary Get a GetEquipmentrentalbyMember entity by ID
+// @Description get GetEquipmentrentalbyMember by ID
+// @ID get-GetEquipmentrentalbyMember
+// @Produce  json
+// @Param id path int true "GetEquipmentrentalbyMember ID"
+// @Success 200 {array} ent.Equipmentrental
+// @Failure 400 {object} gin.H
+// @Failure 404 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /equipmentrentalbymembers/{id} [get]
+func (ctl *EquipmentrentalController) GetEquipmentrentalbyMember(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	s, err := ctl.client.Equipmentrental.
+		Query().
+		WithEquipment().
+		WithEquipmenttype().
+		WithEmployee().
+		WithMember().
+		Where(equipmentrental.HasMemberWith(member.IDEQ(int(id)))).
+		All(context.Background())
+	if err != nil {
+		c.JSON(404, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, s)
+}
+
+
 // NewEquipmentrentalController creates and registers handles for the equipmentrental controller
 func NewEquipmentrentalController(router gin.IRouter, client *ent.Client) *EquipmentrentalController {
 	erc := &EquipmentrentalController{
@@ -251,7 +290,8 @@ func NewEquipmentrentalController(router gin.IRouter, client *ent.Client) *Equip
 // InitEquipmentrentalController registers routes to the main engine
 func (ctl *EquipmentrentalController) register() {
 	Eqrentals := ctl.router.Group("/equipmentrentals")
-
+	Eqrentalss := ctl.router.Group("/equipmentrentalbymembers")
+	Eqrentalss.GET(":id", ctl.GetEquipmentrentalbyMember)
 	Eqrentals.GET("", ctl.ListEquipmentrental)
 
 	// CRUD

@@ -784,6 +784,54 @@
                 }
             }
         },
+        "/equipmentrentalbymembers/{id}": {
+            "get": {
+                "description": "get GetEquipmentrentalbyMember by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a GetEquipmentrentalbyMember entity by ID",
+                "operationId": "get-GetEquipmentrentalbyMember",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "GetEquipmentrentalbyMember ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.Equipmentrental"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
         "/equipmentrentals": {
             "get": {
                 "description": "list equipmentrental entities",
