@@ -74,10 +74,10 @@ export function EntPaymentEdgesFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'employee': !exists(json, 'employee') ? undefined : EntEmployeeFromJSON(json['employee']),
-        'member': !exists(json, 'member') ? undefined : EntMemberFromJSON(json['member']),
-        'paymenttype': !exists(json, 'paymenttype') ? undefined : EntPaymenttypeFromJSON(json['paymenttype']),
-        'promotion': !exists(json, 'promotion') ? undefined : EntPromotionFromJSON(json['promotion']),
+        'employee': !exists(json, 'Employee') ? undefined : EntEmployeeFromJSON(json['Employee']),
+        'member': !exists(json, 'Member') ? undefined : EntMemberFromJSON(json['Member']),
+        'paymenttype': !exists(json, 'Paymenttype') ? undefined : EntPaymenttypeFromJSON(json['Paymenttype']),
+        'promotion': !exists(json, 'Promotion') ? undefined : EntPromotionFromJSON(json['Promotion']),
     };
 }
 
