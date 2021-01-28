@@ -223,6 +223,7 @@ func (ctl *BookcourseController) ListBookcourse(c *gin.Context) {
 		Query().
 		WithMember().
 		WithEmployee().
+		WithCourse().
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())
@@ -251,7 +252,8 @@ func NewBookcourseController(router gin.IRouter, client *ent.Client) *Bookcourse
 // InitBookcourseController registers routes to the main engine
 func (ctl *BookcourseController) register() {
 	bookcourses := ctl.router.Group("/bookcourses")
-
+	bookcoursess := ctl.router.Group("/bookcoursebymembers")
+	bookcoursess.GET(":id", ctl.GetBookcoursebyMember)
 	bookcourses.GET("", ctl.ListBookcourse)
 
 	// CRUD

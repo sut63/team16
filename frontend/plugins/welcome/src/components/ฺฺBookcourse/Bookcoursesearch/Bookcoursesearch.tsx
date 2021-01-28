@@ -109,7 +109,7 @@ const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
  var lencheckin : number
  const [bookcourse, setBookcourse] = React.useState<EntBookcourse[]>([])
  const getBookcourse = async () => {
-     const res = await http.GetBookcoursebyMember({ id:idMember})
+     const res = await http.getGetBookcoursebyMember({ id:idMember})
      setBookcourse(res)
      lencheckin = res.length
      if (lencheckin > 0){
