@@ -208,7 +208,6 @@ func NewEmployeeController(router gin.IRouter, client *ent.Client) *EmployeeCont
 // InitEmployeeController registers routes to the main engine
 func (ctl *EmployeeController) register() {
 	employees := ctl.router.Group("/employees")
-
 	employees.GET("", ctl.ListEmployee)
 
 	// CRUD
