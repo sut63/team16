@@ -1,303 +1,258 @@
-import React, { FC, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Content, Header, Page, pageTheme } from '@backstage/core';
-import SearchIcon from '@material-ui/icons/Search'; //search icon
+import React, { useState, useEffect } from 'react';
+import {
+    Content,
+    Header,
+    Page,
+    pageTheme,
+    ContentHeader,
+    InfoCard,
+} from '@backstage/core';
+import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import { Alert } from '@material-ui/lab';
+
+import { makeStyles, Theme, createStyles, ThemeProvider } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import { DefaultApi } from '../../../api/apis';
+
+import SearchIcon from '@material-ui/icons/Search';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'; // back icon
-import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'; // log off icon
-import Swal from 'sweetalert2'; // alert
 
-import {
-  Container,
-  Grid,
-  FormControl,
-  Select,
-  InputLabel,
-  MenuItem,
-  TextField,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from '@material-ui/core';
-import { DefaultApi } from '../../../api/apis'; // Api Gennerate From Command
-import {
-  EntPromotion,
-} from '../../../api/models';
+import { EntPromotion } from '../../../api/models';
 
-// header css
-const HeaderCustom = {
-  minHeight: '20px',
-};
 
-// css style
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
+// css style 
+const useStyles = makeStyles((theme: Theme) =>
+ createStyles({
+   root: {
+     display: 'flex',
+     flexWrap: 'wrap',
+     justifyContent: 'center',
+   },
+   margin: {
+      margin: theme.spacing(2),
+   },
+   insideLabel: {
+    margin: theme.spacing(1),
   },
-  paper: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
+   button: {
+    marginLeft: '40px',
   },
-  formControl: {
-    width: 300,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    width: 300,
-  },
-  table: {
-    minWidth: 1013,
-  },
-}));
+   textField: {
+    width: 500 ,
+    marginLeft:7,
+    marginRight:-7,
+   },
+    select: {
+      width: 400 ,
+      marginLeft:7,
+    },
+    paper: {
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(1),
+      marginLeft: theme.spacing(1),
+    },
+    center: {
+      marginTop: theme.spacing(2),
+      marginLeft: theme.spacing(23),
+    },
+    cardtable: {
+      marginTop: theme.spacing(2),
+    },
+    fieldText: {
+      width: 200,
+      marginLeft:7,
+    },
+    fieldLabel: {
+      marginLeft:8,
+      marginRight: 20,
+    },
+    table: {
+        minWidth: 650,
+    }
+  }),
+);
 
-interface promotionsearch {
-  promotion: number,
-  name: String,
-  code: String,
+const searchcheck = {
+    promotionsearchcheck: true,
 }
 
-const Promotionsearch: FC<{}> = () => {
-  const classes = useStyles();
-  const http = new DefaultApi();
-  const [promotionsearch, setPromotionsearch] = React.useState<Partial<promotionsearch>>({});
+export default function Promotionsearch() {
+    const classes = useStyles();
+    const api = new DefaultApi();
+    const [status, setStatus] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [alerttype, setAlertType] = useState(String);
+    const [errormessege, setErrorMessege] = useState(String);
 
-  const [promotion, setPromotion] = React.useState<EntPromotion[]>([]);
- 
-  const getPromotion = async () => {
-    const res = await http.listPromotion({});
-    setPromotion(res);
-  };
-
-  // alert setting
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-  });
+    const [promotion, setPromotion] = useState<EntPromotion[]>([]);
   
-  // Lifecycle Hooks
-  useEffect(() => {
-    getPromotion();
-  }, []);
-
-  // set data to object promotion
-  const handleChange = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>,
-  ) => {
-    const name = event.target.name as keyof typeof Promotionsearch;
-    const { value } = event.target;
-    setPromotion({ ...promotion, [name]: value });
-    console.log(Promotionsearch);
-  };
-
-  // clear input form
-  function clear() {
-    setPromotionsearch({});
-  }
-
-  const alertMessage = (icon: any, title: any) => {
-    Toast.fire({
-      icon: icon,
-      title: title,
-    });
-  }
-
-  const checkCaseSaveError = (field: string) => {
-    switch(field) {
-      case 'NAME':
-        alertMessage("error","ชื่อโปรโมชั่น ห้ามมีตัวอีกษรพิเศษ");
-        return;
-      case 'CODE':
-        alertMessage("error","รหัสต้องขึ้นต้น A-Z 2 ตัวและตามด้วย ตัวเลข 3 หลัก");
-        return;
-      default:
-        alertMessage("error","ค้นหาข้อมูลไม่สำเร็จ");
-        return;
-    }
-  }
-
-  function search() {
-
-  }
-
-  // // function search data
-  // function search() {
-  //   const apiUrl = 'http://localhost:8080/api/v1/promotions';
-  //   const requestOptions = {
-  //     method: 'GET',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify(promotion),
-  //   };
+    const [promotionsearch, setPromotionsearch] = useState(String);
     
-  //   console.log(promotion); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
+  useEffect(() => {
+    const getPromotion = async () => {
+      const res = await api.listPromotion({limit:10000, offset:0});
+      setLoading(false);
+      setPromotion(res);
+    };
+    getPromotion();
+    }, [loading]);
 
-  //   fetch(apiUrl, requestOptions)
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       console.log(data);
-  //       if (data.status === true) {
-  //         clear();
-  //         Toast.fire({
-  //           icon: 'success',
-  //           title: 'ค้นหาข้อมูลสำเร็จ',
-  //         });
-  //       } else {
-  //         checkCaseSaveError(data.error.Name)
-  //       }
-  //     });
-  // }
+    const SearchPromotion = async () => {
+        const res = await api.listPromotion({limit:10000, offset:0});
+        const promotionsearch = PromotionSearch(res);
+        
+        setErrorMessege("ไม่พบข้อมูลที่ค้นหา");
+        setAlertType("error");
+        setPromotion([]);
+        if(promotionsearch.length > 0){
+            Object.entries(searchcheck).map(([key, value]) =>{
+                if (value == true){
+                    setErrorMessege("พบข้อมูลที่ค้นหา");
+                    setAlertType("success");
+                    setPromotion(promotionsearch);
+                }
+            })
+        }
 
-  return (
-    <Page theme={pageTheme.home}>
+        setStatus(true);
+        ResetSearchCheck();
+    }
 
-      <Header style={HeaderCustom} title={`ระบบโปรโมชั่น`}>
-        <Grid item xs>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            startIcon={<PowerSettingsNewIcon />}
-            href="/"
-          >
-            sign out
-          </Button>
-        </Grid>
-      </Header>
-      
-      <Content>
+    const ResetSearchCheck = () => {
+        searchcheck.promotionsearchcheck = true;
+        
+    }
 
-        <Container maxWidth="sm">
+    const PromotionSearch = (res: any) => {
+        const data = res.filter((filter: EntPromotion) => filter.cODE?.includes(promotionsearch))
+       // console.log(data.length)
+        if (data.length != 0 && promotionsearch != "") {
+            return data;
+        }
+        else {
+            searchcheck.promotionsearchcheck = false;
+            if(promotionsearch == ""){
+                return res;
+            }
+            else{
+                return data;
+            }
+        }
+    }
 
-          <Grid container spacing={3}>
+    const PromotionSearchhandleChange = (event: any) => {
+        setPromotionsearch(event.target.value as string);
+    };
+    
+    return (
+        <Page theme={pageTheme.service}>
+            <Content>
+            <InfoCard title="ค้นหาข้อมูลโปรโมชั่น">
 
-          <Grid item xs={12}></Grid>
+            <FormControl
+                    className={classes.margin}
+                    variant="standard"
+                >
+                    <div className={classes.paper}><strong>รหัสโปรโมชั่น</strong></div>
+                    <TextField
+                        id="code"
+                       // label="ค้นหารหัสพนักงาน"
+                        type="string"
+                        size="medium"
+                        value={promotionsearch}
+                        onChange={PromotionSearchhandleChange}
+                        style={{ width: 210,marginLeft: 8}}
+                    />
+                </FormControl>
 
-          <Grid item xs={3}>
-              <div className={classes.paper}>ชื่อโปรโมชั่น</div>
-            </Grid>
-            <Grid item xs={9}>
-              <form className={classes.container} noValidate>
-                <TextField
-                  label="กรอกชื่อโปรโมชั่น"
-                  name="name"
-                  type="string"
-                  value={promotionsearch.name} // (undefined || '') = ''
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={handleChange}
-                />
-              </form>
-            </Grid>
+           
 
-            <Grid item xs={12}></Grid>
-
-            <Grid item xs={3}>
-              <div className={classes.paper}>รหัสโปรโมชั่น</div>
-            </Grid>
-            <Grid item xs={9}>
-              <form className={classes.container} noValidate>
-                <TextField
-                  label="กรอกรหัสโปรโมชั่น"
-                  name="code"
-                  type="string"
-                  value={promotionsearch.code} // (undefined || '') = ''
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={handleChange}
-                />
-              </form>
-            </Grid>
-
-            <Grid item xs={12}></Grid>
-
-            <Grid item xs={4}></Grid>
-            <Grid item xs={4}>
-              <Button
+                <Button
+                style={{ width: 100, backgroundColor: "#5319e7",marginTop: 49,marginLeft: 20}}
+                onClick={() => {
+                  SearchPromotion();
+                }}
                 variant="contained"
                 color="primary"
-                size="large"
                 startIcon={<SearchIcon />}
-                onClick={search}
               >
                 ค้นหา
-              </Button>
-            </Grid>
-            <Grid item xs={4}></Grid>
+             </Button>
+             
+        
+             <div><br></br></div>
+             <TableContainer component={Paper}>
+                            <Table className={classes.table} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                <TableCell align="center">ID</TableCell>
+                                <TableCell align="center">ชื่อโปรโมชั่น</TableCell>
+                                <TableCell align="center">รหัสโปรโมชั่น</TableCell>
+                                <TableCell align="center">เงื่อนไขโปรโมชั่น</TableCell>
+                                <TableCell align="center">วันที่หมดอายุ</TableCell>
+                                <TableCell align="center">จำนวนการใช้งาน</TableCell>
+                                <TableCell align="center">ชนิดโปรโมชั่น</TableCell>
+                                <TableCell align="center">ผู้รับผิดชอบ</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {promotion.map((item:EntPromotion ) => (
+                                <TableRow key={item.id}>
+                                    <TableCell align="center">{item.id}</TableCell>
+                                    <TableCell align="center">{item.nAME}</TableCell>
+                                    <TableCell align="center">{item.cODE}</TableCell>
+                                    <TableCell align="center">{item.dESC}</TableCell>
+                                    <TableCell align="center">{item.dATE}</TableCell>
+                                    <TableCell align="center">{item.edges?.promotionamount?.aMOUNT}</TableCell>
+                                    <TableCell align="center">{item.edges?.promotiontype?.tYPE}</TableCell>
+                                    <TableCell align="center">{item.edges?.employee?.eMPLOYEENAME}</TableCell> 
+                                </TableRow>
+                                ))}
+                            </TableBody>
+                            </Table>
+                        </TableContainer>
 
-            <Grid item xs={12}></Grid>
+                        <div>{status ? (
+                          <div>{alerttype != "" ? (
+                            <Alert 
+                              severity={alerttype} 
+                              style={{
+                                width: 400 ,
+                                marginTop: 20, 
+                                marginLeft:6 }} 
+                                onClose={() => { 
+                                  setStatus(false) 
+                                }}
+                            >
+                              {errormessege}
+                            </Alert>
+                          ) : null}
+                          </div>
+                        ) : null}
+                        </div>
 
-            <Grid item xs></Grid>
-            <TableContainer component={Paper}>
-              <Table className={classes.table} size="medium" aria-label="a dense table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>IDs</TableCell>
-                    <TableCell align="right">ชื่อโปรโมชั่น</TableCell>
-                    <TableCell align="right">เงื่อนไขโปรโมชั่น&nbsp;</TableCell>
-                    <TableCell align="right">รหัสโปรโมชั่น&nbsp;</TableCell>
-                    <TableCell align="right">วันที่และเวลาหมดอายุ&nbsp;</TableCell>
-                    <TableCell align="right">ผู้รับผิดชอบ&nbsp;</TableCell>
-                    <TableCell align="right">จำนวนการใช้งานโปรโมชั่น&nbsp;</TableCell>
-                    <TableCell align="right">ประเภทปรโมชั่น&nbsp;</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {/* {EntPromotion.map(() => (
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{
-                        
-                      }</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
-                    </TableRow>
-                  ))} */}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <Grid item xs></Grid>
-
-            <Grid item xs={12}></Grid>
-
-            <Grid item xs={4}>
-              <Button
+                </InfoCard>
+                <Button
+                style={{ width: 110, backgroundColor: "#5319e7",marginTop: 49,marginLeft: 20}}
                 variant="contained"
                 color="primary"
-                size="large"
                 startIcon={<ArrowBackIcon />}
-                href="/Promotion"
+                href="./Promotion"
               >
                 ย้อนกลับ
-              </Button>
-            </Grid>
-
-          </Grid>
-
-        </Container>
-
-      </Content>
-
-    </Page>
-  );
-};
-
-export default Promotionsearch;
+             </Button>
+            </Content>
+     </Page>
+    );
+}

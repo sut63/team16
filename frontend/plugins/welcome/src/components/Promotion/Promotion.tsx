@@ -4,6 +4,7 @@ import { Content, Header, Page, pageTheme } from '@backstage/core';
 import SaveIcon from '@material-ui/icons/Save'; // icon save
 import SearchIcon from '@material-ui/icons/Search'; //search icon
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'; //log off icon
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'; // back icon
 import Swal from 'sweetalert2'; // alert
 
 import {
@@ -336,7 +337,6 @@ const Promotion: FC<{}> = () => {
               </FormControl>
             </Grid>
 
-
             <Grid item xs={5}>
               <Button
                 variant="contained"
@@ -361,7 +361,20 @@ const Promotion: FC<{}> = () => {
               </Button>
             </Grid>
 
-            
+            <Grid item xs={3}></Grid>
+            <Grid item xs={3}></Grid>
+
+            <Grid item xs={4}>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                startIcon={<ArrowBackIcon />}
+                href="./WelcomePage"
+              >
+                ย้อนกลับ
+              </Button>
+            </Grid>
 
           </Grid>
 
