@@ -13,6 +13,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'; // log off icon
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'; // back icon
+
 import { DefaultApi } from '../../../api/apis'; // Api Gennerate From Command
 
 import SearchIcon from '@material-ui/icons/Search';
@@ -247,6 +249,15 @@ export default function Paymentsearch() {
                     ) : null}</div>
 
                 </InfoCard>
+                <Button
+                  style={{ width: 110, backgroundColor: "#5319e7",marginTop: 49,marginLeft: 20}}
+                  variant="contained"
+                  color="primary"
+                  startIcon={<ArrowBackIcon />}
+                  href="./Payment"
+                >
+                 ย้อนกลับ
+                </Button>
 
             </Content>
      </Page>

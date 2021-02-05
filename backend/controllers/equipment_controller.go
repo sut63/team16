@@ -155,6 +155,10 @@ func (ctl *EquipmentController) GetEquipment(c *gin.Context) {
 	eq, err := ctl.client.Equipment.
 		Query().
 		WithEmployee().
+		WithClassifier().
+		WithEquipmenttype().
+		WithEmployee().
+		WithZone().
 		Where(equipment.IDEQ(int(id))).
 		Only(context.Background())
 	if err != nil {
@@ -165,44 +169,6 @@ func (ctl *EquipmentController) GetEquipment(c *gin.Context) {
 	}
 
 	c.JSON(200, eq)
-}
-
-// GetEquipmentbyEmployee handles GET requests to retrieve a GetEquipmentbyEmployee entity
-// @Summary Get a GetEquipmentbyEmployee entity by ID
-// @Description get GetEquipmentbyEmployee by ID
-// @ID get-GetEquipmentbyEmployee
-// @Produce  json
-// @Param id path int true "GetEquipmentbyEmployee ID"
-// @Success 200 {array} ent.Equipment
-// @Failure 400 {object} gin.H
-// @Failure 404 {object} gin.H
-// @Failure 500 {object} gin.H
-// @Router /equipmentbyemployees/{id} [get]
-func (ctl *EquipmentController) GetEquipmentbyEmployee(c *gin.Context) {
-	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-
-	s, err := ctl.client.Equipment.
-		Query().
-		WithClassifier().
-		WithEquipmenttype().
-		WithEmployee().
-		WithZone().
-		Where(equipment.HasEmployeeWith(employee.IDEQ(int(id)))).
-		All(context.Background())
-	if err != nil {
-		c.JSON(404, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-
-	c.JSON(200, s)
 }
 
 // ListEquipment handles request to get a list of equipment entities
@@ -269,11 +235,7 @@ func NewEquipmentController(router gin.IRouter, client *ent.Client) *EquipmentCo
 // InitEquipmentController registers routes to the main engine
 func (ctl *EquipmentController) register() {
 	equipments := ctl.router.Group("/equipments")
-	equipmentss := ctl.router.Group("/equipmentbyemployees")
-
 	equipments.GET("", ctl.ListEquipment)
-	equipmentss.GET(":id", ctl.GetEquipmentbyEmployee)
-
 	// CRUD
 	equipments.POST("", ctl.CreateEquipment)
 	equipments.GET(":id", ctl.GetEquipment)
