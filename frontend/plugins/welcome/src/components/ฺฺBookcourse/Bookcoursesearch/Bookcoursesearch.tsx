@@ -63,7 +63,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2, 0),
   },
   table: {
-    minWidth: 1013,
+    minWidth: 1050,
   },
 }));
 
@@ -166,8 +166,8 @@ function seach() {
               <div className={classes.paper}>ชื่อ User ลูกค้า</div>
             </Grid>
 
-            <Grid item xs={9}>
-              <FormControl variant="outlined" className={classes.formControl}>
+            <Grid item xs={6}>
+              <FormControl variant="outlined" className={classes.container}>
                 <InputLabel>เลือก User Name</InputLabel>
                 <Select
                   name="member"
@@ -184,11 +184,7 @@ function seach() {
                 </Select>
               </FormControl>
             </Grid>
-
-            <Grid item xs={12}></Grid>
-
-            <Grid item xs={4}></Grid>
-            <Grid item xs={4}>
+            <Grid item xs>
               <Button
                 variant="contained"
                 color="primary"
@@ -201,14 +197,13 @@ function seach() {
             </Grid>
             <Grid item xs={4}></Grid>
 
-            <Grid item xs={12}></Grid>
-
             <Grid item xs={12}>
                     <Divider className={classes.divider} />
                     <Typography variant="subtitle1" gutterBottom>
                         ตาราง Bookcourse:
                         </Typography>
-                </Grid>
+            </Grid>
+            
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>

@@ -337,11 +337,14 @@ const Promotion: FC<{}> = () => {
               </FormControl>
             </Grid>
 
+            <Grid item xs={12}></Grid>
+            
             <Grid item xs={5}>
               <Button
                 variant="contained"
                 color="primary"
                 size="large"
+                fullWidth={true}
                 startIcon={<SaveIcon />}
                 onClick={save}
               >
@@ -349,11 +352,12 @@ const Promotion: FC<{}> = () => {
               </Button>
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid item xs={5}>
               <Button
                 variant="contained"
                 color="primary"
                 size="large"
+                fullWidth={true}
                 startIcon={<SearchIcon />}
                 href="./Promotionsearch"
               >
@@ -361,14 +365,13 @@ const Promotion: FC<{}> = () => {
               </Button>
             </Grid>
 
-            <Grid item xs={3}></Grid>
-            <Grid item xs={3}></Grid>
-
-            <Grid item xs={4}>
+            <Grid item xs></Grid>
+            <Grid item xs={10}>
               <Button
                 variant="contained"
                 color="primary"
                 size="large"
+                fullWidth={true}
                 startIcon={<ArrowBackIcon />}
                 href="./WelcomePage"
               >

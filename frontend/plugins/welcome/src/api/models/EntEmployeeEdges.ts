@@ -115,12 +115,12 @@ export function EntEmployeeEdgesFromJSONTyped(json: any, ignoreDiscriminator: bo
     return {
         
         'age': !exists(json, 'Age') ? undefined : EntAgeFromJSON(json['Age']),
-        'bookcourse': !exists(json, 'Bookcourse') ? undefined : ((json['Bookcourse'] as Array<any>).map(EntBookcourseFromJSON)),
-        'equipment': !exists(json, 'Equipment') ? undefined : ((json['Equipment'] as Array<any>).map(EntEquipmentFromJSON)),
-        'equipmentrental': !exists(json, 'Equipmentrental') ? undefined : ((json['Equipmentrental'] as Array<any>).map(EntEquipmentrentalFromJSON)),
-        'payment': !exists(json, 'Payment') ? undefined : ((json['Payment'] as Array<any>).map(EntPaymentFromJSON)),
+        'bookcourse': !exists(json, 'bookcourse') ? undefined : ((json['bookcourse'] as Array<any>).map(EntBookcourseFromJSON)),
+        'equipment': !exists(json, 'equipment') ? undefined : ((json['equipment'] as Array<any>).map(EntEquipmentFromJSON)),
+        'equipmentrental': !exists(json, 'equipmentrental') ? undefined : ((json['equipmentrental'] as Array<any>).map(EntEquipmentrentalFromJSON)),
+        'payment': !exists(json, 'payment') ? undefined : ((json['payment'] as Array<any>).map(EntPaymentFromJSON)),
         'position': !exists(json, 'Position') ? undefined : EntPositionFromJSON(json['Position']),
-        'promotion': !exists(json, 'Promotion') ? undefined : ((json['Promotion'] as Array<any>).map(EntPromotionFromJSON)),
+        'promotion': !exists(json, 'promotion') ? undefined : ((json['promotion'] as Array<any>).map(EntPromotionFromJSON)),
         'salary': !exists(json, 'Salary') ? undefined : EntSalaryFromJSON(json['Salary']),
     };
 }

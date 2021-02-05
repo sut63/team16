@@ -1,218 +1,196 @@
-import React, { FC, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Content, Header, Page, pageTheme } from '@backstage/core';
-import SearchIcon from '@material-ui/icons/Search'; //search icon
+import React, { useState, useEffect } from 'react';
+import {
+    Content,
+    Page,
+    pageTheme,
+    InfoCard,
+} from '@backstage/core';
+import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+
+import { Alert } from '@material-ui/lab';
+
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import { DefaultApi } from '../../../api/apis';
+
+import SearchIcon from '@material-ui/icons/Search';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'; // back icon
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
-import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'; // log off icon
 
-import {
-  Container,
-  Grid,
-  FormControl,
-  Select,
-  InputLabel,
-  MenuItem,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from '@material-ui/core';
-import { DefaultApi } from '../../../api/apis'; // Api Gennerate From Command
-import Snackbar from '@material-ui/core/Snackbar';
-import Alert from '@material-ui/lab/Alert';
-//import { Cookies } from '../../Cookie'
-import {
-  EntEmployee,
-  EntEquipment,
-} from '../../../api/models';
+import { EntEquipment } from '../../../api/models';
 
-// header css
-const HeaderCustom = {
-  minHeight: '20px',
-};
 
-// css style
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
+// css style 
+const useStyles = makeStyles((theme: Theme) =>
+ createStyles({
+   root: {
+     display: 'flex',
+     flexWrap: 'wrap',
+     justifyContent: 'center',
+   },
+   margin: {
+      margin: theme.spacing(2),
+   },
+   insideLabel: {
+    margin: theme.spacing(1),
   },
-  paper: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
+   button: {
+    marginLeft: '40px',
   },
-  formControl: {
-    width: 300,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    width: 300,
-  },
-  divider: {
-    margin: theme.spacing(2, 0),
-  },
-  table: {
-    minWidth: 1013,
-  },
-}));
+   textField: {
+    width: 500 ,
+    marginLeft:7,
+    marginRight:-7,
+   },
+    select: {
+      width: 400 ,
+      marginLeft:7,
+    },
+    paper: {
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(1),
+      marginLeft: theme.spacing(1),
+    },
+    center: {
+      marginTop: theme.spacing(2),
+      marginLeft: theme.spacing(23),
+    },
+    cardtable: {
+      marginTop: theme.spacing(2),
+    },
+    fieldText: {
+      width: 200,
+      marginLeft:7,
+    },
+    fieldLabel: {
+      marginLeft:8,
+      marginRight: 20,
+    },
+    table: {
+        minWidth: 650,
+    }
+  }),
+);
 
-
-const Equipmentsearch: FC<{}> = () => {
-  const classes = useStyles();
-  const http = new DefaultApi();
-
-  //var ck = new Cookies()
-  //var cookieName = ck.GetCookie()
-
-
-  const [idEmployee, setidEmployee] = React.useState<number>(0);
-  const [employee, setEmployee] = React.useState<EntEmployee[]>([]);
-
-  const getEmployee = async () => {
-    const res = await http.listEmployee({ limit: 10, offset: 0 });
-    setEmployee(res);
-  };
-
-  // alert setting
-  const [open, setOpen] = React.useState(false);
-  const [fail, setFail] = React.useState(false);
-
-//close alert 
-const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-  if (reason === 'clickaway') {
-      return;
-  }
-  setFail(false);
-  setOpen(false);
-};
-
-  // Lifecycle Hooks
-  useEffect(() => {
-    getEmployee();
-    listEquipment();
-  }, []);
-
- // CheckIn  
- var lencheckin : number
- const [equipment, setEquipment] = React.useState<EntEquipment[]>([])
- const getEquipment = async () => {
-     const res = await http.getGetEquipmentbyEmployee({ id:idEmployee})
-     setEquipment(res)
-     lencheckin = res.length
-     if (lencheckin > 0){
-         setOpen(true)
-     }else{
-         setFail(true)
-     }   
- }
- 
- const listEquipment = async () => {
-     const res = await http.listEquipment({})
-     setEquipment(res)
- }
-
-
-  const handleChange = (
-    event: React.ChangeEvent<{ name?: string; value: any }>,
-) => {
-    const { value } = event.target;
-    setidEmployee(value);
-};
-
-// clear cookies
-//function Clears() {
- //   ck.ClearCookie()
- //   window.location.reload(false)
-//}
-console.log(equipment)
-// function seach data
-function seach() {
-  getEquipment();
+const searchcheck = {
+    equipmentsearchcheck: true,
 }
 
-  return (
-    <Page theme={pageTheme.home}>
+export default function Equipmentsearch() {
+    const classes = useStyles();
+    const api = new DefaultApi();
+    const [status, setStatus] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [alerttype, setAlertType] = useState(String);
+    const [errormessege, setErrorMessege] = useState(String);
 
-      <Header style={HeaderCustom} title={`ระบบค้นหาอุปกรณ์`}>
-        <Grid item xs>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            startIcon={<PowerSettingsNewIcon />}
-            href="/"
-          >
-            sign out
-          </Button>
-        </Grid>
-      </Header>
+    const [equipment, setEquipment] = useState<EntEquipment[]>([]);
+  
+    const [equipmentsearch, setEquipmentsearch] = useState(String);
+    
+  useEffect(() => {
+    const getEquipment = async () => {
+      const res = await api.listEquipment({limit:10000, offset:0});
+      setLoading(false);
+      setEquipment(res);
+    };
+    getEquipment();
+    }, [loading]);
 
-      <Content>
-        <Container maxWidth="sm">
-          <Grid container spacing={3}>
-            <Grid item xs={12}></Grid>
-            <Grid item xs={3}>
-              <div className={classes.paper}>ชื่ออุปกรณ์</div>
-            </Grid>
+    const SearchEquipment = async () => {
+        const res = await api.listEquipment({limit:10000, offset:0});
+        const equipmentsearch = EquipmentSearch(res);
+        
+        setErrorMessege("ไม่พบข้อมูลที่ค้นหา");
+        setAlertType("error");
+        setEquipment([]);
+        if(equipmentsearch.length > 0){
+            Object.entries(searchcheck).map(([key, value]) =>{
+                if (value == true){
+                    setErrorMessege("พบข้อมูลที่ค้นหา");
+                    setAlertType("success");
+                    setEquipment(equipmentsearch);
+                }
+            })
+        }
 
-            <Grid item xs={9}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel>เลือกอุปกรณ์</InputLabel>
-                <Select
-                  name="employee"
-                  value={idEmployee || ''} // (undefined || '') = ''
-                  onChange={handleChange}
+        setStatus(true);
+        ResetSearchCheck();
+    }
+
+    const ResetSearchCheck = () => {
+        searchcheck.equipmentsearchcheck = true;
+        
+    }
+
+    const EquipmentSearch = (res: any) => {
+        const data = res.filter((filter: EntEquipment) => filter.eQUIPMENTNAME?.includes(equipmentsearch))
+       // console.log(data.length)
+        if (data.length != 0 && equipmentsearch != "") {
+            return data;
+        }
+        else {
+            searchcheck.equipmentsearchcheck = false;
+            if(equipmentsearch == ""){
+                return res;
+            }
+            else{
+                return data;
+            }
+        }
+    }
+
+    const EquipmentSearchhandleChange = (event: any) => {
+        setEquipmentsearch(event.target.value as string);
+    };
+    
+    return (
+        <Page theme={pageTheme.service}>
+            <Content>
+            <InfoCard title="ค้นหาข้อมูลอุปกรณ์">
+
+            <FormControl
+                    className={classes.margin}
+                    variant="standard"
                 >
-                  {employee.map(item => {
-                    return (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item.eMPLOYEENAME}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
+                    <div className={classes.paper}><strong>ชื่ออุปกรณ์</strong></div>
+                    <TextField
+                        id="equipmentname"
+                        type="string"
+                        size="medium"
+                        value={equipmentsearch}
+                        onChange={EquipmentSearchhandleChange}
+                        style={{ width: 210,marginLeft: 8}}
+                    />
+                </FormControl>
 
-            <Grid item xs={12}></Grid>
+           
 
-            <Grid item xs={4}></Grid>
-            <Grid item xs={4}>
-              <Button
+                <Button
+                style={{ width: 100, backgroundColor: "#5319e7",marginTop: 49,marginLeft: 20}}
+                onClick={() => {
+                  SearchEquipment();
+                }}
                 variant="contained"
                 color="primary"
-                size="large"
                 startIcon={<SearchIcon />}
-                onClick={seach}
               >
                 ค้นหา
-              </Button>
-            </Grid>
-            <Grid item xs={4}></Grid>
-
-            <Grid item xs={12}></Grid>
-
-            <Grid item xs={12}>
-                    <Divider className={classes.divider} />
-                    <Typography variant="subtitle1" gutterBottom>
-                        ตาราง Equipment:
-                        </Typography>
-                </Grid>
-                <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
+             </Button>
+             
+        
+             <div><br></br></div>
+             <TableContainer component={Paper}>
+                            <Table className={classes.table} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
                                 <TableCell align="center">ID Equipment</TableCell>
                                 <TableCell align="center">ชื่อของอุปกรณ์</TableCell>
                                 <TableCell align="center">ประเภทของอุปกรณ์</TableCell>
@@ -222,12 +200,12 @@ function seach() {
                                 <TableCell align="center">รายละเอียดของอุปกรณ์</TableCell>
                                 <TableCell align="center">พนักงานที่กรอกข้อมูล</TableCell>
                                 <TableCell align="center">วันที่เพิ่ม</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {equipment.map((item: EntEquipment) => (
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {equipment.map((item:EntEquipment ) => (
                                 <TableRow key={item.id}>
-                                    <TableCell align="center">{item.id}</TableCell>
+                                   <TableCell align="center">{item.id}</TableCell>
                                     <TableCell align="center">{item.eQUIPMENTNAME}</TableCell>
                                     <TableCell align="center">{item.edges?.equipmenttype?.eQUIPMENTTYPE}</TableCell>
                                     <TableCell align="center">{item.eQUIPMENTAMOUNT}</TableCell>
@@ -236,45 +214,42 @@ function seach() {
                                     <TableCell align="center">{item.eQUIPMENTDETAIL}</TableCell>
                                     <TableCell align="center">{item.edges?.employee?.eMPLOYEENAME}</TableCell>
                                     <TableCell align="center">{item.eQUIPMENTDATE}</TableCell>
-                                </TableRow> 
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="success">
-              ค้นหาสำเร็จ
-          </Alert>
-          </Snackbar>
+                                </TableRow>
+                                ))}
+                            </TableBody>
+                            </Table>
+                        </TableContainer>
 
-          <Snackbar open={fail} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="error">
-              ไม่พบข้อมูล
-          </Alert>
-          </Snackbar>
+                        <div>{status ? (
+                          <div>{alerttype != "" ? (
+                            <Alert 
+                              severity={alerttype} 
+                              style={{
+                                width: 400 ,
+                                marginTop: 20, 
+                                marginLeft:6 }} 
+                                onClose={() => { 
+                                  setStatus(false) 
+                                }}
+                            >
+                              {errormessege}
+                            </Alert>
+                          ) : null}
+                          </div>
+                        ) : null}
+                        </div>
 
-            <Grid item xs={12}></Grid>
-
-            <Grid item xs={4}>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                startIcon={<ArrowBackIcon />}
-                href="./Equipment"
-              >
-                ย้อนกลับ
-              </Button>
-            </Grid>
-
-          </Grid>
-
-        </Container>
-
-      </Content>
-
-    </Page>
-  );
-};
-
-export default Equipmentsearch;
+                </InfoCard>
+                <Button
+                  style={{ width: 110, backgroundColor: "#5319e7",marginTop: 49,marginLeft: 20}}
+                  variant="contained"
+                  color="primary"
+                  startIcon={<ArrowBackIcon />}
+                  href="./Equipment"
+                >
+                 ย้อนกลับ
+                </Button>
+            </Content>
+     </Page>
+    );
+}

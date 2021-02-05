@@ -5,6 +5,7 @@ import SaveIcon from '@material-ui/icons/Save'; // icon save
 import Swal from 'sweetalert2'; // alert
 import SearchIcon from '@material-ui/icons/Search'; //search icon
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'; //log off icon
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'; // back icon
 
 import {
   Container,
@@ -366,12 +367,14 @@ const Equipment: FC<{}> = () => {
               </form>
             </Grid>
 
-            <Grid item xs={3}></Grid>
-            <Grid item xs={9}>
+            <Grid item xs={12}></Grid>
+
+            <Grid item xs={5}>
               <Button
                 variant="contained"
                 color="primary"
                 size="large"
+                fullWidth={true}
                 startIcon={<SaveIcon />}
                 onClick={save}
               >
@@ -379,16 +382,30 @@ const Equipment: FC<{}> = () => {
               </Button>
             </Grid>
 
-            <Grid item xs={3}></Grid>
-            <Grid item xs={9}>
+            <Grid item xs={5}>
               <Button
                 variant="contained"
                 color="primary"
                 size="large"
+                fullWidth={true}
                 startIcon={<SearchIcon />}
                 href="./Equipmentsearch"
               >
                 ค้นหาอุปกรณ์
+              </Button>
+            </Grid>
+
+            <Grid item xs></Grid>
+            <Grid item xs={10}>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                fullWidth={true}
+                startIcon={<ArrowBackIcon />}
+                href="./WelcomePage"
+              >
+                ย้อนกลับ
               </Button>
             </Grid>
 
