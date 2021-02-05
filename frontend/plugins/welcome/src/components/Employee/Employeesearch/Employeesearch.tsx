@@ -28,7 +28,7 @@ import { DefaultApi } from '../../../api/apis';
 import SearchIcon from '@material-ui/icons/Search';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'; // back icon
 
-import { EntPromotion } from '../../../api/models';
+import { EntEmployee } from '../../../api/models/EntEmployee';
 
 
 // css style 
@@ -84,10 +84,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const searchcheck = {
-    promotionsearchcheck: true,
+    employeesearchcheck: true,
+   
 }
 
-export default function Promotionsearch() {
+export default function SearchRoom() {
     const classes = useStyles();
     const api = new DefaultApi();
     const [status, setStatus] = useState(false);
@@ -95,32 +96,35 @@ export default function Promotionsearch() {
     const [alerttype, setAlertType] = useState(String);
     const [errormessege, setErrorMessege] = useState(String);
 
-    const [promotion, setPromotion] = useState<EntPromotion[]>([]);
-  
-    const [promotionsearch, setPromotionsearch] = useState(String);
+    const [employee, setEmployee] = useState<EntEmployee[]>([]);
     
+
+    const [employeesearch, setEmployeesearch] = useState(String);
+    
+
   useEffect(() => {
-    const getPromotion = async () => {
-      const res = await api.listPromotion({limit:10000, offset:0});
+    const getEmployees = async () => {
+    const res = await api.listEmployee({limit:10000, offset:0});
       setLoading(false);
-      setPromotion(res);
+      setEmployee(res);
     };
-    getPromotion();
+    getEmployees();
     }, [loading]);
 
-    const SearchPromotion = async () => {
-        const res = await api.listPromotion({limit:10000, offset:0});
-        const promotionsearch = PromotionSearch(res);
+    const SearchEmployee = async () => {
+        const res = await api.listEmployee({limit:10000, offset:0});
+        const employeesearch = EmployeeSearch(res);
+        
         
         setErrorMessege("ไม่พบข้อมูลที่ค้นหา");
         setAlertType("error");
-        setPromotion([]);
-        if(promotionsearch.length > 0){
+        setEmployee([]);
+        if(employeesearch.length > 0){
             Object.entries(searchcheck).map(([key, value]) =>{
                 if (value == true){
                     setErrorMessege("พบข้อมูลที่ค้นหา");
                     setAlertType("success");
-                    setPromotion(promotionsearch);
+                    setEmployee(employeesearch);
                 }
             })
         }
@@ -130,19 +134,18 @@ export default function Promotionsearch() {
     }
 
     const ResetSearchCheck = () => {
-        searchcheck.promotionsearchcheck = true;
+        searchcheck.employeesearchcheck = true;
         
     }
-
-    const PromotionSearch = (res: any) => {
-        const data = res.filter((filter: EntPromotion) => filter.cODE?.includes(promotionsearch))
+    const EmployeeSearch = (res: any) => {
+        const data = res.filter((filter: EntEmployee) => filter.eMPLOYEEID?.includes(employeesearch))
        // console.log(data.length)
-        if (data.length != 0 && promotionsearch != "") {
+        if (data.length != 0 && employeesearch != "") {
             return data;
         }
         else {
-            searchcheck.promotionsearchcheck = false;
-            if(promotionsearch == ""){
+            searchcheck.employeesearchcheck = false;
+            if(employeesearch == ""){
                 return res;
             }
             else{
@@ -151,37 +154,38 @@ export default function Promotionsearch() {
         }
     }
 
-    const PromotionSearchhandleChange = (event: any) => {
-        setPromotionsearch(event.target.value as string);
+    const EmployeeSearchhandleChange = (event: any) => {
+        setEmployeesearch(event.target.value as string);
     };
     
+
     return (
         <Page theme={pageTheme.service}>
             <Content>
-            <InfoCard title="ค้นหาข้อมูลโปรโมชั่น">
+            <InfoCard title="ค้นหาข้อมูลพนักงาน">
 
             <FormControl
                     className={classes.margin}
                     variant="standard"
                 >
-                    <div className={classes.paper}><strong>รหัสโปรโมชั่น</strong></div>
+                    <div className={classes.paper}><strong>รหัสพนักงาน(EmployeeID)</strong></div>
                     <TextField
-                        id="code"
+                        id="employeeid"
                        // label="ค้นหารหัสพนักงาน"
                         type="string"
                         size="medium"
-                        value={promotionsearch}
-                        onChange={PromotionSearchhandleChange}
+                        value={employeesearch}
+                        onChange={EmployeeSearchhandleChange}
                         style={{ width: 210,marginLeft: 8}}
                     />
                 </FormControl>
 
            
 
-                <Button
+                    <Button
                 style={{ width: 100, backgroundColor: "#5319e7",marginTop: 49,marginLeft: 20}}
                 onClick={() => {
-                  SearchPromotion();
+                  SearchEmployee();
                 }}
                 variant="contained"
                 color="primary"
@@ -196,62 +200,54 @@ export default function Promotionsearch() {
                             <Table className={classes.table} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                <TableCell align="center">ID</TableCell>
-                                <TableCell align="center">ชื่อโปรโมชั่น</TableCell>
-                                <TableCell align="center">รหัสโปรโมชั่น</TableCell>
-                                <TableCell align="center">เงื่อนไขโปรโมชั่น</TableCell>
-                                <TableCell align="center">วันที่หมดอายุ</TableCell>
-                                <TableCell align="center">จำนวนการใช้งาน</TableCell>
-                                <TableCell align="center">ชนิดโปรโมชั่น</TableCell>
-                                <TableCell align="center">ผู้รับผิดชอบ</TableCell>
+                                <TableCell align="center">รหัสพนักงาน</TableCell>
+                                <TableCell align="center">ชื่อของพนักงาน</TableCell>
+                                <TableCell align="center">ที่อยู่ของพนักงาน</TableCell>
+                                <TableCell align="center">เลขบัตรประชาชน</TableCell>
+                                <TableCell align="center">อายุ</TableCell>
+                                <TableCell align="center">ตำแหน่ง</TableCell>
+                                <TableCell align="center">เงินเดือน</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {promotion.map((item:EntPromotion ) => (
+                                {employee.map((item:EntEmployee ) => (
                                 <TableRow key={item.id}>
-                                    <TableCell align="center">{item.id}</TableCell>
-                                    <TableCell align="center">{item.nAME}</TableCell>
-                                    <TableCell align="center">{item.cODE}</TableCell>
-                                    <TableCell align="center">{item.dESC}</TableCell>
-                                    <TableCell align="center">{item.dATE}</TableCell>
-                                    <TableCell align="center">{item.edges?.promotionamount?.aMOUNT}</TableCell>
-                                    <TableCell align="center">{item.edges?.promotiontype?.tYPE}</TableCell>
-                                    <TableCell align="center">{item.edges?.employee?.eMPLOYEENAME}</TableCell> 
+                                    <TableCell align="center">{item.eMPLOYEEID}</TableCell>
+                                    <TableCell align="center">{item.eMPLOYEENAME}</TableCell>
+                                    <TableCell align="center">{item.eMPLOYEEADDRESS}</TableCell>
+                                    <TableCell align="center">{item.iDCARDNUMBER}</TableCell>
+                                    <TableCell align="center">{item.edges?.age?.aGE}</TableCell>
+                                    <TableCell align="center">{item.edges?.position?.pOSITION}</TableCell>
+                                    <TableCell align="center">{item.edges?.salary?.sALARY}</TableCell> 
                                 </TableRow>
                                 ))}
                             </TableBody>
                             </Table>
                         </TableContainer>
 
-                        <div>{status ? (
-                          <div>{alerttype != "" ? (
-                            <Alert 
-                              severity={alerttype} 
-                              style={{
-                                width: 400 ,
-                                marginTop: 20, 
-                                marginLeft:6 }} 
-                                onClose={() => { 
-                                  setStatus(false) 
-                                }}
-                            >
-                              {errormessege}
-                            </Alert>
-                          ) : null}
-                          </div>
-                        ) : null}
+                        <div>
+             {status ? (
+                        <div>
+                            {alerttype != "" ? (
+                                <Alert severity={alerttype} style={{ width: 400 ,marginTop: 20, marginLeft:6 }} onClose={() => { setStatus(false) }}>
+                                    {errormessege}
+                                </Alert>
+                            ) : null}
                         </div>
+                    ) : null}</div>
 
                 </InfoCard>
-                <Button
+
+            <Button
                   style={{ width: 110, backgroundColor: "#5319e7",marginTop: 49,marginLeft: 20}}
                   variant="contained"
                   color="primary"
                   startIcon={<ArrowBackIcon />}
-                  href="./Promotion"
+                  href="./Employee"
                 >
                  ย้อนกลับ
-                </Button>
+                </Button>  
+
             </Content>
      </Page>
     );
