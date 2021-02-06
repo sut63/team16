@@ -131,8 +131,8 @@ type Members struct {
 
 // Member  defines the struct for the Member
 type Member struct {
-	MEMBERID	string
-	MEMBERNAME	string
+	MEMBERID   string
+	MEMBERNAME string
 }
 
 // Paymenttypes  defines the struct for the Paymenttypes
@@ -358,9 +358,11 @@ func main() {
 	// Set Classifiers Data
 	classifiers := Classifiers{
 		Classifier: []Classifier{
-			Classifier{"ชั้น"},
+			Classifier{"ชิ้น"},
 			Classifier{"อัน"},
 			Classifier{"เครื่อง"},
+			Classifier{"คู่"},
+			Classifier{"ลูก"},
 		},
 	}
 
@@ -374,9 +376,11 @@ func main() {
 	// Set Equipmenttypes Data
 	equipmenttypes := Equipmenttypes{
 		Equipmenttype: []Equipmenttype{
-			Equipmenttype{"เเบต"},
+			Equipmenttype{"แบดมินตัน"},
 			Equipmenttype{"กีฑา"},
 			Equipmenttype{"ว่ายน้ำ"},
+			Equipmenttype{"บอล"},
+			Equipmenttype{"วอลเลย์บอล"},
 		},
 	}
 
@@ -424,19 +428,19 @@ func main() {
 	}
 
 	// Set Paymenttypes Data
-    paymenttypes := Paymenttypes{
-        Paymenttype: []Paymenttype{
-            Paymenttype{"ชำระเงินสด"},
-            Paymenttype{"ชำระเงินผ่านออนไลน์"},
-        },
-    }
+	paymenttypes := Paymenttypes{
+		Paymenttype: []Paymenttype{
+			Paymenttype{"ชำระเงินสด"},
+			Paymenttype{"ชำระเงินผ่านออนไลน์"},
+		},
+	}
 
-    for _, pt := range paymenttypes.Paymenttype {
-        client.Paymenttype.
-            Create().
-            SetTYPE(pt.TYPE).
-            Save(context.Background())
-    }
+	for _, pt := range paymenttypes.Paymenttype {
+		client.Paymenttype.
+			Create().
+			SetTYPE(pt.TYPE).
+			Save(context.Background())
+	}
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.Run()

@@ -64,9 +64,9 @@ export function EntMemberEdgesFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'bookcourse': !exists(json, 'bookcourse') ? undefined : ((json['bookcourse'] as Array<any>).map(EntBookcourseFromJSON)),
-        'equipmentrental': !exists(json, 'equipmentrental') ? undefined : ((json['equipmentrental'] as Array<any>).map(EntEquipmentrentalFromJSON)),
-        'payment': !exists(json, 'payment') ? undefined : ((json['payment'] as Array<any>).map(EntPaymentFromJSON)),
+        'bookcourse': !exists(json, 'Bookcourse') ? undefined : ((json['Bookcourse'] as Array<any>).map(EntBookcourseFromJSON)),
+        'equipmentrental': !exists(json, 'Equipmentrental') ? undefined : ((json['Equipmentrental'] as Array<any>).map(EntEquipmentrentalFromJSON)),
+        'payment': !exists(json, 'Payment') ? undefined : ((json['Payment'] as Array<any>).map(EntPaymentFromJSON)),
     };
 }
 
