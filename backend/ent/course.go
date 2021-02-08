@@ -26,9 +26,11 @@ type Course struct {
 type CourseEdges struct {
 	// Bookcourse holds the value of the bookcourse edge.
 	Bookcourse []*Bookcourse
+	// Promotion holds the value of the promotion edge.
+	Promotion []*Promotion
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [1]bool
+	loadedTypes [2]bool
 }
 
 // BookcourseOrErr returns the Bookcourse value or an error if the edge
@@ -38,6 +40,15 @@ func (e CourseEdges) BookcourseOrErr() ([]*Bookcourse, error) {
 		return e.Bookcourse, nil
 	}
 	return nil, &NotLoadedError{edge: "bookcourse"}
+}
+
+// PromotionOrErr returns the Promotion value or an error if the edge
+// was not loaded in eager-loading.
+func (e CourseEdges) PromotionOrErr() ([]*Promotion, error) {
+	if e.loadedTypes[1] {
+		return e.Promotion, nil
+	}
+	return nil, &NotLoadedError{edge: "promotion"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -71,6 +82,11 @@ func (c *Course) assignValues(values ...interface{}) error {
 // QueryBookcourse queries the bookcourse edge of the Course.
 func (c *Course) QueryBookcourse() *BookcourseQuery {
 	return (&CourseClient{config: c.config}).QueryBookcourse(c)
+}
+
+// QueryPromotion queries the promotion edge of the Course.
+func (c *Course) QueryPromotion() *PromotionQuery {
+	return (&CourseClient{config: c.config}).QueryPromotion(c)
 }
 
 // Update returns a builder for updating this Course.

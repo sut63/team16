@@ -169,6 +169,11 @@ definitions:
         items:
           $ref: '#/definitions/ent.Bookcourse'
         type: array
+      promotion:
+        description: Promotion holds the value of the promotion edge.
+        items:
+          $ref: '#/definitions/ent.Promotion'
+        type: array
     type: object
   ent.Employee:
     properties:
@@ -501,6 +506,10 @@ definitions:
     type: object
   ent.PromotionEdges:
     properties:
+      course:
+        $ref: '#/definitions/ent.Course'
+        description: Course holds the value of the course edge.
+        type: object
       employee:
         $ref: '#/definitions/ent.Employee'
         description: Employee holds the value of the employee edge.

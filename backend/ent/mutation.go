@@ -1522,6 +1522,8 @@ type CourseMutation struct {
 	clearedFields     map[string]struct{}
 	bookcourse        map[int]struct{}
 	removedbookcourse map[int]struct{}
+	promotion         map[int]struct{}
+	removedpromotion  map[int]struct{}
 	done              bool
 	oldValue          func(context.Context) (*Course, error)
 }
@@ -1684,6 +1686,48 @@ func (m *CourseMutation) ResetBookcourse() {
 	m.removedbookcourse = nil
 }
 
+// AddPromotionIDs adds the promotion edge to Promotion by ids.
+func (m *CourseMutation) AddPromotionIDs(ids ...int) {
+	if m.promotion == nil {
+		m.promotion = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.promotion[ids[i]] = struct{}{}
+	}
+}
+
+// RemovePromotionIDs removes the promotion edge to Promotion by ids.
+func (m *CourseMutation) RemovePromotionIDs(ids ...int) {
+	if m.removedpromotion == nil {
+		m.removedpromotion = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.removedpromotion[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedPromotion returns the removed ids of promotion.
+func (m *CourseMutation) RemovedPromotionIDs() (ids []int) {
+	for id := range m.removedpromotion {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// PromotionIDs returns the promotion ids in the mutation.
+func (m *CourseMutation) PromotionIDs() (ids []int) {
+	for id := range m.promotion {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetPromotion reset all changes of the "promotion" edge.
+func (m *CourseMutation) ResetPromotion() {
+	m.promotion = nil
+	m.removedpromotion = nil
+}
+
 // Op returns the operation name.
 func (m *CourseMutation) Op() Op {
 	return m.op
@@ -1799,9 +1843,12 @@ func (m *CourseMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this
 // mutation.
 func (m *CourseMutation) AddedEdges() []string {
-	edges := make([]string, 0, 1)
+	edges := make([]string, 0, 2)
 	if m.bookcourse != nil {
 		edges = append(edges, course.EdgeBookcourse)
+	}
+	if m.promotion != nil {
+		edges = append(edges, course.EdgePromotion)
 	}
 	return edges
 }
@@ -1816,6 +1863,12 @@ func (m *CourseMutation) AddedIDs(name string) []ent.Value {
 			ids = append(ids, id)
 		}
 		return ids
+	case course.EdgePromotion:
+		ids := make([]ent.Value, 0, len(m.promotion))
+		for id := range m.promotion {
+			ids = append(ids, id)
+		}
+		return ids
 	}
 	return nil
 }
@@ -1823,9 +1876,12 @@ func (m *CourseMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this
 // mutation.
 func (m *CourseMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 1)
+	edges := make([]string, 0, 2)
 	if m.removedbookcourse != nil {
 		edges = append(edges, course.EdgeBookcourse)
+	}
+	if m.removedpromotion != nil {
+		edges = append(edges, course.EdgePromotion)
 	}
 	return edges
 }
@@ -1840,6 +1896,12 @@ func (m *CourseMutation) RemovedIDs(name string) []ent.Value {
 			ids = append(ids, id)
 		}
 		return ids
+	case course.EdgePromotion:
+		ids := make([]ent.Value, 0, len(m.removedpromotion))
+		for id := range m.removedpromotion {
+			ids = append(ids, id)
+		}
+		return ids
 	}
 	return nil
 }
@@ -1847,7 +1909,7 @@ func (m *CourseMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this
 // mutation.
 func (m *CourseMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 1)
+	edges := make([]string, 0, 2)
 	return edges
 }
 
@@ -1874,6 +1936,9 @@ func (m *CourseMutation) ResetEdge(name string) error {
 	switch name {
 	case course.EdgeBookcourse:
 		m.ResetBookcourse()
+		return nil
+	case course.EdgePromotion:
+		m.ResetPromotion()
 		return nil
 	}
 	return fmt.Errorf("unknown Course edge %s", name)
@@ -6783,6 +6848,8 @@ type PromotionMutation struct {
 	clearedpromotionamount bool
 	employee               *int
 	clearedemployee        bool
+	course                 *int
+	clearedcourse          bool
 	payment                map[int]struct{}
 	removedpayment         map[int]struct{}
 	done                   bool
@@ -7133,6 +7200,45 @@ func (m *PromotionMutation) ResetEmployee() {
 	m.clearedemployee = false
 }
 
+// SetCourseID sets the course edge to Course by id.
+func (m *PromotionMutation) SetCourseID(id int) {
+	m.course = &id
+}
+
+// ClearCourse clears the course edge to Course.
+func (m *PromotionMutation) ClearCourse() {
+	m.clearedcourse = true
+}
+
+// CourseCleared returns if the edge course was cleared.
+func (m *PromotionMutation) CourseCleared() bool {
+	return m.clearedcourse
+}
+
+// CourseID returns the course id in the mutation.
+func (m *PromotionMutation) CourseID() (id int, exists bool) {
+	if m.course != nil {
+		return *m.course, true
+	}
+	return
+}
+
+// CourseIDs returns the course ids in the mutation.
+// Note that ids always returns len(ids) <= 1 for unique edges, and you should use
+// CourseID instead. It exists only for internal usage by the builders.
+func (m *PromotionMutation) CourseIDs() (ids []int) {
+	if id := m.course; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetCourse reset all changes of the "course" edge.
+func (m *PromotionMutation) ResetCourse() {
+	m.course = nil
+	m.clearedcourse = false
+}
+
 // AddPaymentIDs adds the payment edge to Payment by ids.
 func (m *PromotionMutation) AddPaymentIDs(ids ...int) {
 	if m.payment == nil {
@@ -7341,7 +7447,7 @@ func (m *PromotionMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this
 // mutation.
 func (m *PromotionMutation) AddedEdges() []string {
-	edges := make([]string, 0, 4)
+	edges := make([]string, 0, 5)
 	if m.promotiontype != nil {
 		edges = append(edges, promotion.EdgePromotiontype)
 	}
@@ -7350,6 +7456,9 @@ func (m *PromotionMutation) AddedEdges() []string {
 	}
 	if m.employee != nil {
 		edges = append(edges, promotion.EdgeEmployee)
+	}
+	if m.course != nil {
+		edges = append(edges, promotion.EdgeCourse)
 	}
 	if m.payment != nil {
 		edges = append(edges, promotion.EdgePayment)
@@ -7373,6 +7482,10 @@ func (m *PromotionMutation) AddedIDs(name string) []ent.Value {
 		if id := m.employee; id != nil {
 			return []ent.Value{*id}
 		}
+	case promotion.EdgeCourse:
+		if id := m.course; id != nil {
+			return []ent.Value{*id}
+		}
 	case promotion.EdgePayment:
 		ids := make([]ent.Value, 0, len(m.payment))
 		for id := range m.payment {
@@ -7386,7 +7499,7 @@ func (m *PromotionMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this
 // mutation.
 func (m *PromotionMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 4)
+	edges := make([]string, 0, 5)
 	if m.removedpayment != nil {
 		edges = append(edges, promotion.EdgePayment)
 	}
@@ -7410,7 +7523,7 @@ func (m *PromotionMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this
 // mutation.
 func (m *PromotionMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 4)
+	edges := make([]string, 0, 5)
 	if m.clearedpromotiontype {
 		edges = append(edges, promotion.EdgePromotiontype)
 	}
@@ -7419,6 +7532,9 @@ func (m *PromotionMutation) ClearedEdges() []string {
 	}
 	if m.clearedemployee {
 		edges = append(edges, promotion.EdgeEmployee)
+	}
+	if m.clearedcourse {
+		edges = append(edges, promotion.EdgeCourse)
 	}
 	return edges
 }
@@ -7433,6 +7549,8 @@ func (m *PromotionMutation) EdgeCleared(name string) bool {
 		return m.clearedpromotionamount
 	case promotion.EdgeEmployee:
 		return m.clearedemployee
+	case promotion.EdgeCourse:
+		return m.clearedcourse
 	}
 	return false
 }
@@ -7449,6 +7567,9 @@ func (m *PromotionMutation) ClearEdge(name string) error {
 		return nil
 	case promotion.EdgeEmployee:
 		m.ClearEmployee()
+		return nil
+	case promotion.EdgeCourse:
+		m.ClearCourse()
 		return nil
 	}
 	return fmt.Errorf("unknown Promotion unique edge %s", name)
@@ -7467,6 +7588,9 @@ func (m *PromotionMutation) ResetEdge(name string) error {
 		return nil
 	case promotion.EdgeEmployee:
 		m.ResetEmployee()
+		return nil
+	case promotion.EdgeCourse:
+		m.ResetCourse()
 		return nil
 	case promotion.EdgePayment:
 		m.ResetPayment()

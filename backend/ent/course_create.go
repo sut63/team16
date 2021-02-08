@@ -9,6 +9,7 @@ import (
 
 	"github.com/G16/app/ent/bookcourse"
 	"github.com/G16/app/ent/course"
+	"github.com/G16/app/ent/promotion"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
 )
@@ -39,6 +40,21 @@ func (cc *CourseCreate) AddBookcourse(b ...*Bookcourse) *CourseCreate {
 		ids[i] = b[i].ID
 	}
 	return cc.AddBookcourseIDs(ids...)
+}
+
+// AddPromotionIDs adds the promotion edge to Promotion by ids.
+func (cc *CourseCreate) AddPromotionIDs(ids ...int) *CourseCreate {
+	cc.mutation.AddPromotionIDs(ids...)
+	return cc
+}
+
+// AddPromotion adds the promotion edges to Promotion.
+func (cc *CourseCreate) AddPromotion(p ...*Promotion) *CourseCreate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return cc.AddPromotionIDs(ids...)
 }
 
 // Mutation returns the CourseMutation object of the builder.
@@ -130,6 +146,25 @@ func (cc *CourseCreate) createSpec() (*Course, *sqlgraph.CreateSpec) {
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
 					Column: bookcourse.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := cc.mutation.PromotionIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   course.PromotionTable,
+			Columns: []string{course.PromotionColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: promotion.FieldID,
 				},
 			},
 		}

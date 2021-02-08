@@ -659,6 +659,22 @@ func (c *CourseClient) QueryBookcourse(co *Course) *BookcourseQuery {
 	return query
 }
 
+// QueryPromotion queries the promotion edge of a Course.
+func (c *CourseClient) QueryPromotion(co *Course) *PromotionQuery {
+	query := &PromotionQuery{config: c.config}
+	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
+		id := co.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(course.Table, course.FieldID, id),
+			sqlgraph.To(promotion.Table, promotion.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, course.PromotionTable, course.PromotionColumn),
+		)
+		fromV = sqlgraph.Neighbors(co.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
 // Hooks returns the client hooks.
 func (c *CourseClient) Hooks() []Hook {
 	return c.hooks.Course
@@ -1895,6 +1911,22 @@ func (c *PromotionClient) QueryEmployee(pr *Promotion) *EmployeeQuery {
 			sqlgraph.From(promotion.Table, promotion.FieldID, id),
 			sqlgraph.To(employee.Table, employee.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, promotion.EmployeeTable, promotion.EmployeeColumn),
+		)
+		fromV = sqlgraph.Neighbors(pr.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryCourse queries the course edge of a Promotion.
+func (c *PromotionClient) QueryCourse(pr *Promotion) *CourseQuery {
+	query := &CourseQuery{config: c.config}
+	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
+		id := pr.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(promotion.Table, promotion.FieldID, id),
+			sqlgraph.To(course.Table, course.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, promotion.CourseTable, promotion.CourseColumn),
 		)
 		fromV = sqlgraph.Neighbors(pr.driver.Dialect(), step)
 		return fromV, nil

@@ -9,6 +9,7 @@ import (
 	"github.com/G16/app/ent/bookcourse"
 	"github.com/G16/app/ent/course"
 	"github.com/G16/app/ent/predicate"
+	"github.com/G16/app/ent/promotion"
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
@@ -49,6 +50,21 @@ func (cu *CourseUpdate) AddBookcourse(b ...*Bookcourse) *CourseUpdate {
 	return cu.AddBookcourseIDs(ids...)
 }
 
+// AddPromotionIDs adds the promotion edge to Promotion by ids.
+func (cu *CourseUpdate) AddPromotionIDs(ids ...int) *CourseUpdate {
+	cu.mutation.AddPromotionIDs(ids...)
+	return cu
+}
+
+// AddPromotion adds the promotion edges to Promotion.
+func (cu *CourseUpdate) AddPromotion(p ...*Promotion) *CourseUpdate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return cu.AddPromotionIDs(ids...)
+}
+
 // Mutation returns the CourseMutation object of the builder.
 func (cu *CourseUpdate) Mutation() *CourseMutation {
 	return cu.mutation
@@ -67,6 +83,21 @@ func (cu *CourseUpdate) RemoveBookcourse(b ...*Bookcourse) *CourseUpdate {
 		ids[i] = b[i].ID
 	}
 	return cu.RemoveBookcourseIDs(ids...)
+}
+
+// RemovePromotionIDs removes the promotion edge to Promotion by ids.
+func (cu *CourseUpdate) RemovePromotionIDs(ids ...int) *CourseUpdate {
+	cu.mutation.RemovePromotionIDs(ids...)
+	return cu
+}
+
+// RemovePromotion removes promotion edges to Promotion.
+func (cu *CourseUpdate) RemovePromotion(p ...*Promotion) *CourseUpdate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return cu.RemovePromotionIDs(ids...)
 }
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
@@ -184,6 +215,44 @@ func (cu *CourseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if nodes := cu.mutation.RemovedPromotionIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   course.PromotionTable,
+			Columns: []string{course.PromotionColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: promotion.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cu.mutation.PromotionIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   course.PromotionTable,
+			Columns: []string{course.PromotionColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: promotion.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if n, err = sqlgraph.UpdateNodes(ctx, cu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{course.Label}
@@ -223,6 +292,21 @@ func (cuo *CourseUpdateOne) AddBookcourse(b ...*Bookcourse) *CourseUpdateOne {
 	return cuo.AddBookcourseIDs(ids...)
 }
 
+// AddPromotionIDs adds the promotion edge to Promotion by ids.
+func (cuo *CourseUpdateOne) AddPromotionIDs(ids ...int) *CourseUpdateOne {
+	cuo.mutation.AddPromotionIDs(ids...)
+	return cuo
+}
+
+// AddPromotion adds the promotion edges to Promotion.
+func (cuo *CourseUpdateOne) AddPromotion(p ...*Promotion) *CourseUpdateOne {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return cuo.AddPromotionIDs(ids...)
+}
+
 // Mutation returns the CourseMutation object of the builder.
 func (cuo *CourseUpdateOne) Mutation() *CourseMutation {
 	return cuo.mutation
@@ -241,6 +325,21 @@ func (cuo *CourseUpdateOne) RemoveBookcourse(b ...*Bookcourse) *CourseUpdateOne 
 		ids[i] = b[i].ID
 	}
 	return cuo.RemoveBookcourseIDs(ids...)
+}
+
+// RemovePromotionIDs removes the promotion edge to Promotion by ids.
+func (cuo *CourseUpdateOne) RemovePromotionIDs(ids ...int) *CourseUpdateOne {
+	cuo.mutation.RemovePromotionIDs(ids...)
+	return cuo
+}
+
+// RemovePromotion removes promotion edges to Promotion.
+func (cuo *CourseUpdateOne) RemovePromotion(p ...*Promotion) *CourseUpdateOne {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return cuo.RemovePromotionIDs(ids...)
 }
 
 // Save executes the query and returns the updated entity.
@@ -348,6 +447,44 @@ func (cuo *CourseUpdateOne) sqlSave(ctx context.Context) (c *Course, err error) 
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
 					Column: bookcourse.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if nodes := cuo.mutation.RemovedPromotionIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   course.PromotionTable,
+			Columns: []string{course.PromotionColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: promotion.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cuo.mutation.PromotionIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   course.PromotionTable,
+			Columns: []string{course.PromotionColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: promotion.FieldID,
 				},
 			},
 		}

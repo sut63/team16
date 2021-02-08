@@ -1,8 +1,8 @@
 package schema
 
 import (
-	"regexp"
 	"errors"
+	"regexp"
 
 	"github.com/facebookincubator/ent"
 	"github.com/facebookincubator/ent/schema/edge"
@@ -20,9 +20,9 @@ func (Promotion) Fields() []ent.Field {
 		field.String("NAME").
 			Validate(func(s string) error {
 				match, _ := regexp.Match("[-_=@#$%?]", []byte(s))
-					if match {
-						return errors.New("มีตัวเลชหรืออักษรพิเศษ")	
-					}
+				if match {
+					return errors.New("มีตัวเลชหรืออักษรพิเศษ")
+				}
 				return nil
 			}).
 			NotEmpty(),
@@ -47,6 +47,9 @@ func (Promotion) Edges() []ent.Edge {
 			Ref("promotion").
 			Unique(),
 		edge.From("employee", Employee.Type).
+			Ref("promotion").
+			Unique(),
+		edge.From("course", Course.Type).
 			Ref("promotion").
 			Unique(),
 		edge.To("payment", Payment.Type),

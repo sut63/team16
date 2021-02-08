@@ -12,6 +12,8 @@ const (
 
 	// EdgeBookcourse holds the string denoting the bookcourse edge name in mutations.
 	EdgeBookcourse = "bookcourse"
+	// EdgePromotion holds the string denoting the promotion edge name in mutations.
+	EdgePromotion = "promotion"
 
 	// Table holds the table name of the course in the database.
 	Table = "courses"
@@ -22,6 +24,13 @@ const (
 	BookcourseInverseTable = "bookcourses"
 	// BookcourseColumn is the table column denoting the bookcourse relation/edge.
 	BookcourseColumn = "course_bookcourse"
+	// PromotionTable is the table the holds the promotion relation/edge.
+	PromotionTable = "promotions"
+	// PromotionInverseTable is the table name for the Promotion entity.
+	// It exists in this package in order to avoid circular dependency with the "promotion" package.
+	PromotionInverseTable = "promotions"
+	// PromotionColumn is the table column denoting the promotion relation/edge.
+	PromotionColumn = "course_promotion"
 )
 
 // Columns holds all SQL columns for course fields.

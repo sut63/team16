@@ -237,6 +237,34 @@ func HasBookcourseWith(preds ...predicate.Bookcourse) predicate.Course {
 	})
 }
 
+// HasPromotion applies the HasEdge predicate on the "promotion" edge.
+func HasPromotion() predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.To(PromotionTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, PromotionTable, PromotionColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasPromotionWith applies the HasEdge predicate on the "promotion" edge with a given conditions (other predicates).
+func HasPromotionWith(preds ...predicate.Promotion) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.To(PromotionInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, PromotionTable, PromotionColumn),
+		)
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
 // And groups list of predicates with the AND operator between them.
 func And(predicates ...predicate.Course) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
