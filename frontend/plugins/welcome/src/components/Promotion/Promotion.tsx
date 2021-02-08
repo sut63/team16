@@ -22,6 +22,7 @@ import {
   EntPromotiontype,
   EntPromotionamount,
   EntEmployee,
+  EntCourse,
 } from '../../api/models';
 
 // header css
@@ -57,6 +58,7 @@ interface promotion {
   promotiontype: Number,
   promotionamount: Number,
   employee: Number,
+  course: Number,
   name: String,
 	desc: String,
   code: String,
@@ -71,6 +73,7 @@ const Promotion: FC<{}> = () => {
   const [promotiontype, setPromotiontype] = React.useState<EntPromotiontype[]>([]);
   const [promotionamount, setPromotionamount] = React.useState<EntPromotionamount[]>([]);
   const [employee, setEmployee] = React.useState<EntEmployee[]>([]);
+  const [course, setCourse] = React.useState<EntCourse[]>([]);
  
   const getPromotiontype = async () => {
     const res = await http.listPromotiontype({ limit: 10, offset: 0 });
@@ -87,6 +90,11 @@ const Promotion: FC<{}> = () => {
     setEmployee(res);
   };
 
+  const getCourse = async () => {
+    const res = await http.listCourse({ limit: 10, offset: 0 });
+    setCourse(res);
+  };
+
   // alert setting
   const Toast = Swal.mixin({
     toast: true,
@@ -101,6 +109,7 @@ const Promotion: FC<{}> = () => {
     getPromotiontype();
     getPromotionamount();
     getEmployee();
+    getCourse();
   }, []);
 
   // set data to object promotion
@@ -215,6 +224,28 @@ const Promotion: FC<{}> = () => {
             </Grid>
 
             <Grid item xs={3}>
+              <div className={classes.paper}>สนาม</div>
+            </Grid>
+            <Grid item xs={9}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel>เลือกสนาม</InputLabel>
+                <Select
+                  name="course"
+                  value={promotion.course || ''} // (undefined || '') = ''
+                  onChange={handleChange}
+                >
+                  {course.map(item => {
+                    return (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.cOURSE}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={3}>
               <div className={classes.paper}>เงื่อนไขโปรโมชั่น</div>
             </Grid>
             <Grid item xs={9}>
@@ -238,7 +269,7 @@ const Promotion: FC<{}> = () => {
             </Grid>
             <Grid item xs={9}>
               <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel>เลือกประเภทปรโมชั่น</InputLabel>
+                <InputLabel>เลือกประเภทโปรโมชั่น</InputLabel>
                 <Select
                   name="promotiontype"
                   value={promotion.promotiontype || ''} // (undefined || '') = ''

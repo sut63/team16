@@ -8,6 +8,7 @@ import (
 
 	"github.com/G16/app/ent/employee"
 	"github.com/G16/app/ent/promotion"
+	"github.com/G16/app/ent/course"
 
 	"github.com/G16/app/ent"
 	"github.com/G16/app/ent/promotionamount"
@@ -26,6 +27,7 @@ type Promotion struct {
 	PROMOTIONTYPE   int
 	PROMOTIONAMOUNT int
 	EMPLOYEE        int
+	COURSE			int
 	NAME            string
 	DESC            string
 	CODE            string
@@ -88,12 +90,25 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 		return
 	}
 
+	co, err := ctl.client.Course.
+		Query().
+		Where(course.IDEQ(int(obj.COURSE))).
+		Only(context.Background())
+
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "course not found",
+		})
+		return
+	}
+
 	time, err := time.Parse(time.RFC3339, obj.DATE)
 	pr, err := ctl.client.Promotion.
 		Create().
 		SetPromotiontype(prt).
 		SetPromotionamount(pa).
 		SetEmployee(em).
+		SetCourse(co).
 		SetNAME(obj.NAME).
 		SetDESC(obj.DESC).
 		SetCODE(obj.CODE).
@@ -140,6 +155,7 @@ func (ctl *PromotionController) GetPromotion(c *gin.Context) {
 		WithPromotiontype().
 		WithPromotionamount().
 		WithEmployee().
+		WithCourse().
 		Where(promotion.IDEQ(int(id))).
 		Only(context.Background())
 	if err != nil {
@@ -187,6 +203,7 @@ func (ctl *PromotionController) ListPromotion(c *gin.Context) {
 		WithPromotiontype().
 		WithPromotionamount().
 		WithEmployee().
+		WithCourse().
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())

@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import {
     Content,
-    Header,
     Page,
     pageTheme,
-    ContentHeader,
     InfoCard,
 } from '@backstage/core';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import { Alert } from '@material-ui/lab';
 
-import { makeStyles, Theme, createStyles, ThemeProvider } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -199,6 +195,7 @@ export default function Promotionsearch() {
                                 <TableCell align="center">ID</TableCell>
                                 <TableCell align="center">ชื่อโปรโมชั่น</TableCell>
                                 <TableCell align="center">รหัสโปรโมชั่น</TableCell>
+                                <TableCell align="center">สนาม</TableCell>
                                 <TableCell align="center">เงื่อนไขโปรโมชั่น</TableCell>
                                 <TableCell align="center">วันที่หมดอายุ</TableCell>
                                 <TableCell align="center">จำนวนการใช้งาน</TableCell>
@@ -212,6 +209,7 @@ export default function Promotionsearch() {
                                     <TableCell align="center">{item.id}</TableCell>
                                     <TableCell align="center">{item.nAME}</TableCell>
                                     <TableCell align="center">{item.cODE}</TableCell>
+                                    <TableCell align="center">{item.edges?.course?.cOURSE}</TableCell>
                                     <TableCell align="center">{item.dESC}</TableCell>
                                     <TableCell align="center">{item.dATE}</TableCell>
                                     <TableCell align="center">{item.edges?.promotionamount?.aMOUNT}</TableCell>

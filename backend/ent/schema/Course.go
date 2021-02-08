@@ -22,5 +22,6 @@ func (Course) Fields() []ent.Field {
 func (Course) Edges() []ent.Edge {
     return []ent.Edge{
 		edge.To("bookcourse", Bookcourse.Type),
+		edge.To("promotion", Promotion.Type),
     }
 }

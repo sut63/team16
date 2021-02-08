@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"math"
 
+	"github.com/G16/app/ent/course"
 	"github.com/G16/app/ent/employee"
 	"github.com/G16/app/ent/payment"
 	"github.com/G16/app/ent/predicate"
@@ -32,6 +33,7 @@ type PromotionQuery struct {
 	withPromotiontype   *PromotiontypeQuery
 	withPromotionamount *PromotionamountQuery
 	withEmployee        *EmployeeQuery
+	withCourse          *CourseQuery
 	withPayment         *PaymentQuery
 	withFKs             bool
 	// intermediate query (i.e. traversal path).
@@ -110,6 +112,24 @@ func (pq *PromotionQuery) QueryEmployee() *EmployeeQuery {
 			sqlgraph.From(promotion.Table, promotion.FieldID, pq.sqlQuery()),
 			sqlgraph.To(employee.Table, employee.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, promotion.EmployeeTable, promotion.EmployeeColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(pq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryCourse chains the current query on the course edge.
+func (pq *PromotionQuery) QueryCourse() *CourseQuery {
+	query := &CourseQuery{config: pq.config}
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := pq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(promotion.Table, promotion.FieldID, pq.sqlQuery()),
+			sqlgraph.To(course.Table, course.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, promotion.CourseTable, promotion.CourseColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(pq.driver.Dialect(), step)
 		return fromU, nil
@@ -347,6 +367,17 @@ func (pq *PromotionQuery) WithEmployee(opts ...func(*EmployeeQuery)) *PromotionQ
 	return pq
 }
 
+//  WithCourse tells the query-builder to eager-loads the nodes that are connected to
+// the "course" edge. The optional arguments used to configure the query builder of the edge.
+func (pq *PromotionQuery) WithCourse(opts ...func(*CourseQuery)) *PromotionQuery {
+	query := &CourseQuery{config: pq.config}
+	for _, opt := range opts {
+		opt(query)
+	}
+	pq.withCourse = query
+	return pq
+}
+
 //  WithPayment tells the query-builder to eager-loads the nodes that are connected to
 // the "payment" edge. The optional arguments used to configure the query builder of the edge.
 func (pq *PromotionQuery) WithPayment(opts ...func(*PaymentQuery)) *PromotionQuery {
@@ -425,14 +456,15 @@ func (pq *PromotionQuery) sqlAll(ctx context.Context) ([]*Promotion, error) {
 		nodes       = []*Promotion{}
 		withFKs     = pq.withFKs
 		_spec       = pq.querySpec()
-		loadedTypes = [4]bool{
+		loadedTypes = [5]bool{
 			pq.withPromotiontype != nil,
 			pq.withPromotionamount != nil,
 			pq.withEmployee != nil,
+			pq.withCourse != nil,
 			pq.withPayment != nil,
 		}
 	)
-	if pq.withPromotiontype != nil || pq.withPromotionamount != nil || pq.withEmployee != nil {
+	if pq.withPromotiontype != nil || pq.withPromotionamount != nil || pq.withEmployee != nil || pq.withCourse != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -533,6 +565,31 @@ func (pq *PromotionQuery) sqlAll(ctx context.Context) ([]*Promotion, error) {
 			}
 			for i := range nodes {
 				nodes[i].Edges.Employee = n
+			}
+		}
+	}
+
+	if query := pq.withCourse; query != nil {
+		ids := make([]int, 0, len(nodes))
+		nodeids := make(map[int][]*Promotion)
+		for i := range nodes {
+			if fk := nodes[i].course_promotion; fk != nil {
+				ids = append(ids, *fk)
+				nodeids[*fk] = append(nodeids[*fk], nodes[i])
+			}
+		}
+		query.Where(course.IDIn(ids...))
+		neighbors, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, n := range neighbors {
+			nodes, ok := nodeids[n.ID]
+			if !ok {
+				return nil, fmt.Errorf(`unexpected foreign-key "course_promotion" returned %v`, n.ID)
+			}
+			for i := range nodes {
+				nodes[i].Edges.Course = n
 			}
 		}
 	}

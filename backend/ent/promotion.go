@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/G16/app/ent/course"
 	"github.com/G16/app/ent/employee"
 	"github.com/G16/app/ent/promotion"
 	"github.com/G16/app/ent/promotionamount"
@@ -30,6 +31,7 @@ type Promotion struct {
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the PromotionQuery when eager-loading is set.
 	Edges                     PromotionEdges `json:"edges"`
+	course_promotion          *int
 	employee_promotion        *int
 	promotionamount_promotion *int
 	promotiontype_promotion   *int
@@ -43,11 +45,13 @@ type PromotionEdges struct {
 	Promotionamount *Promotionamount
 	// Employee holds the value of the employee edge.
 	Employee *Employee
+	// Course holds the value of the course edge.
+	Course *Course
 	// Payment holds the value of the payment edge.
 	Payment []*Payment
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [4]bool
+	loadedTypes [5]bool
 }
 
 // PromotiontypeOrErr returns the Promotiontype value or an error if the edge
@@ -92,10 +96,24 @@ func (e PromotionEdges) EmployeeOrErr() (*Employee, error) {
 	return nil, &NotLoadedError{edge: "employee"}
 }
 
+// CourseOrErr returns the Course value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e PromotionEdges) CourseOrErr() (*Course, error) {
+	if e.loadedTypes[3] {
+		if e.Course == nil {
+			// The edge course was loaded in eager-loading,
+			// but was not found.
+			return nil, &NotFoundError{label: course.Label}
+		}
+		return e.Course, nil
+	}
+	return nil, &NotLoadedError{edge: "course"}
+}
+
 // PaymentOrErr returns the Payment value or an error if the edge
 // was not loaded in eager-loading.
 func (e PromotionEdges) PaymentOrErr() ([]*Payment, error) {
-	if e.loadedTypes[3] {
+	if e.loadedTypes[4] {
 		return e.Payment, nil
 	}
 	return nil, &NotLoadedError{edge: "payment"}
@@ -115,6 +133,7 @@ func (*Promotion) scanValues() []interface{} {
 // fkValues returns the types for scanning foreign-keys values from sql.Rows.
 func (*Promotion) fkValues() []interface{} {
 	return []interface{}{
+		&sql.NullInt64{}, // course_promotion
 		&sql.NullInt64{}, // employee_promotion
 		&sql.NullInt64{}, // promotionamount_promotion
 		&sql.NullInt64{}, // promotiontype_promotion
@@ -156,18 +175,24 @@ func (pr *Promotion) assignValues(values ...interface{}) error {
 	values = values[4:]
 	if len(values) == len(promotion.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
+			return fmt.Errorf("unexpected type %T for edge-field course_promotion", value)
+		} else if value.Valid {
+			pr.course_promotion = new(int)
+			*pr.course_promotion = int(value.Int64)
+		}
+		if value, ok := values[1].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field employee_promotion", value)
 		} else if value.Valid {
 			pr.employee_promotion = new(int)
 			*pr.employee_promotion = int(value.Int64)
 		}
-		if value, ok := values[1].(*sql.NullInt64); !ok {
+		if value, ok := values[2].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field promotionamount_promotion", value)
 		} else if value.Valid {
 			pr.promotionamount_promotion = new(int)
 			*pr.promotionamount_promotion = int(value.Int64)
 		}
-		if value, ok := values[2].(*sql.NullInt64); !ok {
+		if value, ok := values[3].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field promotiontype_promotion", value)
 		} else if value.Valid {
 			pr.promotiontype_promotion = new(int)
@@ -190,6 +215,11 @@ func (pr *Promotion) QueryPromotionamount() *PromotionamountQuery {
 // QueryEmployee queries the employee edge of the Promotion.
 func (pr *Promotion) QueryEmployee() *EmployeeQuery {
 	return (&PromotionClient{config: pr.config}).QueryEmployee(pr)
+}
+
+// QueryCourse queries the course edge of the Promotion.
+func (pr *Promotion) QueryCourse() *CourseQuery {
+	return (&PromotionClient{config: pr.config}).QueryCourse(pr)
 }
 
 // QueryPayment queries the payment edge of the Promotion.

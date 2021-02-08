@@ -18,6 +18,10 @@ import {
     EntBookcourseFromJSON,
     EntBookcourseFromJSONTyped,
     EntBookcourseToJSON,
+    EntPromotion,
+    EntPromotionFromJSON,
+    EntPromotionFromJSONTyped,
+    EntPromotionToJSON,
 } from './';
 
 /**
@@ -32,6 +36,12 @@ export interface EntCourseEdges {
      * @memberof EntCourseEdges
      */
     bookcourse?: Array<EntBookcourse>;
+    /**
+     * Promotion holds the value of the promotion edge.
+     * @type {Array<EntPromotion>}
+     * @memberof EntCourseEdges
+     */
+    promotion?: Array<EntPromotion>;
 }
 
 export function EntCourseEdgesFromJSON(json: any): EntCourseEdges {
@@ -45,6 +55,7 @@ export function EntCourseEdgesFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'bookcourse': !exists(json, 'bookcourse') ? undefined : ((json['bookcourse'] as Array<any>).map(EntBookcourseFromJSON)),
+        'promotion': !exists(json, 'promotion') ? undefined : ((json['promotion'] as Array<any>).map(EntPromotionFromJSON)),
     };
 }
 
@@ -58,6 +69,7 @@ export function EntCourseEdgesToJSON(value?: EntCourseEdges | null): any {
     return {
         
         'bookcourse': value.bookcourse === undefined ? undefined : ((value.bookcourse as Array<any>).map(EntBookcourseToJSON)),
+        'promotion': value.promotion === undefined ? undefined : ((value.promotion as Array<any>).map(EntPromotionToJSON)),
     };
 }
 

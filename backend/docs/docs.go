@@ -2640,6 +2640,13 @@ var doc = `{
                     "items": {
                         "$ref": "#/definitions/ent.Bookcourse"
                     }
+                },
+                "promotion": {
+                    "description": "Promotion holds the value of the promotion edge.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ent.Promotion"
+                    }
                 }
             }
         },
@@ -3074,6 +3081,11 @@ var doc = `{
         "ent.PromotionEdges": {
             "type": "object",
             "properties": {
+                "course": {
+                    "description": "Course holds the value of the course edge.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.Course"
+                },
                 "employee": {
                     "description": "Employee holds the value of the employee edge.",
                     "type": "object",

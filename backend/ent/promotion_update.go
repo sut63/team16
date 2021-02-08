@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/G16/app/ent/course"
 	"github.com/G16/app/ent/employee"
 	"github.com/G16/app/ent/payment"
 	"github.com/G16/app/ent/predicate"
@@ -113,6 +114,25 @@ func (pu *PromotionUpdate) SetEmployee(e *Employee) *PromotionUpdate {
 	return pu.SetEmployeeID(e.ID)
 }
 
+// SetCourseID sets the course edge to Course by id.
+func (pu *PromotionUpdate) SetCourseID(id int) *PromotionUpdate {
+	pu.mutation.SetCourseID(id)
+	return pu
+}
+
+// SetNillableCourseID sets the course edge to Course by id if the given value is not nil.
+func (pu *PromotionUpdate) SetNillableCourseID(id *int) *PromotionUpdate {
+	if id != nil {
+		pu = pu.SetCourseID(*id)
+	}
+	return pu
+}
+
+// SetCourse sets the course edge to Course.
+func (pu *PromotionUpdate) SetCourse(c *Course) *PromotionUpdate {
+	return pu.SetCourseID(c.ID)
+}
+
 // AddPaymentIDs adds the payment edge to Payment by ids.
 func (pu *PromotionUpdate) AddPaymentIDs(ids ...int) *PromotionUpdate {
 	pu.mutation.AddPaymentIDs(ids...)
@@ -148,6 +168,12 @@ func (pu *PromotionUpdate) ClearPromotionamount() *PromotionUpdate {
 // ClearEmployee clears the employee edge to Employee.
 func (pu *PromotionUpdate) ClearEmployee() *PromotionUpdate {
 	pu.mutation.ClearEmployee()
+	return pu
+}
+
+// ClearCourse clears the course edge to Course.
+func (pu *PromotionUpdate) ClearCourse() *PromotionUpdate {
+	pu.mutation.ClearCourse()
 	return pu
 }
 
@@ -384,6 +410,41 @@ func (pu *PromotionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if pu.mutation.CourseCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   promotion.CourseTable,
+			Columns: []string{promotion.CourseColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: course.FieldID,
+				},
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := pu.mutation.CourseIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   promotion.CourseTable,
+			Columns: []string{promotion.CourseColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: course.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if nodes := pu.mutation.RemovedPaymentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
@@ -521,6 +582,25 @@ func (puo *PromotionUpdateOne) SetEmployee(e *Employee) *PromotionUpdateOne {
 	return puo.SetEmployeeID(e.ID)
 }
 
+// SetCourseID sets the course edge to Course by id.
+func (puo *PromotionUpdateOne) SetCourseID(id int) *PromotionUpdateOne {
+	puo.mutation.SetCourseID(id)
+	return puo
+}
+
+// SetNillableCourseID sets the course edge to Course by id if the given value is not nil.
+func (puo *PromotionUpdateOne) SetNillableCourseID(id *int) *PromotionUpdateOne {
+	if id != nil {
+		puo = puo.SetCourseID(*id)
+	}
+	return puo
+}
+
+// SetCourse sets the course edge to Course.
+func (puo *PromotionUpdateOne) SetCourse(c *Course) *PromotionUpdateOne {
+	return puo.SetCourseID(c.ID)
+}
+
 // AddPaymentIDs adds the payment edge to Payment by ids.
 func (puo *PromotionUpdateOne) AddPaymentIDs(ids ...int) *PromotionUpdateOne {
 	puo.mutation.AddPaymentIDs(ids...)
@@ -556,6 +636,12 @@ func (puo *PromotionUpdateOne) ClearPromotionamount() *PromotionUpdateOne {
 // ClearEmployee clears the employee edge to Employee.
 func (puo *PromotionUpdateOne) ClearEmployee() *PromotionUpdateOne {
 	puo.mutation.ClearEmployee()
+	return puo
+}
+
+// ClearCourse clears the course edge to Course.
+func (puo *PromotionUpdateOne) ClearCourse() *PromotionUpdateOne {
+	puo.mutation.ClearCourse()
 	return puo
 }
 
@@ -782,6 +868,41 @@ func (puo *PromotionUpdateOne) sqlSave(ctx context.Context) (pr *Promotion, err 
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
 					Column: employee.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if puo.mutation.CourseCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   promotion.CourseTable,
+			Columns: []string{promotion.CourseColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: course.FieldID,
+				},
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := puo.mutation.CourseIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   promotion.CourseTable,
+			Columns: []string{promotion.CourseColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: course.FieldID,
 				},
 			},
 		}

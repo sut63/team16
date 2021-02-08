@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/G16/app/ent/course"
 	"github.com/G16/app/ent/employee"
 	"github.com/G16/app/ent/payment"
 	"github.com/G16/app/ent/promotion"
@@ -103,6 +104,25 @@ func (pc *PromotionCreate) SetNillableEmployeeID(id *int) *PromotionCreate {
 // SetEmployee sets the employee edge to Employee.
 func (pc *PromotionCreate) SetEmployee(e *Employee) *PromotionCreate {
 	return pc.SetEmployeeID(e.ID)
+}
+
+// SetCourseID sets the course edge to Course by id.
+func (pc *PromotionCreate) SetCourseID(id int) *PromotionCreate {
+	pc.mutation.SetCourseID(id)
+	return pc
+}
+
+// SetNillableCourseID sets the course edge to Course by id if the given value is not nil.
+func (pc *PromotionCreate) SetNillableCourseID(id *int) *PromotionCreate {
+	if id != nil {
+		pc = pc.SetCourseID(*id)
+	}
+	return pc
+}
+
+// SetCourse sets the course edge to Course.
+func (pc *PromotionCreate) SetCourse(c *Course) *PromotionCreate {
+	return pc.SetCourseID(c.ID)
 }
 
 // AddPaymentIDs adds the payment edge to Payment by ids.
@@ -295,6 +315,25 @@ func (pc *PromotionCreate) createSpec() (*Promotion, *sqlgraph.CreateSpec) {
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
 					Column: employee.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := pc.mutation.CourseIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   promotion.CourseTable,
+			Columns: []string{promotion.CourseColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: course.FieldID,
 				},
 			},
 		}

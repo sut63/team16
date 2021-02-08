@@ -12,6 +12,7 @@ import (
 	"github.com/G16/app/ent/bookcourse"
 	"github.com/G16/app/ent/course"
 	"github.com/G16/app/ent/predicate"
+	"github.com/G16/app/ent/promotion"
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
@@ -27,6 +28,7 @@ type CourseQuery struct {
 	predicates []predicate.Course
 	// eager-loading edges.
 	withBookcourse *BookcourseQuery
+	withPromotion  *PromotionQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -67,6 +69,24 @@ func (cq *CourseQuery) QueryBookcourse() *BookcourseQuery {
 			sqlgraph.From(course.Table, course.FieldID, cq.sqlQuery()),
 			sqlgraph.To(bookcourse.Table, bookcourse.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, course.BookcourseTable, course.BookcourseColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(cq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryPromotion chains the current query on the promotion edge.
+func (cq *CourseQuery) QueryPromotion() *PromotionQuery {
+	query := &PromotionQuery{config: cq.config}
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := cq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(course.Table, course.FieldID, cq.sqlQuery()),
+			sqlgraph.To(promotion.Table, promotion.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, course.PromotionTable, course.PromotionColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(cq.driver.Dialect(), step)
 		return fromU, nil
@@ -264,6 +284,17 @@ func (cq *CourseQuery) WithBookcourse(opts ...func(*BookcourseQuery)) *CourseQue
 	return cq
 }
 
+//  WithPromotion tells the query-builder to eager-loads the nodes that are connected to
+// the "promotion" edge. The optional arguments used to configure the query builder of the edge.
+func (cq *CourseQuery) WithPromotion(opts ...func(*PromotionQuery)) *CourseQuery {
+	query := &PromotionQuery{config: cq.config}
+	for _, opt := range opts {
+		opt(query)
+	}
+	cq.withPromotion = query
+	return cq
+}
+
 // GroupBy used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
 //
@@ -330,8 +361,9 @@ func (cq *CourseQuery) sqlAll(ctx context.Context) ([]*Course, error) {
 	var (
 		nodes       = []*Course{}
 		_spec       = cq.querySpec()
-		loadedTypes = [1]bool{
+		loadedTypes = [2]bool{
 			cq.withBookcourse != nil,
+			cq.withPromotion != nil,
 		}
 	)
 	_spec.ScanValues = func() []interface{} {
@@ -380,6 +412,34 @@ func (cq *CourseQuery) sqlAll(ctx context.Context) ([]*Course, error) {
 				return nil, fmt.Errorf(`unexpected foreign-key "course_bookcourse" returned %v for node %v`, *fk, n.ID)
 			}
 			node.Edges.Bookcourse = append(node.Edges.Bookcourse, n)
+		}
+	}
+
+	if query := cq.withPromotion; query != nil {
+		fks := make([]driver.Value, 0, len(nodes))
+		nodeids := make(map[int]*Course)
+		for i := range nodes {
+			fks = append(fks, nodes[i].ID)
+			nodeids[nodes[i].ID] = nodes[i]
+		}
+		query.withFKs = true
+		query.Where(predicate.Promotion(func(s *sql.Selector) {
+			s.Where(sql.InValues(course.PromotionColumn, fks...))
+		}))
+		neighbors, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, n := range neighbors {
+			fk := n.course_promotion
+			if fk == nil {
+				return nil, fmt.Errorf(`foreign-key "course_promotion" is nil for node %v`, n.ID)
+			}
+			node, ok := nodeids[*fk]
+			if !ok {
+				return nil, fmt.Errorf(`unexpected foreign-key "course_promotion" returned %v for node %v`, *fk, n.ID)
+			}
+			node.Edges.Promotion = append(node.Edges.Promotion, n)
 		}
 	}
 
