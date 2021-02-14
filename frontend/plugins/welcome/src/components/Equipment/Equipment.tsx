@@ -6,6 +6,8 @@ import Swal from 'sweetalert2'; // alert
 import SearchIcon from '@material-ui/icons/Search'; //search icon
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'; //log off icon
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'; // back icon
+import { Cookies } from '../../cookies';
+import Avatar from '@material-ui/core/Avatar';
 
 import {
   Container,
@@ -34,6 +36,11 @@ const HeaderCustom = {
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    maxWidth: 345,
+      display: 'flex',
+      '& > *': {
+        margin: theme.spacing(1),
+      },
   },
   paper: {
     marginTop: theme.spacing(2),
@@ -56,7 +63,7 @@ const useStyles = makeStyles(theme => ({
 
 interface equipment {
   EQUIPMENTCLASSIFIER: Number,
-  EMPLOYEE: Number,
+  EMPLOYEE: number,
   EQUIPMENTTYPE: Number,
   EQUIPMENTZONE: Number,
   EQUIPMENTNAME: String,
@@ -68,14 +75,17 @@ interface equipment {
 const Equipment: FC<{}> = () => {
   const classes = useStyles();
   const http = new DefaultApi();
+  var ck = new Cookies()
+  var cookieName = ck.GetCookie()
+  var cookiesID = ck.GetID()
   const [equipment, setEquipment] = React.useState<Partial<equipment>>({});
   const [classifier, setClassifier] = React.useState<EntClassifier[]>([]);
   const [zone, setZone] = React.useState<EntZone[]>([]);
   const [equipmenttype, setEquipmenttype] = React.useState<EntEquipmenttype[]>([]);
-  const [employee, setEmployee] = React.useState<EntEmployee[]>([]);
+  const [employee, setEmployee] = React.useState<EntEmployee>();
 
   const getEmployee = async () => {
-    const res = await http.listEmployee({ limit: 10, offset: 0 });
+    const res = await http.getEmployee({id : Number(cookiesID)});
     setEmployee(res);
   };
 
@@ -111,9 +121,13 @@ const Equipment: FC<{}> = () => {
     getZone();
   }, []);
 
+  useEffect(() => {
+    setEquipment({ ...equipment, ['EMPLOYEE']: employee?.id})
+  }, [employee]);
+
   // set data to object equipment
   const handleChange = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>,
+    event: React.ChangeEvent<{ name?: any; value: unknown }>,
   ) => {
     const name = event.target.name as keyof typeof Equipment;
     const { value } = event.target;
@@ -124,6 +138,12 @@ const Equipment: FC<{}> = () => {
   // clear input form
   function clear() {
     setEquipment({});
+  }
+
+  // clear cookie
+  function Clears() {
+    ck.ClearCookie()
+    window.location.reload(false)
   }
   
   const alertMessage = (icon: any, title: any) => {
@@ -180,26 +200,29 @@ const Equipment: FC<{}> = () => {
 
   return (
     <Page theme={pageTheme.home}>
-      <Header style={HeaderCustom} title={`ระบบเพิ่มอุปกรณ์`}>
-      <Grid item xs>
+      <Header style={HeaderCustom} title={`ระบบเพิ่มอุปกรณ์`}>{cookieName}
+        <div className={classes.root}>
+          <Avatar src="/broken-image.jpg" />
+        </div>
+        <Grid item xs={9}></Grid>  
+        <Grid item xs>
           <Button
             variant="contained"
             color="secondary"
             size="large"
             startIcon={<PowerSettingsNewIcon />}
             href="/"
+            onClick={Clears}
           >
             sign out
           </Button>
         </Grid>
       </Header>
       
-
       <Content>
         <Container maxWidth="sm">
           <Grid container spacing={3}>
             <Grid item xs={12}></Grid>
-
             <Grid item xs={3}>
               <div className={classes.paper}>ชื่อของอุปกรณ์</div>
             </Grid>
@@ -325,29 +348,6 @@ const Equipment: FC<{}> = () => {
               </form>
             </Grid>
 
-
-            <Grid item xs={3}>
-              <div className={classes.paper}>ชื่อพนักงาน</div>
-            </Grid>
-            <Grid item xs={9}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel>เลือกพนักงาน</InputLabel>
-                <Select
-                  name="EMPLOYEE"
-                  value={equipment.EMPLOYEE || ''} // (undefined || '') = ''
-                  onChange={handleChange}
-                >
-                  {employee.map(item => {
-                    return (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item.eMPLOYEENAME}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
-
             <Grid item xs={3}>
               <div className={classes.paper}>วันที่เพิ่ม</div>
             </Grid>
@@ -358,6 +358,25 @@ const Equipment: FC<{}> = () => {
                   name="EQUIPMENTDATE"
                   type="datetime-local"
                   value={equipment.EQUIPMENTDATE || ''} // (undefined || '') = ''
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleChange}
+                />
+              </form>
+            </Grid>
+
+            <Grid item xs={3}>
+              <div className={classes.paper}>ผู้รับผิดชอบ</div>
+            </Grid>
+            <Grid item xs={9}>
+            <form className={classes.container} noValidate>
+                <TextField
+                  disabled
+                  label="ID Employee"
+                  name="code"
+                  value={cookieName} // (undefined || '') = ''
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true,

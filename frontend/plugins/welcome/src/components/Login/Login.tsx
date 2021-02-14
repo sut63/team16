@@ -5,7 +5,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -15,6 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Swal from 'sweetalert2'; // alert
 import { DefaultApi } from '../../api/apis';
 import { EntEmployee } from '../../api';
+import { Cookies } from '../../cookies';
+import { Link as RouterLink } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -82,6 +83,9 @@ const Login: FC<{}> = () => {
     
   }, []);
 
+  var ck = new Cookies();
+  var check : boolean
+  const [path, setPath] = React.useState("");
 
   // alert setting
   const Toast = Swal.mixin({
@@ -95,24 +99,21 @@ const Login: FC<{}> = () => {
       toast.addEventListener('mouseleave', Swal.resumeTimer);
     },
   });
-
+  console.log(path);
+  
   function redirecLogin() {
-    
-    employee.map((item) => {
-      if (item.eMPLOYEEID == Name && item.iDCARDNUMBER == Password)
-      {
-        Toast.fire({
-          icon: 'success',
-          title: 'เข้าสู่ระบบสำเร็จ',
-        });
-        window.location.href = "http://localhost:3000/WelcomePage";
-      } else {
-        Toast.fire({
-          icon: 'error',
-          title: 'ข้อมูลไม่ถูกต้อง',
-        });
-      }
-    });
+    check = ck.CheckLogin(employee,Name,Password)
+    console.log("check => "+check)
+    if(check === true){
+      setPath("/WelcomePage")
+      ck.SetCookie("user_email",Name,30)
+      ck.SetCookie("user_id",ck.SetID(employee,Name,Password),30)
+      ck.SetCookie("user_role","employee",30)
+      window.location.reload(false)
+    }else if(check === false){
+      alert("The wrong password or email was entered.!!!")
+      setPath("/")
+    }
   }
 
   const NameChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -172,21 +173,16 @@ const Login: FC<{}> = () => {
               fullWidth
               variant="contained"
               color="primary"
-              onClick={redirecLogin}
+              type="submit"
+              className={classes.submit}
+               onClick={redirecLogin}
+              component={RouterLink}
+              to={path}
             >
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
+             
             </Grid>
             <Box mt={5}>
               <Copyright />

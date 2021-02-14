@@ -6,6 +6,8 @@ import Swal from 'sweetalert2'; // alert
 import SearchIcon from '@material-ui/icons/Search'; //search icon
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'; //log off icon
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'; // back icon
+import { Cookies } from '../../cookies';
+import Avatar from '@material-ui/core/Avatar';
 import {
   Container,
   Grid,
@@ -32,6 +34,11 @@ const HeaderCustom = {
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    maxWidth: 345,
+      display: 'flex',
+      '& > *': {
+        margin: theme.spacing(1),
+      },
   },
   paper: {
     marginTop: theme.spacing(2),
@@ -63,7 +70,7 @@ const Toast = Swal.mixin({
 
 interface bookcourse {
   member: Number,
-  employee: Number,
+  employee: number,
   course: Number,
   booktime: String,
   phone : String,
@@ -74,16 +81,19 @@ interface bookcourse {
 const Bookcourse: FC<{}> = () => {
   const classes = useStyles();
   const http = new DefaultApi();
+  var ck = new Cookies()
+  var cookieName = ck.GetCookie()
+  var cookiesID = ck.GetID()
   const [bookcourse, setBookcourse] = React.useState<Partial<bookcourse>>({});
   const [course, setCourse] = React.useState<EntCourse[]>([]);
   const [member, setMember] = React.useState<EntMember[]>([]);
-  const [employee, setEmployee] = React.useState<EntEmployee[]>([]);
+  const [employee, setEmployee] = React.useState<EntEmployee>();
   const [phoneError, setphoneError] = React.useState('');
   const [detailError, setdetailError] = React.useState('');
   const [accessError, setaccessError] = React.useState('');
 
   const getEmployee = async () => {
-    const res = await http.listEmployee({ limit: 10, offset: 0 });
+    const res = await http.getEmployee({id : Number(cookiesID)});
     setEmployee(res);
   };
 
@@ -104,13 +114,17 @@ const Bookcourse: FC<{}> = () => {
     getMember();
   }, []);
 
+  useEffect(() => {
+    setBookcourse({ ...bookcourse, ['employee']: employee?.id})
+  }, [employee]);
+
   // set data to object bookcourse
   const handleChange = (
-    event: React.ChangeEvent<{ name?: string; value: any }>,
+    event: React.ChangeEvent<{ name?: any; value: any }>,
   ) => {
     const name = event.target.name as keyof typeof Bookcourse;
     const { value } = event.target;
-
+    
     const validateValue = value.toString()
     checkPattern(name, validateValue)
     
@@ -181,6 +195,12 @@ const checkCaseSaveError = (field: string) => {
     setBookcourse({});
   }
 
+  // clear cookie
+  function Clears() {
+    ck.ClearCookie()
+    window.location.reload(false)
+  }
+
   // function save data
   function save() {
     bookcourse.booktime += ":00+07:00";
@@ -212,19 +232,23 @@ const checkCaseSaveError = (field: string) => {
 
   return (
     <Page theme={pageTheme.home}>
-      <Header style={HeaderCustom} title={`ระบบจองสนามกีฬา`}>
-      <Grid item xs>
+      <Header style={HeaderCustom} title={`ระบบจองสนามกีฬา`}>{cookieName}
+        <div className={classes.root}>
+          <Avatar src="/broken-image.jpg" />
+        </div>
+        <Grid item xs={9}></Grid>
+        <Grid item xs>
           <Button
             variant="contained"
             color="secondary"
             size="large"
             startIcon={<PowerSettingsNewIcon />}
             href="/"
+            onClick={Clears}
           >
             sign out
           </Button>
         </Grid>
-
       </Header>
 
       <Content>
@@ -315,28 +339,6 @@ const checkCaseSaveError = (field: string) => {
             </Grid>
 
             <Grid item xs={3}>
-              <div className={classes.paper}>ชื่อพนักงานที่บันทึก</div>
-            </Grid>
-            <Grid item xs={9}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel>เลือกพนักงาน</InputLabel>
-                <Select
-                  name="employee"
-                  value={bookcourse.employee || ''} // (undefined || '') = ''
-                  onChange={handleChange}
-                >
-                  {employee.map(item => {
-                    return (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item.eMPLOYEENAME}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={3}>
               <div className={classes.paper}>รายละเอียดการเข้าใช้</div>
             </Grid>
             <Grid item xs={9}>
@@ -365,6 +367,25 @@ const checkCaseSaveError = (field: string) => {
                   name="booktime"
                   type="datetime-local"
                   value={bookcourse.booktime || ''} // (undefined || '') = ''
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleChange}
+                />
+              </form>
+            </Grid>
+
+            <Grid item xs={3}>
+              <div className={classes.paper}>ผู้รับผิดชอบ</div>
+            </Grid>
+            <Grid item xs={9}>
+            <form className={classes.container} noValidate>
+                <TextField
+                  disabled
+                  label="ID Employee"
+                  name="code"
+                  value={cookieName} // (undefined || '') = ''
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true,

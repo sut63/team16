@@ -158,19 +158,7 @@ export default function Paymentsearch() {
     return (
         <Page theme={pageTheme.service}>
             <Content>
-              
             <Header style={HeaderCustom} title={`ค้นหาข้อมูลการชำระเงินของสมาชิก`}>
-              <Grid item xs>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  size="large"
-                  startIcon={<PowerSettingsNewIcon />}
-                  href="/"
-                >
-                  sign out
-                </Button>
-              </Grid>
            </Header>
           
             <InfoCard title="">

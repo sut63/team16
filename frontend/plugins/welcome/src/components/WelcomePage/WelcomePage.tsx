@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Typography, Grid, Link } from '@material-ui/core';
+import { Typography, Grid, Link, Button } from '@material-ui/core';
 import {
   Content,
   Header,
@@ -12,16 +12,23 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import { Cookies } from '../../cookies';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'; //log off icon
+import Avatar from '@material-ui/core/Avatar';
 
 const HeaderCustom = {
   minHeight: '50px',
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
-  },
-});
+      maxWidth: 345,
+      display: 'flex',
+      '& > *': {
+        margin: theme.spacing(1),
+      },
+    },
+}));
 
 export type ProfileProps = {
   name: string; 
@@ -62,9 +69,36 @@ export function CardTeam({ name, id, system, linkto }: ProfileProps) {
 }
 
 const WelcomePage: FC<{}> = () => {
+  const classes = useStyles();
+  var ck = new Cookies()
+  var cookieName = ck.GetCookie()
+
+  // clear cookie
+  function Clears() {
+    ck.ClearCookie()
+    window.location.reload(false)
+  }
+
   return (
     <Page theme={pageTheme.home}>
-      <Header style={HeaderCustom} title={`ระบบสถานกีฬา`}></Header>
+      <Header style={HeaderCustom} title={`ระบบสถานกีฬา`}>{cookieName}
+      <div className={classes.root}>
+        <Avatar src="/broken-image.jpg" />
+      </div>
+       <Grid item xs={9}></Grid>
+        <Grid item xs>
+          <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            startIcon={<PowerSettingsNewIcon />}
+            href="/"
+            onClick={Clears}
+          >
+            sign out
+          </Button>
+        </Grid>
+      </Header>
       <Content>
         <ContentHeader title="สมาชิกในกลุ่ม"></ContentHeader>
         <Grid container>
