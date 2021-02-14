@@ -147,17 +147,6 @@ function seach() {
     <Page theme={pageTheme.home}>
 
       <Header style={HeaderCustom} title={`ระบบค้นหาใบยืมอุปกรณ์กีฬา`}>
-        <Grid item xs>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            startIcon={<PowerSettingsNewIcon />}
-            href="/"
-          >
-            sign out
-          </Button>
-        </Grid>
       </Header>
 
       <Content>

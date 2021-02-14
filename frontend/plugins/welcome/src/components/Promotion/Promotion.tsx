@@ -6,6 +6,8 @@ import SearchIcon from '@material-ui/icons/Search'; //search icon
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'; //log off icon
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'; // back icon
 import Swal from 'sweetalert2'; // alert
+import { Cookies } from '../../cookies';
+import Avatar from '@material-ui/core/Avatar';
 
 import {
   Container,
@@ -34,6 +36,11 @@ const HeaderCustom = {
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    maxWidth: 345,
+      display: 'flex',
+      '& > *': {
+        margin: theme.spacing(1),
+      },
   },
   paper: {
     marginTop: theme.spacing(2),
@@ -57,7 +64,7 @@ const useStyles = makeStyles(theme => ({
 interface promotion {
   promotiontype: Number,
   promotionamount: Number,
-  employee: Number,
+  employee: number,
   course: Number,
   name: String,
 	desc: String,
@@ -68,13 +75,17 @@ interface promotion {
 const Promotion: FC<{}> = () => {
   const classes = useStyles();
   const http = new DefaultApi();
+  var ck = new Cookies()
+  var cookieName = ck.GetCookie()
+  var cookiesID = ck.GetID()
   const [promotion, setPromotion] = React.useState<Partial<promotion>>({});
 
   const [promotiontype, setPromotiontype] = React.useState<EntPromotiontype[]>([]);
   const [promotionamount, setPromotionamount] = React.useState<EntPromotionamount[]>([]);
-  const [employee, setEmployee] = React.useState<EntEmployee[]>([]);
   const [course, setCourse] = React.useState<EntCourse[]>([]);
- 
+  const [employee, setEmployee] = React.useState<EntEmployee>();
+
+
   const getPromotiontype = async () => {
     const res = await http.listPromotiontype({ limit: 10, offset: 0 });
     setPromotiontype(res);
@@ -85,15 +96,19 @@ const Promotion: FC<{}> = () => {
     setPromotionamount(res);
   };
 
-  const getEmployee = async () => {
-    const res = await http.listEmployee({ limit: 10, offset: 0 });
-    setEmployee(res);
-  };
+ console.log(employee);
+ 
 
   const getCourse = async () => {
     const res = await http.listCourse({ limit: 10, offset: 0 });
     setCourse(res);
   };
+
+  const getEmployee = async () => {
+    const res = await http.getEmployee({id : Number(cookiesID)});
+    setEmployee(res);
+  };
+
 
   // alert setting
   const Toast = Swal.mixin({
@@ -108,23 +123,35 @@ const Promotion: FC<{}> = () => {
   useEffect(() => {
     getPromotiontype();
     getPromotionamount();
-    getEmployee();
     getCourse();
+    getEmployee();
   }, []);
-
+  console.log("ID ",employee?.id);
+  
+  useEffect(() => {
+    setPromotion({ ...promotion, ['employee']: employee?.id})
+  }, [employee]);
+  console.log("cookie =" , cookiesID);
+  
   // set data to object promotion
   const handleChange = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>,
+    event: React.ChangeEvent<{ name?: any; value: unknown }>,
   ) => {
     const name = event.target.name as keyof typeof Promotion;
     const { value } = event.target;
     setPromotion({ ...promotion, [name]: value });
-    console.log(Promotion);
+    console.log(promotion);
   };
 
   // clear input form
   function clear() {
     setPromotion({});
+  }
+
+  // clear cookie
+  function Clears() {
+    ck.ClearCookie()
+    window.location.reload(false)
   }
 
   const alertMessage = (icon: any, title: any) => {
@@ -150,9 +177,9 @@ const Promotion: FC<{}> = () => {
         return;
     }
   }
-
+  
   // function save data
-  function save() {
+  function save() { 
     promotion.date += ":00+07:00";
     const apiUrl = 'http://localhost:8080/api/v1/promotions';
     const requestOptions = {
@@ -181,8 +208,11 @@ const Promotion: FC<{}> = () => {
 
   return (
     <Page theme={pageTheme.home}>
-
-      <Header style={HeaderCustom} title={`ระบบโปรโมชั่น`}>
+      <Header style={HeaderCustom} title={`ระบบโปรโมชั่น`}>{cookieName}
+        <div className={classes.root}>
+          <Avatar src="/broken-image.jpg" />
+        </div>
+        <Grid item xs={9}></Grid>
         <Grid item xs>
           <Button
             variant="contained"
@@ -190,6 +220,7 @@ const Promotion: FC<{}> = () => {
             size="large"
             startIcon={<PowerSettingsNewIcon />}
             href="/"
+            onClick={Clears}
           >
             sign out
           </Button>
@@ -197,13 +228,9 @@ const Promotion: FC<{}> = () => {
       </Header>
       
       <Content>
-
         <Container maxWidth="sm">
-
           <Grid container spacing={3}>
-
             <Grid item xs={12}></Grid>
-
             <Grid item xs={3}>
               <div className={classes.paper}>ชื่อโปรโมชั่น</div>
             </Grid>
@@ -350,22 +377,19 @@ const Promotion: FC<{}> = () => {
               <div className={classes.paper}>ผู้รับผิดชอบ</div>
             </Grid>
             <Grid item xs={9}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel>เลือกผู้รับผิดชอบ</InputLabel>
-                <Select
-                  name="employee"
-                  value={promotion.employee || ''} // (undefined || '') = ''
+            <form className={classes.container} noValidate>
+                <TextField
+                  disabled
+                  label="ID Employee"
+                  name="code"
+                  value={cookieName} // (undefined || '') = ''
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   onChange={handleChange}
-                >
-                  {employee.map(item => {
-                    return (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item.eMPLOYEENAME}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
+                />
+              </form>
             </Grid>
 
             <Grid item xs={12}></Grid>
@@ -411,11 +435,8 @@ const Promotion: FC<{}> = () => {
             </Grid>
 
           </Grid>
-
         </Container>
-
       </Content>
-
     </Page>
   );
 };

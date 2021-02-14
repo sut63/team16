@@ -6,6 +6,8 @@ import SearchIcon from '@material-ui/icons/Search'; //search icon
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'; //log off icon
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'; // back icon
 import Swal from 'sweetalert2'; // alert
+import { Cookies } from '../../cookies';
+import Avatar from '@material-ui/core/Avatar';
 
 import {
   Container,
@@ -34,6 +36,11 @@ const HeaderCustom = {
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    maxWidth: 345,
+      display: 'flex',
+      '& > *': {
+        margin: theme.spacing(1),
+      },
   },
   paper: {
     marginTop: theme.spacing(2),
@@ -56,7 +63,7 @@ const useStyles = makeStyles(theme => ({
 
 interface payment {
   member: Number,
-  employee: Number,
+  employee: number,
   promotion: Number,
   paymenttype: Number,
   paymentamount: String,
@@ -68,17 +75,20 @@ interface payment {
 const Payment: FC<{}> = () => {
   const classes = useStyles();
   const http = new DefaultApi();
+  var ck = new Cookies()
+  var cookieName = ck.GetCookie()
+  var cookiesID = ck.GetID()
   const [payment, setPayment] = React.useState<Partial<payment>>({});
 
   const [member, setMember] = React.useState<EntMember[]>([]);
   const [promotion, setPromotion] = React.useState<EntPromotion[]>([]);
   const [paymenttype, setPaymenttype] = React.useState<EntPaymenttype[]>([]);
-  const [employee, setEmployee] = React.useState<EntEmployee[]>([]);
+  const [employee, setEmployee] = React.useState<EntEmployee>();
   const [showInputError, setShowInputError] = React.useState(false); // for error input show
 
  
   const getEmployee = async () => {
-    const res = await http.listEmployee({ limit: 10, offset: 0 });
+    const res = await http.getEmployee({id : Number(cookiesID)});
     setEmployee(res);
   };
 
@@ -118,9 +128,13 @@ const Payment: FC<{}> = () => {
     getPromotion();
   }, []);
 
+  useEffect(() => {
+    setPayment({ ...payment, ['employee']: employee?.id})
+  }, [employee]);
+
   // set data to object payment
   const handleChange = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>,
+    event: React.ChangeEvent<{ name?: any; value: unknown }>,
   ) => {
     const name = event.target.name as keyof typeof Payment;
     const { value } = event.target;
@@ -132,6 +146,12 @@ const Payment: FC<{}> = () => {
   function clear() {
     setPayment({});
     setShowInputError(false);
+  }
+
+  // clear cookie
+  function Clears() {
+    ck.ClearCookie()
+    window.location.reload(false)
   }
 
   const alertMessage = (icon: any, title: any) => {
@@ -200,14 +220,19 @@ const Payment: FC<{}> = () => {
 
   return (
     <Page theme={pageTheme.home}>
-      <Header style={HeaderCustom} title={`ระบบชำระเงิน`}>
-      <Grid item xs>
+      <Header style={HeaderCustom} title={`ระบบชำระเงิน`}>{cookieName}
+        <div className={classes.root}>
+          <Avatar src="/broken-image.jpg" />
+        </div>
+        <Grid item xs={9}></Grid>
+        <Grid item xs>
           <Button
             variant="contained"
             color="secondary"
             size="large"
             startIcon={<PowerSettingsNewIcon />}
             href="/"
+            onClick={Clears}
           >
             sign out
           </Button>
@@ -285,28 +310,6 @@ const Payment: FC<{}> = () => {
             </Grid>
 
             <Grid item xs={3}>
-              <div className={classes.paper}>ชื่อพนักงาน</div>
-            </Grid>
-            <Grid item xs={9}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel>เลือกพนักงาน</InputLabel>
-                <Select
-                  name="employee"
-                  value={payment.employee || ''} // (undefined || '') = ''
-                  onChange={handleChange}
-                >
-                  {employee.map(item => {
-                    return (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item.eMPLOYEENAME}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={3}>
               <div className={classes.paper}>ยอดที่ชำระเงิน</div>
             </Grid>
             <Grid item xs={9}>
@@ -314,7 +317,7 @@ const Payment: FC<{}> = () => {
                 <TextField
                   error={!payment.paymentamount && showInputError}
                   label="ราคา" 
-                  name = "paymentamount"
+                  name ="paymentamount"
                   type="string"
                   defaultValue=" " 
                   value={payment.paymentamount || ''} // (undefined || '') = ''
@@ -335,7 +338,7 @@ const Payment: FC<{}> = () => {
                 <TextField
                   error={!payment.phonenumber && showInputError}
                   label="เบอร์ติดต่อ" 
-                  name = "phonenumber"
+                  name ="phonenumber"
                   type="string"
                   defaultValue=" " 
                   value={payment.phonenumber || ''} // (undefined || '') = ''
@@ -356,7 +359,7 @@ const Payment: FC<{}> = () => {
                 <TextField
                   error={!payment.email && showInputError}
                   label="กรอก email" 
-                  name = "email"
+                  name ="email"
                   type="string"
                   defaultValue=" " 
                   value={payment.email || ''} // (undefined || '') = ''
@@ -379,6 +382,25 @@ const Payment: FC<{}> = () => {
                   name="paymentdate"
                   type="datetime-local"
                   value={payment.paymentdate || ''} // (undefined || '') = ''
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleChange}
+                />
+              </form>
+            </Grid>
+
+            <Grid item xs={3}>
+              <div className={classes.paper}>ผู้รับผิดชอบ</div>
+            </Grid>
+            <Grid item xs={9}>
+            <form className={classes.container} noValidate>
+                <TextField
+                  disabled
+                  label="ID Employee"
+                  name="code"
+                  value={cookieName} // (undefined || '') = ''
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true,
