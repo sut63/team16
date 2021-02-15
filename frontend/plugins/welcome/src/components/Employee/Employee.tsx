@@ -6,6 +6,8 @@ import SearchIcon from '@material-ui/icons/Search'; //search icon
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'; // back icon
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'; //log off icon
 import Swal from 'sweetalert2'; // alert
+import { Cookies } from '../../cookies';
+import Avatar from '@material-ui/core/Avatar';
 
 import {
   Container,
@@ -33,6 +35,11 @@ const HeaderCustom = {
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    maxWidth: 345,
+      display: 'flex',
+      '& > *': {
+        margin: theme.spacing(1),
+      },
   },
   paper: {
     marginTop: theme.spacing(2),
@@ -66,8 +73,9 @@ interface employee {
 const employee: FC<{}> = () => {
   const classes = useStyles();
   const http = new DefaultApi();
+  var ck = new Cookies()
+  var cookieName = ck.GetCookie()
   const [employee, setEmployee] = React.useState< Partial<employee>>({});
-
   const [age, setAge] = React.useState<EntAge[]>([]);
   const [position, setPosition] = React.useState<EntPosition[]>([]);
   const [salary, setSalary] = React.useState<EntSalary[]>([]);
@@ -116,6 +124,12 @@ const employee: FC<{}> = () => {
   // clear input form
   function clear() {
     setEmployee({});
+  }
+
+  // clear cookie
+  function Clears() {
+    ck.ClearCookie()
+    window.location.reload(false)
   }
 
   const alertMessage = (icon: any, title: any) => {
@@ -174,8 +188,11 @@ const employee: FC<{}> = () => {
 
   return (
     <Page theme={pageTheme.home}>
-      <Header style={HeaderCustom} title={`ระบบเพิ่มข้อมูลพนักงาน`}>
-        {/* <div style={{ marginLeft: 10 }}>Team G16</div> */}
+      <Header style={HeaderCustom} title={`ระบบเพิ่มข้อมูลพนักงาน`}>{cookieName}
+        <div className={classes.root}>
+          <Avatar src="/broken-image.jpg" />
+        </div>
+        <Grid item xs={9}></Grid>
         <Grid item xs>
           <Button
             variant="contained"
@@ -183,6 +200,7 @@ const employee: FC<{}> = () => {
             size="large"
             startIcon={<PowerSettingsNewIcon />}
             href="/"
+            onClick={Clears}
           >
             sign out
           </Button>

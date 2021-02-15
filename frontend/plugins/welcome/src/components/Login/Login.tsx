@@ -104,14 +104,21 @@ const Login: FC<{}> = () => {
   function redirecLogin() {
     check = ck.CheckLogin(employee,Name,Password)
     console.log("check => "+check)
-    if(check === true){
+    if (check === true) {
+      Toast.fire({
+        icon: 'success',
+        title: 'เข้าสู่ระบบสำเร็จ',
+      });
       setPath("/WelcomePage")
       ck.SetCookie("user_email",Name,30)
       ck.SetCookie("user_id",ck.SetID(employee,Name,Password),30)
       ck.SetCookie("user_role","employee",30)
       window.location.reload(false)
     }else if(check === false){
-      alert("The wrong password or email was entered.!!!")
+      Toast.fire({
+        icon: 'error',
+        title: 'เข้าสู่ระบบไม่สำเร็จ',
+      });
       setPath("/")
     }
   }

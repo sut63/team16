@@ -8,7 +8,7 @@
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">success Test Case</td></tr>
+<tr><td rowspan="1" colspan="3">บันทึกข้อมูลสำเร็จ</td></tr>
 </thead>
 <tbody>
 <tr><td>open</td><td>http://localhost:3000/WelcomePage<datalist><option>http://localhost:3000/WelcomePage</option></datalist></td><td></td>
@@ -26,10 +26,6 @@
 <tr><td>click</td><td>id=mui-component-select-equipmenttype<datalist><option>id=mui-component-select-equipmenttype</option><option>//div[@id='mui-component-select-equipmenttype']</option><option>//div[@id='root']/div/article/div/div/div[7]/div/div/div</option><option>//div[7]/div/div/div</option><option>css=#mui-component-select-equipmenttype</option></datalist></td><td></td>
 </tr>
 <tr><td>click</td><td>//div[@id='menu-equipmenttype']/div[3]/ul/li[3]<datalist><option>//div[@id='menu-equipmenttype']/div[3]/ul/li[3]</option><option>//li[3]</option></datalist></td><td></td>
-</tr>
-<tr><td>click</td><td>id=mui-component-select-employee<datalist><option>id=mui-component-select-employee</option><option>//div[@id='mui-component-select-employee']</option><option>//div[@id='root']/div/article/div/div/div[9]/div/div/div</option><option>//div[9]/div/div/div</option><option>css=#mui-component-select-employee</option></datalist></td><td></td>
-</tr>
-<tr><td>click</td><td>//div[@id='menu-employee']/div[3]/ul/li[3]<datalist><option>//div[@id='menu-employee']/div[3]/ul/li[3]</option><option>//li[3]</option></datalist></td><td></td>
 </tr>
 <tr><td>click</td><td>name=rentalamount<datalist><option>name=rentalamount</option><option>//input[@name='rentalamount']</option><option>//div[@id='root']/div/article/div/div/div[11]/form/div/div/input</option><option>//form/div/div/input</option><option>css=input[name="rentalamount"]</option></datalist></td><td></td>
 </tr>
@@ -62,20 +58,142 @@
 </tbody></table>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">fail  Test Case</td></tr>
+<tr><td rowspan="1" colspan="3">จำนวนยืมอุปกรณ์ไม่ถูกต้อง</td></tr>
 </thead>
 <tbody>
-<tr><td>open</td><td>http://localhost:3000/WelcomePage<datalist><option>http://localhost:3000/WelcomePage</option></datalist></td><td></td>
+<tr><td>open</td><td>http://localhost:3000/Equipmentrental<datalist><option>http://localhost:3000/Equipmentrental</option></datalist></td><td></td>
 </tr>
-<tr><td>click</td><td>//div[@id='root']/div/article/div[2]/div[6]/div/button/a/img<datalist><option>//div[@id='root']/div/article/div[2]/div[6]/div/button/a/img</option><option>//div[6]/div/button/a/img</option></datalist></td><td></td>
+<tr><td>click</td><td>id=mui-component-select-member<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-member</option></datalist></td><td></td>
 </tr>
-<tr><td>click</td><td>name=rentalamount<datalist><option>name=rentalamount</option><option>//input[@name='rentalamount']</option><option>//div[@id='root']/div/article/div/div/div[11]/form/div/div/input</option><option>//form/div/div/input</option><option>css=input[name="rentalamount"]</option></datalist></td><td></td>
+<tr><td>click</td><td>//div[@id='menu-member']/div[3]/ul/li[3]<datalist><option>//div[@id='menu-member']/div[3]/ul/li[3]</option><option>//li[3]</option></datalist></td><td></td>
 </tr>
-<tr><td>type</td><td>name=rentalamount<datalist><option>name=rentalamount</option><option>//input[@name='rentalamount']</option><option>//div[@id='root']/div/article/div/div/div[11]/form/div/div/input</option><option>//form/div/div/input</option><option>css=input[name="rentalamount"]</option></datalist></td><td>14</td>
+<tr><td>click</td><td>id=mui-component-select-equipment<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-member</option><option>id=mui-component-select-equipment</option></datalist></td><td></td>
 </tr>
-<tr><td>click</td><td>//div[@id='root']/div/article/div/div/div[17]/button/span<datalist><option>//div[@id='root']/div/article/div/div/div[17]/button/span</option><option>//button/span</option><option>css=span.MuiButton-label</option></datalist></td><td></td>
+<tr><td>click</td><td>//div[@id='menu-equipment']/div[3]/ul/li<datalist><option>//div[@id='menu-equipment']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button</option></datalist></td><td></td>
 </tr>
-<tr><td>assertText</td><td>id=swal2-title<datalist><option>id=swal2-title</option><option>//h2[@id='swal2-title']</option><option>//h2</option><option>css=#swal2-title</option></datalist></td><td>บันทึกข้อมูลไม่สำเร็จ</td>
+<tr><td>click</td><td>id=mui-component-select-equipmenttype<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-member</option><option>id=mui-component-select-equipmenttype</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-equipmenttype']/div[3]/ul/li<datalist><option>//div[@id='menu-equipmenttype']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>name=rentaldate<datalist><option>name=rentaldate</option><option>//input[@name='rentaldate']</option><option>//div[@id='root']/div/article/div/div/div[11]/form/div/div/input</option><option>//div[11]/form/div/div/input</option><option>css=input[name="rentaldate"]</option></datalist></td><td></td>
+</tr>
+<tr><td>setText</td><td>name=rentaldate<datalist><option>name=rentaldate</option><option>//input[@name='rentaldate']</option><option>//div[@id='root']/div/article/div/div/div[11]/form/div/div/input</option><option>//div[11]/form/div/div/input</option><option>css=input[name="rentaldate"]</option></datalist></td><td>2021-02-15T06:29</td>
+</tr>
+<tr><td>click</td><td>name=returndate<datalist><option>name=returndate</option><option>//input[@name='returndate']</option><option>//div[@id='root']/div/article/div/div/div[13]/form/div/div/input</option><option>//div[13]/form/div/div/input</option><option>css=input[name="returndate"]</option></datalist></td><td></td>
+</tr>
+<tr><td>setText</td><td>name=returndate<datalist><option>name=returndate</option><option>//input[@name='returndate']</option><option>//div[@id='root']/div/article/div/div/div[13]/form/div/div/input</option><option>//div[13]/form/div/div/input</option><option>css=input[name="returndate"]</option></datalist></td><td>2021-03-02T06:29</td>
+</tr>
+<tr><td>click</td><td>name=returndate<datalist><option>name=returndate</option><option>//input[@name='returndate']</option><option>//div[@id='root']/div/article/div/div/div[13]/form/div/div/input</option><option>//div[13]/form/div/div/input</option><option>css=input[name="returndate"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>name=code<datalist><option>name=code</option><option>//input[@name='code']</option><option>//div[@id='root']/div/article/div/div/div[15]/form/div/div/input</option><option>//div[15]/form/div/div/input</option><option>css=input[name="code"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div/div[17]/button/span<datalist><option>//div[@id='root']/div/article/div/div/div[17]/button/span</option><option>//button/span</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-containedSizeLarge.MuiButton-sizeLarge.MuiButton-fullWidth &gt; span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>id=swal2-title<datalist><option>id=swal2-title</option><option>//h2[@id='swal2-title']</option><option>//h2</option><option>css=#swal2-title</option></datalist></td><td>จำนวนยืมอุปกรณ์ไม่ถูกต้อง</td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">วันที่ยืมอุปกรณ์ไม่ถูกต้อง</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/Equipmentrental<datalist><option>http://localhost:3000/Equipmentrental</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=mui-component-select-member<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-member</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-member']/div[3]/ul/li<datalist><option>//div[@id='menu-member']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button.Mui-focusVisible.Mui-focusVisible</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=mui-component-select-equipment<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-member</option><option>id=mui-component-select-equipment</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-equipment']/div[3]/ul/li<datalist><option>//div[@id='menu-equipment']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button.Mui-focusVisible.Mui-focusVisible</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=mui-component-select-equipmenttype<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-member</option><option>id=mui-component-select-equipmenttype</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-equipmenttype']/div[3]/ul/li[3]<datalist><option>//div[@id='menu-equipmenttype']/div[3]/ul/li[3]</option><option>//li[3]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>name=rentalamount<datalist><option>name=rentalamount</option><option>//input[@name='rentalamount']</option><option>//div[@id='root']/div/article/div/div/div[9]/form/div/div/input</option><option>//form/div/div/input</option><option>css=input[name="rentalamount"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=rentalamount<datalist><option>name=rentalamount</option><option>//input[@name='rentalamount']</option><option>//div[@id='root']/div/article/div/div/div[9]/form/div/div/input</option><option>//form/div/div/input</option><option>css=input[name="rentalamount"]</option></datalist></td><td>3</td>
+</tr>
+<tr><td>click</td><td>name=returndate<datalist><option>name=returndate</option><option>//input[@name='returndate']</option><option>//div[@id='root']/div/article/div/div/div[13]/form/div/div/input</option><option>//div[13]/form/div/div/input</option><option>css=input[name="returndate"]</option></datalist></td><td></td>
+</tr>
+<tr><td>setText</td><td>name=returndate<datalist><option>name=returndate</option><option>//input[@name='returndate']</option><option>//div[@id='root']/div/article/div/div/div[13]/form/div/div/input</option><option>//div[13]/form/div/div/input</option><option>css=input[name="returndate"]</option></datalist></td><td>2021-02-15T06:35</td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div/div[17]/button/span<datalist><option>//div[@id='root']/div/article/div/div/div[17]/button/span</option><option>//button/span</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-containedSizeLarge.MuiButton-sizeLarge.MuiButton-fullWidth &gt; span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>id=swal2-title<datalist><option>id=swal2-title</option><option>//h2[@id='swal2-title']</option><option>//h2</option><option>css=#swal2-title</option></datalist></td><td>วันที่ยืมอุปกรณ์ไม่ถูกต้อง</td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">วันที่ครบกำหนดยืมอุปกรณ์ไม่ถูกต้อง</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/Equipmentrental<datalist><option>http://localhost:3000/Equipmentrental</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=mui-component-select-member<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-member</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-member']/div[3]/ul/li<datalist><option>//div[@id='menu-member']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button.Mui-focusVisible.Mui-focusVisible</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=mui-component-select-equipment<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-member</option><option>id=mui-component-select-equipment</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-equipment']/div[3]/ul/li<datalist><option>//div[@id='menu-equipment']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button.Mui-focusVisible.Mui-focusVisible</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=mui-component-select-equipmenttype<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-member</option><option>id=mui-component-select-equipmenttype</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-equipmenttype']/div[3]/ul/li[3]<datalist><option>//div[@id='menu-equipmenttype']/div[3]/ul/li[3]</option><option>//li[3]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>name=rentalamount<datalist><option>name=rentalamount</option><option>//input[@name='rentalamount']</option><option>//div[@id='root']/div/article/div/div/div[9]/form/div/div/input</option><option>//form/div/div/input</option><option>css=input[name="rentalamount"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=rentalamount<datalist><option>name=rentalamount</option><option>//input[@name='rentalamount']</option><option>//div[@id='root']/div/article/div/div/div[9]/form/div/div/input</option><option>//form/div/div/input</option><option>css=input[name="rentalamount"]</option></datalist></td><td>4</td>
+</tr>
+<tr><td>click</td><td>name=rentaldate<datalist><option>name=rentaldate</option><option>//input[@name='rentaldate']</option><option>//div[@id='root']/div/article/div/div/div[11]/form/div/div/input</option><option>//div[11]/form/div/div/input</option><option>css=input[name="rentaldate"]</option></datalist></td><td></td>
+</tr>
+<tr><td>setText</td><td>name=rentaldate<datalist><option>name=rentaldate</option><option>//input[@name='rentaldate']</option><option>//div[@id='root']/div/article/div/div/div[11]/form/div/div/input</option><option>//div[11]/form/div/div/input</option><option>css=input[name="rentaldate"]</option></datalist></td><td>2021-02-15T06:42</td>
+</tr>
+<tr><td>click</td><td>name=rentaldate<datalist><option>name=rentaldate</option><option>//input[@name='rentaldate']</option><option>//div[@id='root']/div/article/div/div/div[11]/form/div/div/input</option><option>//div[11]/form/div/div/input</option><option>css=input[name="rentaldate"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div/div[11]/form<datalist><option>//div[@id='root']/div/article/div/div/div[11]/form</option><option>//div[11]/form</option><option>css=form.makeStyles-container-5</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//button[@type='button']<datalist><option>//button[@type='button']</option><option>//div[@id='root']/div/article/div/div/div[17]/button</option><option>//button</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-containedSizeLarge.MuiButton-sizeLarge.MuiButton-fullWidth</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>id=swal2-title<datalist><option>id=swal2-title</option><option>//h2[@id='swal2-title']</option><option>//h2</option><option>css=#swal2-title</option></datalist></td><td>วันที่ครบกำหนดยืมอุปกรณ์ไม่ถูกต้อง</td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">ค้นหาข้อมมูลสำเร็จ</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/Equipmentrental<datalist><option>http://localhost:3000/Equipmentrental</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div/div[18]/a/span<datalist><option>//div[@id='root']/div/article/div/div/div[18]/a/span</option><option>//div[18]/a/span</option><option>css=a.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-containedSizeLarge.MuiButton-sizeLarge.MuiButton-fullWidth &gt; span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=code<datalist><option>id=code</option><option>//input[@id='code']</option><option>//div[@id='root']/div/article/div/div[2]/div/div[2]/div/input</option><option>//input</option><option>css=#code</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=code<datalist><option>id=code</option><option>//input[@id='code']</option><option>//div[@id='root']/div/article/div/div[2]/div/div[2]/div/input</option><option>//input</option><option>css=#code</option></datalist></td><td>ตัง</td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div[2]/button/span<datalist><option>//div[@id='root']/div/article/div/div[2]/button/span</option><option>//button/span</option><option>css=span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>//div[@id='root']/div/article/div/div[2]/div[4]/div/div/div[2]<datalist><option>//div[@id='root']/div/article/div/div[2]/div[4]/div/div/div[2]</option><option>//div[4]/div/div/div[2]</option><option>css=div.MuiAlert-message</option></datalist></td><td>พบข้อมูลที่ค้นหา</td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">ค้นหาข้อมมูลไม่สำเร็จ</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/Equipmentrental<datalist><option>http://localhost:3000/Equipmentrental</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div/div[18]/a/span<datalist><option>//div[@id='root']/div/article/div/div/div[18]/a/span</option><option>//div[18]/a/span</option><option>css=a.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-containedSizeLarge.MuiButton-sizeLarge.MuiButton-fullWidth &gt; span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=code<datalist><option>id=code</option><option>//input[@id='code']</option><option>//div[@id='root']/div/article/div/div[2]/div/div[2]/div/input</option><option>//input</option><option>css=#code</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=code<datalist><option>id=code</option><option>//input[@id='code']</option><option>//div[@id='root']/div/article/div/div[2]/div/div[2]/div/input</option><option>//input</option><option>css=#code</option></datalist></td><td>มั่ว</td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div[2]/button/span<datalist><option>//div[@id='root']/div/article/div/div[2]/button/span</option><option>//button/span</option><option>css=span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>//div[@id='root']/div/article/div/div[2]/div[4]/div/div/div[2]<datalist><option>//div[@id='root']/div/article/div/div[2]/div[4]/div/div/div[2]</option><option>//div[4]/div/div/div[2]</option><option>css=div.MuiAlert-message</option></datalist></td><td>ไม่พบข้อมูลที่ค้นหา</td>
 </tr>
 </tbody></table>
 </body>

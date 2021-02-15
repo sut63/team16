@@ -79,12 +79,10 @@ const Promotion: FC<{}> = () => {
   var cookieName = ck.GetCookie()
   var cookiesID = ck.GetID()
   const [promotion, setPromotion] = React.useState<Partial<promotion>>({});
-
   const [promotiontype, setPromotiontype] = React.useState<EntPromotiontype[]>([]);
   const [promotionamount, setPromotionamount] = React.useState<EntPromotionamount[]>([]);
   const [course, setCourse] = React.useState<EntCourse[]>([]);
   const [employee, setEmployee] = React.useState<EntEmployee>();
-
 
   const getPromotiontype = async () => {
     const res = await http.listPromotiontype({ limit: 10, offset: 0 });
@@ -98,7 +96,6 @@ const Promotion: FC<{}> = () => {
 
  console.log(employee);
  
-
   const getCourse = async () => {
     const res = await http.listCourse({ limit: 10, offset: 0 });
     setCourse(res);
