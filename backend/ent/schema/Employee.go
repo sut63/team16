@@ -17,10 +17,13 @@ type Employee struct {
 func (Employee) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("EMPLOYEEID").NotEmpty().Unique().Validate(func(s string) error {
-			match, _ := regexp.MatchString("[E][M]\\d{2}", s)
+		match, _ := regexp.MatchString("[E]+[M]+[0-9]+[0-9]", s)	
+		if !match{	
+			match, _ := regexp.MatchString("[M]+[G]+[0-9]+[0-9]", s)
 			if !match {
 				return errors.New("รูปแบบรหัสของพนักงานไม่ถูกต้อง")
 			}
+		}	
 			return nil
 		}),
 		field.String("EMPLOYEENAME").NotEmpty(),

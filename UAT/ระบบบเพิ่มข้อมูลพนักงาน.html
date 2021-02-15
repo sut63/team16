@@ -3,79 +3,197 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-	<title>Employee Test Suite</title>
+	<title>ระบบบเพิ่มข้อมูลพนักงาน</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Success Test Case</td></tr>
+<tr><td rowspan="1" colspan="3">บันทึกข้อมูลสำเร็จ</td></tr>
 </thead>
 <tbody>
-<tr><td>open</td><td>http://localhost:3000/WelcomePage<datalist><option>http://localhost:3000/WelcomePage</option></datalist></td><td></td>
-</tr>
-<tr><td>click</td><td>//div[@id='root']/div/article/div[2]/div[5]/div/button/a/img<datalist><option>//div[@id='root']/div/article/div[2]/div[5]/div/button/a/img</option><option>//div[5]/div/button/a/img</option></datalist></td><td></td>
+<tr><td>open</td><td>http://localhost:3000/Employee<datalist><option>http://localhost:3000/Employee</option></datalist></td><td></td>
 </tr>
 <tr><td>click</td><td>name=employeeid<datalist><option>name=employeeid</option><option>//input[@name='employeeid']</option><option>//div[@id='root']/div/article/div/div/div[3]/form/div/div/input</option><option>//input</option><option>css=input[name="employeeid"]</option></datalist></td><td></td>
 </tr>
-<tr><td>type</td><td>name=employeeid<datalist><option>name=employeeid</option><option>//input[@name='employeeid']</option><option>//div[@id='root']/div/article/div/div/div[3]/form/div/div/input</option><option>//input</option><option>css=input[name="employeeid"]</option></datalist></td><td>EM13</td>
+<tr><td>type</td><td>name=employeeid<datalist><option>name=employeeid</option><option>//input[@name='employeeid']</option><option>//div[@id='root']/div/article/div/div/div[3]/form/div/div/input</option><option>//input</option><option>css=input[name="employeeid"]</option></datalist></td><td>EM78</td>
 </tr>
 <tr><td>click</td><td>name=employeename<datalist><option>name=employeename</option><option>//input[@name='employeename']</option><option>//div[@id='root']/div/article/div/div/div[5]/form/div/div/input</option><option>//div[5]/form/div/div/input</option><option>css=input[name="employeename"]</option></datalist></td><td></td>
 </tr>
-<tr><td>type</td><td>name=employeename<datalist><option>name=employeename</option><option>//input[@name='employeename']</option><option>//div[@id='root']/div/article/div/div/div[5]/form/div/div/input</option><option>//div[5]/form/div/div/input</option><option>css=input[name="employeename"]</option></datalist></td><td>somsakk</td>
+<tr><td>type</td><td>name=employeename<datalist><option>name=employeename</option><option>//input[@name='employeename']</option><option>//div[@id='root']/div/article/div/div/div[5]/form/div/div/input</option><option>//div[5]/form/div/div/input</option><option>css=input[name="employeename"]</option></datalist></td><td>Pol</td>
 </tr>
 <tr><td>click</td><td>name=employeeaddress<datalist><option>name=employeeaddress</option><option>//input[@name='employeeaddress']</option><option>//div[@id='root']/div/article/div/div/div[7]/form/div/div/input</option><option>//div[7]/form/div/div/input</option><option>css=input[name="employeeaddress"]</option></datalist></td><td></td>
 </tr>
-<tr><td>click</td><td>//div[@id='root']/div/article/div/div/div[5]<datalist><option>//div[@id='root']/div/article/div/div/div[5]</option><option>//div[5]</option></datalist></td><td></td>
+<tr><td>type</td><td>name=employeeaddress<datalist><option>name=employeeaddress</option><option>//input[@name='employeeaddress']</option><option>//div[@id='root']/div/article/div/div/div[7]/form/div/div/input</option><option>//div[7]/form/div/div/input</option><option>css=input[name="employeeaddress"]</option></datalist></td><td>บ้าน</td>
 </tr>
-<tr><td>type</td><td>name=employeename<datalist><option>name=employeename</option><option>//input[@name='employeename']</option><option>//div[@id='root']/div/article/div/div/div[5]/form/div/div/input</option><option>//div[5]/form/div/div/input</option><option>css=input[name="employeename"]</option></datalist></td><td>sompongs</td>
+<tr><td>click</td><td>name=idcardnumber<datalist><option>name=idcardnumber</option><option>//input[@name='idcardnumber']</option><option>//div[@id='root']/div/article/div/div/div[9]/form/div/div/input</option><option>//div[9]/form/div/div/input</option><option>css=input[name="idcardnumber"]</option></datalist></td><td></td>
 </tr>
-<tr><td>type</td><td>name=employeeaddress<datalist><option>name=employeeaddress</option><option>//input[@name='employeeaddress']</option><option>//div[@id='root']/div/article/div/div/div[7]/form/div/div/input</option><option>//div[7]/form/div/div/input</option><option>css=input[name="employeeaddress"]</option></datalist></td><td>ตรัง</td>
+<tr><td>type</td><td>name=idcardnumber<datalist><option>name=idcardnumber</option><option>//input[@name='idcardnumber']</option><option>//div[@id='root']/div/article/div/div/div[9]/form/div/div/input</option><option>//div[9]/form/div/div/input</option><option>css=input[name="idcardnumber"]</option></datalist></td><td>1234567890777</td>
 </tr>
-<tr><td>type</td><td>name=idcardnumber<datalist><option>name=idcardnumber</option><option>//input[@name='idcardnumber']</option><option>//div[@id='root']/div/article/div/div/div[9]/form/div/div/input</option><option>//div[9]/form/div/div/input</option><option>css=input[name="idcardnumber"]</option></datalist></td><td>26755</td>
+<tr><td>click</td><td>id=mui-component-select-age<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-age</option></datalist></td><td></td>
 </tr>
-<tr><td>click</td><td>id=mui-component-select-age<datalist><option>id=mui-component-select-age</option><option>//div[@id='mui-component-select-age']</option><option>//div[@id='root']/div/article/div/div/div[11]/div/div/div</option><option>//div[11]/div/div/div</option><option>css=#mui-component-select-age</option></datalist></td><td></td>
+<tr><td>click</td><td>//div[@id='menu-age']/div[3]/ul/li[2]<datalist><option>//div[@id='menu-age']/div[3]/ul/li[2]</option><option>//li[2]</option></datalist></td><td></td>
 </tr>
-<tr><td>click</td><td>//div[@id='menu-age']/div[3]/ul/li[3]<datalist><option>//div[@id='menu-age']/div[3]/ul/li[3]</option><option>//li[3]</option></datalist></td><td></td>
+<tr><td>click</td><td>id=mui-component-select-position<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-position</option></datalist></td><td></td>
 </tr>
-<tr><td>click</td><td>id=mui-component-select-position<datalist><option>id=mui-component-select-position</option><option>//div[@id='mui-component-select-position']</option><option>//div[@id='root']/div/article/div/div/div[13]/div/div/div</option><option>//div[13]/div/div/div</option><option>css=#mui-component-select-position</option></datalist></td><td></td>
+<tr><td>click</td><td>//div[@id='menu-position']/div[3]/ul/li[4]<datalist><option>//div[@id='menu-position']/div[3]/ul/li[4]</option><option>//li[4]</option></datalist></td><td></td>
 </tr>
-<tr><td>click</td><td>//div[@id='menu-position']/div[3]/ul/li[2]<datalist><option>//div[@id='menu-position']/div[3]/ul/li[2]</option><option>//li[2]</option></datalist></td><td></td>
+<tr><td>click</td><td>id=mui-component-select-salary<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-salary</option></datalist></td><td></td>
 </tr>
-<tr><td>click</td><td>id=mui-component-select-salary<datalist><option>id=mui-component-select-salary</option><option>//div[@id='mui-component-select-salary']</option><option>//div[@id='root']/div/article/div/div/div[15]/div/div/div</option><option>//div[15]/div/div/div</option><option>css=#mui-component-select-salary</option></datalist></td><td></td>
+<tr><td>click</td><td>//div[@id='menu-salary']/div[3]/ul/li[7]<datalist><option>//div[@id='menu-salary']/div[3]/ul/li[7]</option><option>//li[7]</option></datalist></td><td></td>
 </tr>
-<tr><td>click</td><td>//div[@id='menu-salary']/div[3]/ul/li[3]<datalist><option>//div[@id='menu-salary']/div[3]/ul/li[3]</option><option>//li[3]</option></datalist></td><td></td>
-</tr>
-<tr><td>click</td><td>//div[@id='root']/div/article/div/div/div[17]/button/span<datalist><option>//div[@id='root']/div/article/div/div/div[17]/button/span</option><option>//button/span</option><option>css=span.MuiButton-label</option></datalist></td><td></td>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div/div[17]/button/span<datalist><option>//div[@id='root']/div/article/div/div/div[17]/button/span</option><option>//button/span</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-containedSizeLarge.MuiButton-sizeLarge.MuiButton-fullWidth &gt; span.MuiButton-label</option></datalist></td><td></td>
 </tr>
 <tr><td>assertText</td><td>id=swal2-title<datalist><option>id=swal2-title</option><option>//h2[@id='swal2-title']</option><option>//h2</option><option>css=#swal2-title</option></datalist></td><td>บันทึกข้อมูลสำเร็จ</td>
 </tr>
 </tbody></table>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">fail Test Case</td></tr>
+<tr><td rowspan="1" colspan="3">รหัสพนักงานขึ้นต้นด้วย EM ตามด้วยเลข 2 ตัว</td></tr>
 </thead>
 <tbody>
-<tr><td>open</td><td>http://localhost:3000/WelcomePage<datalist><option>http://localhost:3000/WelcomePage</option></datalist></td><td></td>
-</tr>
-<tr><td>click</td><td>//div[@id='root']/div/article/div[2]/div[5]/div/button/a/img<datalist><option>//div[@id='root']/div/article/div[2]/div[5]/div/button/a/img</option><option>//div[5]/div/button/a/img</option></datalist></td><td></td>
+<tr><td>open</td><td>http://localhost:3000/Employee<datalist><option>http://localhost:3000/Employee</option></datalist></td><td></td>
 </tr>
 <tr><td>click</td><td>name=employeeid<datalist><option>name=employeeid</option><option>//input[@name='employeeid']</option><option>//div[@id='root']/div/article/div/div/div[3]/form/div/div/input</option><option>//input</option><option>css=input[name="employeeid"]</option></datalist></td><td></td>
 </tr>
-<tr><td>type</td><td>name=employeeid<datalist><option>name=employeeid</option><option>//input[@name='employeeid']</option><option>//div[@id='root']/div/article/div/div/div[3]/form/div/div/input</option><option>//input</option><option>css=input[name="employeeid"]</option></datalist></td><td>กฟหกหฟกห</td>
+<tr><td>type</td><td>name=employeeid<datalist><option>name=employeeid</option><option>//input[@name='employeeid']</option><option>//div[@id='root']/div/article/div/div/div[3]/form/div/div/input</option><option>//input</option><option>css=input[name="employeeid"]</option></datalist></td><td>GG</td>
 </tr>
 <tr><td>click</td><td>name=employeename<datalist><option>name=employeename</option><option>//input[@name='employeename']</option><option>//div[@id='root']/div/article/div/div/div[5]/form/div/div/input</option><option>//div[5]/form/div/div/input</option><option>css=input[name="employeename"]</option></datalist></td><td></td>
 </tr>
-<tr><td>type</td><td>name=employeename<datalist><option>name=employeename</option><option>//input[@name='employeename']</option><option>//div[@id='root']/div/article/div/div/div[5]/form/div/div/input</option><option>//div[5]/form/div/div/input</option><option>css=input[name="employeename"]</option></datalist></td><td>กฟหกฟกฟ</td>
+<tr><td>type</td><td>name=employeename<datalist><option>name=employeename</option><option>//input[@name='employeename']</option><option>//div[@id='root']/div/article/div/div/div[5]/form/div/div/input</option><option>//div[5]/form/div/div/input</option><option>css=input[name="employeename"]</option></datalist></td><td>ton</td>
 </tr>
-<tr><td>click</td><td>//div[@id='root']/div/article/div/div/div[7]<datalist><option>//div[@id='root']/div/article/div/div/div[7]</option><option>//div[7]</option></datalist></td><td></td>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div/div[7]/form<datalist><option>//div[@id='root']/div/article/div/div/div[7]/form</option><option>//div[7]/form</option></datalist></td><td></td>
 </tr>
 <tr><td>click</td><td>name=employeeaddress<datalist><option>name=employeeaddress</option><option>//input[@name='employeeaddress']</option><option>//div[@id='root']/div/article/div/div/div[7]/form/div/div/input</option><option>//div[7]/form/div/div/input</option><option>css=input[name="employeeaddress"]</option></datalist></td><td></td>
 </tr>
-<tr><td>type</td><td>name=employeeaddress<datalist><option>name=employeeaddress</option><option>//input[@name='employeeaddress']</option><option>//div[@id='root']/div/article/div/div/div[7]/form/div/div/input</option><option>//div[7]/form/div/div/input</option><option>css=input[name="employeeaddress"]</option></datalist></td><td>ฟกฟหกฟหก</td>
+<tr><td>type</td><td>name=employeeaddress<datalist><option>name=employeeaddress</option><option>//input[@name='employeeaddress']</option><option>//div[@id='root']/div/article/div/div/div[7]/form/div/div/input</option><option>//div[7]/form/div/div/input</option><option>css=input[name="employeeaddress"]</option></datalist></td><td>พพ</td>
 </tr>
-<tr><td>click</td><td>//button[@type='button']<datalist><option>//button[@type='button']</option><option>//div[@id='root']/div/article/div/div/div[17]/button</option><option>//button</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-containedSizeLarge.MuiButton-sizeLarge</option></datalist></td><td></td>
+<tr><td>click</td><td>name=idcardnumber<datalist><option>name=idcardnumber</option><option>//input[@name='idcardnumber']</option><option>//div[@id='root']/div/article/div/div/div[9]/form/div/div/input</option><option>//div[9]/form/div/div/input</option><option>css=input[name="idcardnumber"]</option></datalist></td><td></td>
 </tr>
-<tr><td>assertText</td><td>id=swal2-title<datalist><option>id=swal2-title</option><option>//h2[@id='swal2-title']</option><option>//h2</option><option>css=#swal2-title</option></datalist></td><td>บันทึกข้อมูลไม่สำเร็จ</td>
+<tr><td>type</td><td>name=idcardnumber<datalist><option>name=idcardnumber</option><option>//input[@name='idcardnumber']</option><option>//div[@id='root']/div/article/div/div/div[9]/form/div/div/input</option><option>//div[9]/form/div/div/input</option><option>css=input[name="idcardnumber"]</option></datalist></td><td>123456789987</td>
+</tr>
+<tr><td>click</td><td>id=mui-component-select-age<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-age</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-age']/div[3]/ul/li[3]<datalist><option>//div[@id='menu-age']/div[3]/ul/li[3]</option><option>//li[3]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=mui-component-select-position<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-position</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-position']/div[3]/ul/li[2]<datalist><option>//div[@id='menu-position']/div[3]/ul/li[2]</option><option>//li[2]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=mui-component-select-salary<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-salary</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-salary']/div[3]/ul/li[5]<datalist><option>//div[@id='menu-salary']/div[3]/ul/li[5]</option><option>//li[5]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div/div[17]/button/span<datalist><option>//div[@id='root']/div/article/div/div/div[17]/button/span</option><option>//button/span</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-containedSizeLarge.MuiButton-sizeLarge.MuiButton-fullWidth &gt; span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>id=swal2-title<datalist><option>id=swal2-title</option><option>//h2[@id='swal2-title']</option><option>//h2</option><option>css=#swal2-title</option></datalist></td><td>รหัสพนักงานขึ้นต้นด้วย EM ตามด้วยเลข 2 ตัว</td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">กรุณากรอกชื่อ</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/Employee<datalist><option>http://localhost:3000/Employee</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>name=employeeid<datalist><option>name=employeeid</option><option>//input[@name='employeeid']</option><option>//div[@id='root']/div/article/div/div/div[3]/form/div/div/input</option><option>//input</option><option>css=input[name="employeeid"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=employeeid<datalist><option>name=employeeid</option><option>//input[@name='employeeid']</option><option>//div[@id='root']/div/article/div/div/div[3]/form/div/div/input</option><option>//input</option><option>css=input[name="employeeid"]</option></datalist></td><td>EM45</td>
+</tr>
+<tr><td>click</td><td>name=employeename<datalist><option>name=employeename</option><option>//input[@name='employeename']</option><option>//div[@id='root']/div/article/div/div/div[5]/form/div/div/input</option><option>//div[5]/form/div/div/input</option><option>css=input[name="employeename"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>name=employeeaddress<datalist><option>name=employeeaddress</option><option>//input[@name='employeeaddress']</option><option>//div[@id='root']/div/article/div/div/div[7]/form/div/div/input</option><option>//div[7]/form/div/div/input</option><option>css=input[name="employeeaddress"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=employeeaddress<datalist><option>name=employeeaddress</option><option>//input[@name='employeeaddress']</option><option>//div[@id='root']/div/article/div/div/div[7]/form/div/div/input</option><option>//div[7]/form/div/div/input</option><option>css=input[name="employeeaddress"]</option></datalist></td><td>นา</td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div/div[9]/form/div<datalist><option>//div[@id='root']/div/article/div/div/div[9]/form/div</option><option>//div[9]/form/div</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>name=idcardnumber<datalist><option>name=idcardnumber</option><option>//input[@name='idcardnumber']</option><option>//div[@id='root']/div/article/div/div/div[9]/form/div/div/input</option><option>//div[9]/form/div/div/input</option><option>css=input[name="idcardnumber"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=idcardnumber<datalist><option>name=idcardnumber</option><option>//input[@name='idcardnumber']</option><option>//div[@id='root']/div/article/div/div/div[9]/form/div/div/input</option><option>//div[9]/form/div/div/input</option><option>css=input[name="idcardnumber"]</option></datalist></td><td>7894561237894</td>
+</tr>
+<tr><td>click</td><td>id=mui-component-select-age<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-age</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-age']/div[3]/ul/li[3]<datalist><option>//div[@id='menu-age']/div[3]/ul/li[3]</option><option>//li[3]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=mui-component-select-position<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-position</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-position']/div[3]/ul/li[2]<datalist><option>//div[@id='menu-position']/div[3]/ul/li[2]</option><option>//li[2]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=mui-component-select-salary<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-salary</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-salary']/div[3]/ul/li<datalist><option>//div[@id='menu-salary']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div/div[17]/button/span<datalist><option>//div[@id='root']/div/article/div/div/div[17]/button/span</option><option>//button/span</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-containedSizeLarge.MuiButton-sizeLarge.MuiButton-fullWidth &gt; span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>id=swal2-title<datalist><option>id=swal2-title</option><option>//h2[@id='swal2-title']</option><option>//h2</option><option>css=#swal2-title</option></datalist></td><td>กรุณากรอกชื่อ</td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">กรุณากรอกที่อยู่</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/Employee<datalist><option>http://localhost:3000/Employee</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>name=employeeid<datalist><option>name=employeeid</option><option>//input[@name='employeeid']</option><option>//div[@id='root']/div/article/div/div/div[3]/form/div/div/input</option><option>//input</option><option>css=input[name="employeeid"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=employeeid<datalist><option>name=employeeid</option><option>//input[@name='employeeid']</option><option>//div[@id='root']/div/article/div/div/div[3]/form/div/div/input</option><option>//input</option><option>css=input[name="employeeid"]</option></datalist></td><td>EM77</td>
+</tr>
+<tr><td>click</td><td>name=employeename<datalist><option>name=employeename</option><option>//input[@name='employeename']</option><option>//div[@id='root']/div/article/div/div/div[5]/form/div/div/input</option><option>//div[5]/form/div/div/input</option><option>css=input[name="employeename"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=employeename<datalist><option>name=employeename</option><option>//input[@name='employeename']</option><option>//div[@id='root']/div/article/div/div/div[5]/form/div/div/input</option><option>//div[5]/form/div/div/input</option><option>css=input[name="employeename"]</option></datalist></td><td>Fon</td>
+</tr>
+<tr><td>click</td><td>name=idcardnumber<datalist><option>name=idcardnumber</option><option>//input[@name='idcardnumber']</option><option>//div[@id='root']/div/article/div/div/div[9]/form/div/div/input</option><option>//div[9]/form/div/div/input</option><option>css=input[name="idcardnumber"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=idcardnumber<datalist><option>name=idcardnumber</option><option>//input[@name='idcardnumber']</option><option>//div[@id='root']/div/article/div/div/div[9]/form/div/div/input</option><option>//div[9]/form/div/div/input</option><option>css=input[name="idcardnumber"]</option></datalist></td><td>1234567899876</td>
+</tr>
+<tr><td>click</td><td>id=mui-component-select-age<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-age</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-age']/div[3]/ul/li[5]<datalist><option>//div[@id='menu-age']/div[3]/ul/li[5]</option><option>//li[5]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=mui-component-select-position<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-position</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-position']/div[3]/ul/li[3]<datalist><option>//div[@id='menu-position']/div[3]/ul/li[3]</option><option>//li[3]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=mui-component-select-salary<datalist><option>//body</option><option>css=body.vsc-initialized</option><option>id=mui-component-select-salary</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-salary']/div[3]/ul/li[4]<datalist><option>//div[@id='menu-salary']/div[3]/ul/li[4]</option><option>//li[4]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div/div[17]/button/span<datalist><option>//div[@id='root']/div/article/div/div/div[17]/button/span</option><option>//button/span</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-containedSizeLarge.MuiButton-sizeLarge.MuiButton-fullWidth &gt; span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>id=swal2-title<datalist><option>id=swal2-title</option><option>//h2[@id='swal2-title']</option><option>//h2</option><option>css=#swal2-title</option></datalist></td><td>กรุณากรอกที่อยู่</td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">ค้นหาข้อมมูลสำเร็จ</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/Employeesearch<datalist><option>http://localhost:3000/Employeesearch</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=employeeid<datalist><option>id=employeeid</option><option>//input[@id='employeeid']</option><option>//div[@id='root']/div/article/div/div[2]/div/div[2]/div/input</option><option>//input</option><option>css=#employeeid</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=employeeid<datalist><option>id=employeeid</option><option>//input[@id='employeeid']</option><option>//div[@id='root']/div/article/div/div[2]/div/div[2]/div/input</option><option>//input</option><option>css=#employeeid</option></datalist></td><td>EM04</td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div[2]/button/span<datalist><option>//div[@id='root']/div/article/div/div[2]/button/span</option><option>//button/span</option><option>css=span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>//div[@id='root']/div/article/div/div[2]/div[4]/div/div/div[2]<datalist><option>//div[@id='root']/div/article/div/div[2]/div[4]/div/div/div[2]</option><option>//div[4]/div/div/div[2]</option><option>css=div.MuiAlert-message</option></datalist></td><td>พบข้อมูลที่ค้นหา</td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">ค้นหาข้อมมูลไม่สำเร็จ</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/Employeesearch<datalist><option>http://localhost:3000/Employeesearch</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=employeeid<datalist><option>id=employeeid</option><option>//input[@id='employeeid']</option><option>//div[@id='root']/div/article/div/div[2]/div/div[2]/div/input</option><option>//input</option><option>css=#employeeid</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=employeeid<datalist><option>id=employeeid</option><option>//input[@id='employeeid']</option><option>//div[@id='root']/div/article/div/div[2]/div/div[2]/div/input</option><option>//input</option><option>css=#employeeid</option></datalist></td><td>tt</td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/div/div[2]/button/span<datalist><option>//div[@id='root']/div/article/div/div[2]/button/span</option><option>//button/span</option><option>css=span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>//div[@id='root']/div/article/div/div[2]/div[4]/div/div/div[2]<datalist><option>//div[@id='root']/div/article/div/div[2]/div[4]/div/div/div[2]</option><option>//div[4]/div/div/div[2]</option><option>css=div.MuiAlert-message</option></datalist></td><td>ไม่พบข้อมูลที่ค้นหา</td>
 </tr>
 </tbody></table>
 </body>

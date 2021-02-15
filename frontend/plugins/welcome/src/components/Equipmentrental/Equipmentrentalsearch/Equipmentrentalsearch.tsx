@@ -1,204 +1,196 @@
-import React, { FC, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Content, Header, Page, pageTheme } from '@backstage/core';
-import SearchIcon from '@material-ui/icons/Search'; //search icon
+import React, { useState, useEffect } from 'react';
+import {
+    Content,
+    Page,
+    pageTheme,
+    InfoCard,
+} from '@backstage/core';
+import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+
+import { Alert } from '@material-ui/lab';
+
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import { DefaultApi } from '../../../api/apis';
+
+import SearchIcon from '@material-ui/icons/Search';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'; // back icon
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
-import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'; // log off icon
-import Swal from 'sweetalert2'; // alert
 
-import {
-  Container,
-  Grid,
-  FormControl,
-  Select,
-  InputLabel,
-  MenuItem,
-  TextField,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from '@material-ui/core';
-import { DefaultApi } from '../../../api/apis'; // Api Gennerate From Command
-import Snackbar from '@material-ui/core/Snackbar';
-import Alert from '@material-ui/lab/Alert';
-//import { Cookies } from '../../Cookie'
-import {
-  EntMember,
-  EntEquipmentrental,
-} from '../../../api/models';
+import { EntEquipmentrental } from '../../../api/models';
 
-// header css
-const HeaderCustom = {
-  minHeight: '20px',
-};
 
-// css style
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
+// css style 
+const useStyles = makeStyles((theme: Theme) =>
+ createStyles({
+   root: {
+     display: 'flex',
+     flexWrap: 'wrap',
+     justifyContent: 'center',
+   },
+   margin: {
+      margin: theme.spacing(2),
+   },
+   insideLabel: {
+    margin: theme.spacing(1),
   },
-  paper: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
+   button: {
+    marginLeft: '40px',
   },
-  formControl: {
-    width: 300,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    width: 300,
-  },
-  divider: {
-    margin: theme.spacing(2, 0),
-  },
-  table: {
-    minWidth: 1013,
-  },
-}));
+   textField: {
+    width: 500 ,
+    marginLeft:7,
+    marginRight:-7,
+   },
+    select: {
+      width: 400 ,
+      marginLeft:7,
+    },
+    paper: {
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(1),
+      marginLeft: theme.spacing(1),
+    },
+    center: {
+      marginTop: theme.spacing(2),
+      marginLeft: theme.spacing(23),
+    },
+    cardtable: {
+      marginTop: theme.spacing(2),
+    },
+    fieldText: {
+      width: 200,
+      marginLeft:7,
+    },
+    fieldLabel: {
+      marginLeft:8,
+      marginRight: 20,
+    },
+    table: {
+        minWidth: 650,
+    }
+  }),
+);
 
-
-const Equipmentrentalsearch: FC<{}> = () => {
-  const classes = useStyles();
-  const http = new DefaultApi();
-
-  //var ck = new Cookies()
-  //var cookieName = ck.GetCookie()
-
-
-  const [idMember, setidMember] = React.useState<number>(0);
-  const [member, setMember] = React.useState<EntMember[]>([]);
-
-  const getMember = async () => {
-    const res = await http.listMember({ limit: 10, offset: 0 });
-    setMember(res);
-  };
-
-  // alert setting
-  const [open, setOpen] = React.useState(false);
-  const [fail, setFail] = React.useState(false);
-
-//close alert 
-const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-  if (reason === 'clickaway') {
-      return;
-  }
-  setFail(false);
-  setOpen(false);
-};
-
-  // Lifecycle Hooks
-  useEffect(() => {
-    getMember();
-    listEquipmentrental();
-  }, []);
-
- // CheckIn  
- var lencheckin : number
- const [equipmentrental, setEquipmentrental] = React.useState<EntEquipmentrental[]>([])
- const getEquipmentrental = async () => {
-     const res = await http.getGetEquipmentrentalbyMember({ id:idMember})
-     setEquipmentrental(res)
-     lencheckin = res.length
-     if (lencheckin > 0){
-         setOpen(true)
-     }else{
-         setFail(true)
-     }   
- }
- 
- const listEquipmentrental = async () => {
-     const res = await http.listEquipmentrental({})
-     setEquipmentrental(res)
- }
-
-
-  const handleChange = (
-    event: React.ChangeEvent<{ name?: string; value: any }>,
-) => {
-    const { value } = event.target;
-    setidMember(value);
-};
-
-// clear cookies
-//function Clears() {
- //   ck.ClearCookie()
- //   window.location.reload(false)
-//}
-console.log(equipmentrental)
-// function seach data
-function seach() {
-  getEquipmentrental();
+const searchcheck = {
+  equipmentrentalsearchcheck: true,
 }
 
-  return (
-    <Page theme={pageTheme.home}>
+export default function Equipmentrentalsearch() {
+    const classes = useStyles();
+    const api = new DefaultApi();
+    const [status, setStatus] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [alerttype, setAlertType] = useState(String);
+    const [errormessege, setErrorMessege] = useState(String);
 
-      <Header style={HeaderCustom} title={`ระบบค้นหาใบยืมอุปกรณ์กีฬา`}>
-      </Header>
+    const [equipmentrental, setEquipmentrental] = useState<EntEquipmentrental[]>([]);
+  
+    const [equipmentrentalsearch, setEquipmentrentalsearch] = useState(String);
+    
+  useEffect(() => {
+    const getEquipmentrental = async () => {
+      const res = await api.listEquipmentrental({limit:10000, offset:0});
+      setLoading(false);
+      setEquipmentrental(res);
+    };
+    getEquipmentrental();
+    }, [loading]);
 
-      <Content>
-        <Container maxWidth="sm">
-          <Grid container spacing={3}>
-            <Grid item xs={12}></Grid>
-            <Grid item xs={3}>
-              <div className={classes.paper}>ชื่อ User ลูกค้า</div>
-            </Grid>
+    const SearchEquipmentrental = async () => {
+        const res = await api.listEquipmentrental({limit:10000, offset:0});
+        const equipmentrentalsearch = EquipmentrentalSearch(res);
+        
+        setErrorMessege("ไม่พบข้อมูลที่ค้นหา");
+        setAlertType("error");
+        setEquipmentrental([]);
+        if(equipmentrentalsearch.length > 0){
+            Object.entries(searchcheck).map(([key, value]) =>{
+                if (value == true){
+                    setErrorMessege("พบข้อมูลที่ค้นหา");
+                    setAlertType("success");
+                    setEquipmentrental(equipmentrentalsearch);
+                }
+            })
+        }
 
-            <Grid item xs={6}>
-              <FormControl variant="outlined" className={classes.container}>
-                <InputLabel>เลือก User Name</InputLabel>
-                <Select
-                  name="member"
-                  value={idMember || ''} // (undefined || '') = ''
-                  onChange={handleChange}
+        setStatus(true);
+        ResetSearchCheck();
+    }
+
+    const ResetSearchCheck = () => {
+        searchcheck.equipmentrentalsearchcheck = true;
+        
+    }
+
+    const EquipmentrentalSearch = (res: any) => {
+        const data = res.filter((filter: EntEquipmentrental) => filter.edges?.member?.mEMBERNAME?.includes(equipmentrentalsearch))
+       // console.log(data.length)
+        if (data.length != 0 && equipmentrentalsearch != "") {
+            return data;
+        }
+        else {
+            searchcheck.equipmentrentalsearchcheck = false;
+            if(equipmentrentalsearch == ""){
+                return res;
+            }
+            else{
+                return data;
+            }
+        }
+    }
+
+    const EquipmentrentalSearchhandleChange = (event: any) => {
+        setEquipmentrentalsearch(event.target.value as string);
+    };
+    
+    return (
+        <Page theme={pageTheme.service}>
+            <Content>
+            <InfoCard title="ระบบค้นหาใบยืมอุปกรณ์กีฬา">
+
+            <FormControl
+                    className={classes.margin}
+                    variant="standard"
                 >
-                  {member.map(item => {
-                    return (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item.mEMBERNAME}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs>
-              <Button
+                    <div className={classes.paper}><strong>ชื่อ User ลูกค้า</strong></div>
+                    <TextField
+                        id="code"
+                       // label="ค้นหารหัสพนักงาน"
+                        type="string"
+                        size="medium"
+                        value={equipmentrentalsearch}
+                        onChange={EquipmentrentalSearchhandleChange}
+                        style={{ width: 210,marginLeft: 8}}
+                    />
+                </FormControl>
+
+           
+
+                <Button
+                style={{ width: 100, backgroundColor: "#5319e7",marginTop: 49,marginLeft: 20}}
+                onClick={() => {
+                  SearchEquipmentrental();
+                }}
                 variant="contained"
                 color="primary"
-                size="large"
                 startIcon={<SearchIcon />}
-                onClick={seach}
               >
                 ค้นหา
-              </Button>
-            </Grid>
-            <Grid item xs={4}></Grid>
-
-            <Grid item xs={12}></Grid>
-
-            <Grid item xs={12}>
-                    <Divider className={classes.divider} />
-                    <Typography variant="subtitle1" gutterBottom>
-                        ตาราง Equipmentrental:
-                        </Typography>
-                </Grid>
-                <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="simple table">
-                        <TableHead>
+             </Button>
+             
+        
+             <div><br></br></div>
+             <TableContainer component={Paper}>
+                            <Table className={classes.table} aria-label="simple table">
+                            <TableHead>
                             <TableRow>
                                 <TableCell align="center">id Equipmentrental</TableCell>
                                 <TableCell align="center">ชื่อผู้ยืม</TableCell>
@@ -222,44 +214,41 @@ function seach() {
                                     <TableCell align="center">{item.rETURNDATE}</TableCell>
                                     <TableCell align="center">{item.edges?.employee?.eMPLOYEENAME}</TableCell>
                                 </TableRow> 
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="success">
-              ค้นหาสำเร็จ
-          </Alert>
-          </Snackbar>
+                                ))}
+                            </TableBody>
+                            </Table>
+                        </TableContainer>
 
-          <Snackbar open={fail} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="error">
-              ไม่พบข้อมูล
-          </Alert>
-          </Snackbar>
+                        <div>{status ? (
+                          <div>{alerttype != "" ? (
+                            <Alert 
+                              severity={alerttype} 
+                              style={{
+                                width: 400 ,
+                                marginTop: 20, 
+                                marginLeft:6 }} 
+                                onClose={() => { 
+                                  setStatus(false) 
+                                }}
+                            >
+                              {errormessege}
+                            </Alert>
+                          ) : null}
+                          </div>
+                        ) : null}
+                        </div>
 
-            <Grid item xs={12}></Grid>
-
-            <Grid item xs={4}>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                startIcon={<ArrowBackIcon />}
-                href="./Equipmentrental"
-              >
-                ย้อนกลับ
-              </Button>
-            </Grid>
-
-          </Grid>
-
-        </Container>
-
-      </Content>
-
-    </Page>
-  );
-};
-
-export default Equipmentrentalsearch;
+                </InfoCard>
+                <Button
+                  style={{ width: 110, backgroundColor: "#5319e7",marginTop: 49,marginLeft: 20}}
+                  variant="contained"
+                  color="primary"
+                  startIcon={<ArrowBackIcon />}
+                  href="./Equipmentrental"
+                >
+                 ย้อนกลับ
+                </Button>
+            </Content>
+     </Page>
+    );
+}
