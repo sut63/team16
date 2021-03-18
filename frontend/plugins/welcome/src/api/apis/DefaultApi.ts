@@ -188,7 +188,7 @@ export interface GetGetBookcoursebyMemberRequest {
 }
 
 export interface GetGetEquipmentrentalbyMemberRequest {
-    id: number;
+    name?: string;
 }
 
 export interface GetMemberRequest {
@@ -1205,16 +1205,16 @@ export class DefaultApi extends runtime.BaseAPI {
      * Get a GetEquipmentrentalbyMember entity by ID
      */
     async getGetEquipmentrentalbyMemberRaw(requestParameters: GetGetEquipmentrentalbyMemberRequest): Promise<runtime.ApiResponse<Array<EntEquipmentrental>>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getGetEquipmentrentalbyMember.');
-        }
-
         const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.name !== undefined) {
+            queryParameters['name'] = requestParameters.name;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/equipmentrentalbymembers/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/equipmentrentalbymembers`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

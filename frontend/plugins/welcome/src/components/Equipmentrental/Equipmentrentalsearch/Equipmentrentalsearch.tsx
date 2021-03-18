@@ -25,7 +25,21 @@ import SearchIcon from '@material-ui/icons/Search';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'; // back icon
 
 import { EntEquipmentrental } from '../../../api/models';
+import Swal from 'sweetalert2';
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  width: '400px',
+  padding: '100px',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: toast => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  },
+});
 
 // css style 
 const useStyles = makeStyles((theme: Theme) =>
@@ -95,57 +109,30 @@ export default function Equipmentrentalsearch() {
   
     const [equipmentrentalsearch, setEquipmentrentalsearch] = useState(String);
     
-  useEffect(() => {
-    const getEquipmentrental = async () => {
-      const res = await api.listEquipmentrental({limit:10000, offset:0});
-      setLoading(false);
-      setEquipmentrental(res);
-    };
-    getEquipmentrental();
-    }, [loading]);
 
     const SearchEquipmentrental = async () => {
-        const res = await api.listEquipmentrental({limit:10000, offset:0});
-        const equipmentrentalsearch = EquipmentrentalSearch(res);
-        
-        setErrorMessege("ไม่พบข้อมูลที่ค้นหา");
-        setAlertType("error");
-        setEquipmentrental([]);
-        if(equipmentrentalsearch.length > 0){
-            Object.entries(searchcheck).map(([key, value]) =>{
-                if (value == true){
-                    setErrorMessege("พบข้อมูลที่ค้นหา");
-                    setAlertType("success");
-                    setEquipmentrental(equipmentrentalsearch);
-                }
-            })
-        }
+        const res = await api.getGetEquipmentrentalbyMember({name:equipmentrentalsearch});
+        setEquipmentrental(res);
 
-        setStatus(true);
-        ResetSearchCheck();
-    }
-
-    const ResetSearchCheck = () => {
-        searchcheck.equipmentrentalsearchcheck = true;
-        
-    }
-
-    const EquipmentrentalSearch = (res: any) => {
-        const data = res.filter((filter: EntEquipmentrental) => filter.edges?.member?.mEMBERNAME?.includes(equipmentrentalsearch))
-       // console.log(data.length)
-        if (data.length != 0 && equipmentrentalsearch != "") {
-            return data;
+        var lenPromotion
+        lenPromotion = res.length
+        if (lenPromotion > 0) {
+          //setOpen(true)
+          Toast.fire({
+            icon: 'success',
+            title: 'ค้นหาข้อมูลสำเร็จ',
+          })
+        } else {
+          //setFail(true)
+          Toast.fire({
+            icon: 'error',
+            title: 'ค้นหาข้อมูลไม่พบ',
+          })
         }
-        else {
-            searchcheck.equipmentrentalsearchcheck = false;
-            if(equipmentrentalsearch == ""){
-                return res;
-            }
-            else{
-                return data;
-            }
-        }
-    }
+      }
+
+    
+   
 
     const EquipmentrentalSearchhandleChange = (event: any) => {
         setEquipmentrentalsearch(event.target.value as string);
@@ -222,7 +209,7 @@ export default function Equipmentrentalsearch() {
                         <div>{status ? (
                           <div>{alerttype != "" ? (
                             <Alert 
-                              severity={alerttype} 
+                              //severity={alerttype} 
                               style={{
                                 width: 400 ,
                                 marginTop: 20, 

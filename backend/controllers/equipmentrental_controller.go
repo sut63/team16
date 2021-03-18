@@ -242,20 +242,14 @@ func (ctl *EquipmentrentalController) ListEquipmentrental(c *gin.Context) {
 // @Description get GetEquipmentrentalbyMember by ID
 // @ID get-GetEquipmentrentalbyMember
 // @Produce  json
-// @Param id path int true "GetEquipmentrentalbyMember ID"
+// @Param name  query string false "Name"
 // @Success 200 {array} ent.Equipmentrental
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /equipmentrentalbymembers/{id} [get]
+// @Router /equipmentrentalbymembers [get]
 func (ctl *EquipmentrentalController) GetEquipmentrentalbyMember(c *gin.Context) {
-	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
+	t1 := c.Query("name")
 
 	s, err := ctl.client.Equipmentrental.
 		Query().
@@ -263,7 +257,7 @@ func (ctl *EquipmentrentalController) GetEquipmentrentalbyMember(c *gin.Context)
 		WithEquipmenttype().
 		WithEmployee().
 		WithMember().
-		Where(equipmentrental.HasMemberWith(member.IDEQ(int(id)))).
+		Where(equipmentrental.HasMemberWith(member.MEMBERNAME(t1))).
 		All(context.Background())
 	if err != nil {
 		c.JSON(404, gin.H{
@@ -291,7 +285,7 @@ func NewEquipmentrentalController(router gin.IRouter, client *ent.Client) *Equip
 func (ctl *EquipmentrentalController) register() {
 	Eqrentals := ctl.router.Group("/equipmentrentals")
 	Eqrentalss := ctl.router.Group("/equipmentrentalbymembers")
-	Eqrentalss.GET(":id", ctl.GetEquipmentrentalbyMember)
+	Eqrentalss.GET("", ctl.GetEquipmentrentalbyMember)
 	Eqrentals.GET("", ctl.ListEquipmentrental)
 
 	// CRUD

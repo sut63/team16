@@ -86,7 +86,7 @@ export function EntPromotionEdgesFromJSONTyped(json: any, ignoreDiscriminator: b
         
         'course': !exists(json, 'Course') ? undefined : EntCourseFromJSON(json['Course']),
         'employee': !exists(json, 'Employee') ? undefined : EntEmployeeFromJSON(json['Employee']),
-        'payment': !exists(json, 'payment') ? undefined : ((json['payment'] as Array<any>).map(EntPaymentFromJSON)),
+        'payment': !exists(json, 'Payment') ? undefined : ((json['Payment'] as Array<any>).map(EntPaymentFromJSON)),
         'promotionamount': !exists(json, 'Promotionamount') ? undefined : EntPromotionamountFromJSON(json['Promotionamount']),
         'promotiontype': !exists(json, 'Promotiontype') ? undefined : EntPromotiontypeFromJSON(json['Promotiontype']),
     };

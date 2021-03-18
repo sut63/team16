@@ -751,7 +751,7 @@ var doc = `{
                 }
             }
         },
-        "/equipmentrentalbymembers/{id}": {
+        "/equipmentrentalbymembers": {
             "get": {
                 "description": "get GetEquipmentrentalbyMember by ID",
                 "produces": [
@@ -761,11 +761,10 @@ var doc = `{
                 "operationId": "get-GetEquipmentrentalbyMember",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "GetEquipmentrentalbyMember ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
+                        "type": "string",
+                        "description": "Name",
+                        "name": "name",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -3256,7 +3255,6 @@ var doc = `{
         "OAuth2Application": {
             "type": "oauth2",
             "flow": "application",
-            "authorizationUrl": "",
             "tokenUrl": "https://example.com/oauth/token",
             "scopes": {
                 "admin": " Grants read and write access to administrative information",
@@ -3275,7 +3273,6 @@ var doc = `{
         "OAuth2Password": {
             "type": "oauth2",
             "flow": "password",
-            "authorizationUrl": "",
             "tokenUrl": "https://example.com/oauth/token",
             "scopes": {
                 "admin": " Grants read and write access to administrative information",

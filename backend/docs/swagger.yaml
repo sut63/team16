@@ -1114,16 +1114,15 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Get a employee entity by ID
-  /equipmentrentalbymembers/{id}:
+  /equipmentrentalbymembers:
     get:
       description: get GetEquipmentrentalbyMember by ID
       operationId: get-GetEquipmentrentalbyMember
       parameters:
-      - description: GetEquipmentrentalbyMember ID
-        in: path
-        name: id
-        required: true
-        type: integer
+      - description: Name
+        in: query
+        name: name
+        type: string
       produces:
       - application/json
       responses:
@@ -2229,7 +2228,6 @@ securityDefinitions:
     tokenUrl: https://example.com/oauth/token
     type: oauth2
   OAuth2Application:
-    authorizationUrl: ""
     flow: application
     scopes:
       admin: ' Grants read and write access to administrative information'
@@ -2244,7 +2242,6 @@ securityDefinitions:
       write: ' Grants write access'
     type: oauth2
   OAuth2Password:
-    authorizationUrl: ""
     flow: password
     scopes:
       admin: ' Grants read and write access to administrative information'
